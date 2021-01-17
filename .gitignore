@@ -4,6 +4,7 @@ venv
 
 # misc
 .DS_Store
+.flaskenv
 .env
 .env.local
 .env.development
