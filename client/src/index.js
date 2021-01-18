@@ -1,10 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import LoginPage from "./components/LoginPage";
+import { GlobalStyles } from "./styles/GlobalStyles";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <GlobalStyles />
+    <LoginPage />
   </React.StrictMode>,
   document.getElementById("root")
 );

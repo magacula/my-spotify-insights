@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function App() {
+function LoginPage() {
   const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
@@ -11,11 +11,11 @@ function App() {
       });
   }, []);
   return (
-    <div className="App">
+    <div className="LoginPage">
       <h1>Hello World</h1>
       <p>The current time is {currentTime}</p>
     </div>
   );
 }
 
-export default App;
+export default LoginPage;
