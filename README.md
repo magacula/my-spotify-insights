@@ -1,5 +1,7 @@
 # MySpotifyInsights
 
+> A personalized dashboard interface to view your Spotify data
+
 ## Requirements
 
 - Node.js
