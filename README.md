@@ -38,3 +38,7 @@ Step 2) Create Flask Backend Server (server = backend)
 - gunicorn: It is a production server package that in this case is used by Heroku to serve up the site
 - boto3: This package is used to access Amazons S3 buckets (think of this as a cloud based directory to store files) NB: Since Heroku does not guarantee persistence of files after it spins down it is super important to use this kind of cloud storage
 - matplotlib: A package used to make plots. This only really matters since our test API will be using it to generate a pie chart
+
+## Setting up Servers for Development
+
+- Look at client & server READMEs
