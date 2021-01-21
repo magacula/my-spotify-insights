@@ -1,4 +1,4 @@
-# This repo serves as Flask Backend
+# This repo serves as the Flask Backend
 
 ## How to Start Backend Flask Server
 
