@@ -13,24 +13,34 @@ Step 1) Create Frontend React app (client = frontend)
 
 1. Add proxy line to package.json (dependency list file):
 
-- `"proxy": "http://localhost:5000"`
-  This tells React to proxy to backend Flask server
+```bash
+   "proxy": "http://localhost:5000"
+```
+
+This tells React to proxy to backend Flask server
 
 Step 2) Create Flask Backend Server (server = backend)
 
 1. Start with generating a virtual environment for our python install. This allows us to isolate this environment from our system. Especially useful if you need to install certain versions of packages on this project but different versions on another.
 
-- `python3 -m venv venv`
+```bash
+python3 -m venv venv
+```
 
 2. To use this environment, we need to activate it. Depending on your OS it may look a bit different but on Windows we run (every time we run our application we must activate this :
 
-- `venv\Scripts\activate`
+```bash
+venv\Scripts\activate`
+```
 
 - For Unix-based operating systems: `source venv/bin/activate`
 - For MACOS: `. venv/bin/activate`
 
 3. Next we install our python packages and to also get it ready for deploying to Heroku later
-   `pip install flask python-dotenv flask-cors gunicorn boto3 matplotlib`
+
+```bash
+pip install flask python-dotenv flask-cors gunicorn boto3 matplotlib
+```
 
 - flask: The main server functionality
 - python-dotenv: reads key-value pairs from a .env file and can set them as environment variables.
