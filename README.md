@@ -9,14 +9,14 @@
 
 For Steps 1-2 you could follow this blog if you want:https://blog.miguelgrinberg.com/post/how-to-create-a-react--flask-project
 
-Step 1) Create react app (client = frontend)
+Step 1) Create Frontend React app (client = frontend)
 
 1. Add proxy line to package.json (dependency list file):
 
 - `"proxy": "http://localhost:5000"`
   This tells React to proxy to backend Flask server
 
-Step 2) Create Flask API & Web Server (server = backend)
+Step 2) Create Flask Backend Server (server = backend)
 
 1. Start with generating a virtual environment for our python install. This allows us to isolate this environment from our system. Especially useful if you need to install certain versions of packages on this project but different versions on another.
 
