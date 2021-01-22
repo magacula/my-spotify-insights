@@ -59,15 +59,14 @@ const LoginButton = styled.a`
 `;
 
 const LoginPage = () => {
-  const [currentTime, setCurrentTime] = useState(0);
-
-  useEffect(() => {
-    fetch("/time")
-      .then((res) => res.json())
-      .then((data) => {
-        setCurrentTime(data.time);
-      });
-  }, []);
+  // const [currentTime, setCurrentTime] = useState(0);
+  //  useEffect(() => {
+  //   fetch("/time")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setCurrentTime(data.time);
+  //     });
+  // }, []);
 
   return (
     <Login>
@@ -78,7 +77,7 @@ const LoginPage = () => {
           A personalized dashboard interface to view your Spotify data
         </SubHeading>
         <LoginButton>Sign In</LoginButton>
-        <p>The current time is {currentTime}</p>
+        {/* <p>The current time is {currentTime}</p> */}
       </LoginContainer>
     </Login>
   );
