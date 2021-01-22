@@ -53,4 +53,4 @@ pip install flask python-dotenv flask-cors gunicorn boto3 matplotlib
 
 ## Setting up Servers for Development
 
-- Look at client & server READMEs
+- Refer to client & server folder README
