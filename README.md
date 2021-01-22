@@ -54,3 +54,5 @@ pip install flask python-dotenv flask-cors gunicorn boto3 matplotlib
 ## Setting up Servers for Development
 
 - Refer to client & server folder README
+
+** Remember to start backend server before you start the frontend **
