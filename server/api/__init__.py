@@ -19,15 +19,12 @@ def create_app(config_name=None):
     app = Flask('api', template_folder=template_dir)
     #app = Flask('api')
 
-    # for now
     app.secret_key = os.getenv('SECRET_KEY')
-    app.config['SESSION_COOKIE_NAME'] = 'bill test cookie'
+    # for now
+    app.config['SESSION_COOKIE_NAME'] = 'mySpotifyInsight_cookie'
     # oauth = OAuth(app)
 
     #FIXME: for now
-
-
-
 
     register_blueprints(app)
     return app
