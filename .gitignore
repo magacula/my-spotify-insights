@@ -1,6 +1,8 @@
 # dependencies
 node_modules
 venv
+backend_venv
+.eslintcache
 
 # misc
 .DS_Store
