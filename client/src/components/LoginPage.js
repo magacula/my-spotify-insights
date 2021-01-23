@@ -59,14 +59,18 @@ const LoginButton = styled.a`
 `;
 
 const LoginPage = () => {
-  // const [currentTime, setCurrentTime] = useState(0);
-  //  useEffect(() => {
-  //   fetch("/time")
+  // const [userLoggedIn, setUserLoggedIn] = useState("user is not logged in");
+
+  // useEffect(() => {
+  //   fetch("/login")
   //     .then((res) => res.json())
   //     .then((data) => {
-  //       setCurrentTime(data.time);
+  //       setUserLoggedIn(data);
   //     });
   // }, []);
+
+  // Hard coded URI Change later
+  // const LOGIN_URI = "http://localhost:5000/login";
 
   return (
     <Login>
@@ -76,6 +80,7 @@ const LoginPage = () => {
         <SubHeading>
           A personalized dashboard interface to view your Spotify data
         </SubHeading>
+        {/* FIX LATER: add "href={userLoggedIn}" to LoginButton */}
         <LoginButton>Sign In</LoginButton>
       </LoginContainer>
     </Login>
