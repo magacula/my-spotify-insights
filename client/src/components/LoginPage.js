@@ -77,7 +77,6 @@ const LoginPage = () => {
           A personalized dashboard interface to view your Spotify data
         </SubHeading>
         <LoginButton>Sign In</LoginButton>
-        {/* <p>The current time is {currentTime}</p> */}
       </LoginContainer>
     </Login>
   );
