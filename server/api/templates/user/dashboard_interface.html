@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DashBoard Interface</title>
+</head>
+<body>
+    <h1> {{user_name}}'s Home Page</h1>
+
+    <h4>Simple User Profile</h4>
+    <ul>
+        <li>{{user_info['user_name'] }}</li>
+        <li>followers: {{user_info['num_followers'] }}</li>
+        <li>following: {{user_info['user_following_num'] }}</li>
+        <li>saved songs: {{user_info['user_saved_songs'] }}</li>
+        <li>public playlists: {{user_info['num_public_playlists'] }}</li>
+        <li>private playlists: {{user_info['num_private_playlists'] }}</li>
+        <li>listening from: {{user_info['country'] }}</li>
+    </ul>
+
+    <h4>Top Artists</h4>
+    <ol>
+    {% for artist in user_info['top_artists'] %}
+        <li><a href="{{url_for('user.artist_details', artist_id=artist['id']) }}">{{artist['name']}} </a></li>
+    {% endfor %}
+    </ol>
+
+
+
+    <h4>Top Tracks</h4>
+    <ol>
+        {% for track in user_info['top_tracks'] %}
+        <li>
+            <a href="{{url_for('user.track_details', track_id=track['id']) }}">{{track['name']}}</a>
+        </li>
+        {% endfor %}
+    </ol>
+
+
+
+    <h4>Top Albums</h4>
+    <ol>
+        {% for album in user_info['top_albums'] %}
+        <li>
+            <a href="{{url_for('user.album_details', album_id=album['id']) }}">
+                {{album['name'] }}
+            </a>
+        </li>
+        {% endfor %}
+    </ol>
+
+    <iframe src="https://open.spotify.com"></iframe>
+    <iframe src="https://www.youtube.com"></iframe>
+
+</body>
+</html>
