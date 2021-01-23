@@ -32,7 +32,7 @@ python3 -m venv venv
 2. To use this environment, we need to activate it. Depending on your OS it may look a bit different but on Windows we run (every time we run our application we must activate this :
 
 ```bash
-venv\Scripts\activate`
+venv\Scripts\activate
 ```
 
 - For Unix-based operating systems: `source venv/bin/activate`
