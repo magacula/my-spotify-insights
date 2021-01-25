@@ -3,6 +3,9 @@ import styled from "styled-components";
 import themes from "../styles/themes";
 const { colors } = themes;
 
+// URI to Authorize user
+const AUTH_URI = "http://127.0.0.1:5000/auth/login";
+
 const Login = styled.main`
   width: 100%;
   margin: 0 auto;
@@ -59,19 +62,6 @@ const LoginButton = styled.a`
 `;
 
 const LoginPage = () => {
-  // const [userLoggedIn, setUserLoggedIn] = useState("user is not logged in");
-
-  // useEffect(() => {
-  //   fetch("/login")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setUserLoggedIn(data);
-  //     });
-  // }, []);
-
-  // Hard coded URI Change later
-  // const LOGIN_URI = "http://localhost:5000/login";
-
   return (
     <Login>
       <Credits>A project made by Group4: Makoi, Amy, Biao, and Fabian</Credits>
@@ -81,7 +71,8 @@ const LoginPage = () => {
           A personalized dashboard interface to view your Spotify data
         </SubHeading>
         {/* FIX LATER: add "href={userLoggedIn}" to LoginButton */}
-        <LoginButton>Sign In</LoginButton>
+        {/*  */}
+        <LoginButton href={AUTH_URI}>Sign In</LoginButton>
       </LoginContainer>
     </Login>
   );
