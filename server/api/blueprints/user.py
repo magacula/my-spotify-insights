@@ -1,9 +1,10 @@
-from flask import Blueprint, session
+from flask import Blueprint, session, render_template
 from server.api.decorators import login_required, token_checked
 
-#routes for specific user (information)
+# routes for specific user (information)
 
 user_bp = Blueprint('user', __name__)
+
 
 @user_bp.route("/user/homepage")
 @login_required
