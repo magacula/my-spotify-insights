@@ -70,7 +70,8 @@ def redirect_page():
     except Exception as e:
         print(e)
 
-    return redirect(url_for('user.home', _external=True))
+    # return redirect(url_for('user.home', _external=True))
+    return redirect('http://localhost:3000/home')
 
 
 @ auth_bp.route("/auth/token_expired")

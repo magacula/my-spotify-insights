@@ -8,7 +8,6 @@ from server.api.blueprints.admin import admin_bp
 from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
 
-
 #from front_end.api.extensions import login_manager
 import os
 
@@ -21,7 +20,9 @@ def create_app(config_name=None):
     CORS(app)
     #app = Flask('api')
 
+    # secret key used to sign session cookie
     app.secret_key = os.getenv('SECRET_KEY')
+
     # for now
     app.config['SESSION_COOKIE_NAME'] = 'mySpotifyInsight_cookie'
     # oauth = OAuth(app)

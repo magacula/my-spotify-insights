@@ -4,15 +4,17 @@ from flask import url_for, session
 import spotipy
 from server.api.decorators import token_checked
 
-#this file contains functions that are useful and used in many different places
+# this file contains functions that are useful and used in many different places
 
-#return spotify oauth object that takes care of the oauth, including access key and refresh key, etc
+# return spotify oauth object that takes care of the oauth, including access key and refresh key, etc
+
+
 def get_spotify_oauth():
     sp_oauth = SpotifyOAuth(
-        client_id= os.getenv("CLIENT_ID"),
+        client_id=os.getenv("CLIENT_ID"),
         client_secret=os.getenv("CLIENT_SECRET"),
         redirect_uri=url_for('auth.redirect_page', _external=True),
-        #what privileges we are asking from user
+        # what privileges we are asking from user
         scope="user-library-read, "
               "user-read-email, "
               "user-read-private,"
@@ -24,7 +26,7 @@ def get_spotify_oauth():
     return sp_oauth
 
 
-#one spotify object per user
+# one spotify object per user
 @token_checked
 def get_spotify_object():
     token_info = get_token_info()
@@ -32,13 +34,13 @@ def get_spotify_object():
     return sp_object
 
 
-
-#refresh the access token
+# refresh the access token
 def refresh_token_info(refresh_token):
     sp_oauth_local = get_spotify_oauth()
     session['TOKEN_INFO'] = sp_oauth_local.refresh_access_token(refresh_token)
     print("----------refreashed... session now: ")
     print(session['TOKEN_INFO'])
+
 
 def get_token_info():
     token_info = session.get("TOKEN_INFO", None)
