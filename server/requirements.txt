@@ -14,3 +14,4 @@ six==1.15.0
 spotipy==2.16.1
 urllib3==1.26.2
 Werkzeug==1.0.1
+flask-cors==3.0.10
