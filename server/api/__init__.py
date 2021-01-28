@@ -8,7 +8,6 @@ from server.api.blueprints.admin import admin_bp
 from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
 
-#from front_end.api.extensions import login_manager
 import os
 
 
