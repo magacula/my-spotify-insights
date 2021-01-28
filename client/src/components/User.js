@@ -15,27 +15,28 @@ import LoginPage from "./LoginPage";
 const User = () => {
   return (
     <Router>
-      <Navbar />
-
       <Switch>
         <Route exact path="/">
-          <LoginPage exact path="/" />
+          <LoginPage />
         </Route>
-        <Route exact path="/home">
-          <HomeDashboard />
-        </Route>
-        <Route path="/discover">
-          <Discover />
-        </Route>
-        <Route path="/popular_artists">
-          <PopularArtists />
-        </Route>
-        <Route path="/film_maker">
-          <FilmMaker />
-        </Route>
-        <Route path="/ranks">
-          <Rank />
-        </Route>
+        <div className="container">
+          <Navbar />
+          <Route exact path="/home">
+            <HomeDashboard />
+          </Route>
+          <Route path="/discover">
+            <Discover />
+          </Route>
+          <Route path="/popular_artists">
+            <PopularArtists />
+          </Route>
+          <Route path="/film_maker">
+            <FilmMaker />
+          </Route>
+          <Route path="/ranks">
+            <Rank />
+          </Route>
+        </div>
         <Route path="*">
           <Error />
         </Route>
