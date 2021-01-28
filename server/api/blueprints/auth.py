@@ -3,6 +3,7 @@ import spotipy
 from server.api.decorators import login_required
 # from server.api.decorators import db, db_cursor
 from server.api.utils import get_spotify_oauth, get_token_info, get_spotify_object, refresh_token_info
+from server.api.extensions import limiter
 
 # routes relate to authentication
 
@@ -17,6 +18,7 @@ def logout():
 
 
 @auth_bp.route("/auth/login",  methods=['GET'])
+@limiter.limit("2 per second")
 def login():
     # set up the spotify authorization
     sp_oauth = get_spotify_oauth()
@@ -82,3 +84,4 @@ def token_expired():
 @ auth_bp.route("/auth/access_denied")
 def access_denied():
     return "You don't have the permission for this operation"
+
