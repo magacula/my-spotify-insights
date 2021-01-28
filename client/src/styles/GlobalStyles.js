@@ -6,12 +6,13 @@ export const GlobalStyles = createGlobalStyle`
   padding: 0;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
-  color: #ffffff;
 }
 
 html,
 body {
   font-size: 1rem;
+  color: #ffffff;
+  background-color: #222222;
 }
 
 a {
