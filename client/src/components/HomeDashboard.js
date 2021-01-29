@@ -17,7 +17,7 @@ const Button = styled.a`
   font-size: 1rem;
   letter-spacing: 0.1rem;
   margin-top: 1rem;
-  margin-left: 0.5rem;
+  margin-left: 110px;
   margin-right: 0.5rem;
   transition: all 0.3s linear;
   cursor: pointer;
