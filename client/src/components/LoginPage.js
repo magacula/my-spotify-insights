@@ -3,14 +3,12 @@ import styled from "styled-components";
 import themes from "../styles/themes";
 const { colors } = themes;
 
-// URI to Authorize user
+// URI to authorize user
 const AUTH_URI = "http://127.0.0.1:5000/auth/login";
 
 const Login = styled.main`
   width: 100%;
   margin: 0 auto;
-  /* max-width: 1400px;
-  min-height: 100vh; */
   background-color: ${colors.darkGray};
 `;
 
@@ -70,8 +68,6 @@ const LoginPage = () => {
         <SubHeading>
           A personalized dashboard interface to view your Spotify data
         </SubHeading>
-        {/* FIX LATER: add "href={userLoggedIn}" to LoginButton */}
-        {/*  */}
         <LoginButton href={AUTH_URI}>Sign In</LoginButton>
       </LoginContainer>
     </Login>

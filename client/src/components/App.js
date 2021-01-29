@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import GlobalStyles from "../styles/GlobalStyles";
-import LoginPage from "./LoginPage";
+import User from "./User";
 
 function App() {
   return (
     <>
       <GlobalStyles />
-      <LoginPage />
+      <User />
     </>
   );
 }

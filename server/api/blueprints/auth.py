@@ -14,7 +14,8 @@ auth_bp = Blueprint('auth', __name__)
 @login_required
 def logout():
     session['LOGGED_IN'] = False
-    return "logged out successful"
+
+    return redirect('http://localhost:3000')
 
 
 @auth_bp.route("/auth/login",  methods=['GET'])
@@ -72,8 +73,10 @@ def redirect_page():
     except Exception as e:
         print(e)
 
-    #FIXME: this line should be changed to return to the frontend url
-    return redirect(url_for('user.home', _external=True))
+=======
+    # return redirect(url_for('user.home', _external=True))
+    return redirect('http://localhost:3000/home')
+
 
 
 @ auth_bp.route("/auth/token_expired")
@@ -84,4 +87,3 @@ def token_expired():
 @ auth_bp.route("/auth/access_denied")
 def access_denied():
     return "You don't have the permission for this operation"
-
