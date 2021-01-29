@@ -64,7 +64,7 @@ def redirect_page():
         cur_user_name = cur_user['display_name']
         cur_user_id = cur_user['id']
 
-        # FIXME: databaseneeded
+        # FIXME: database needed
 
         session['LOGGED_IN'] = True
         session['USER_NAME'] = cur_user_name
@@ -73,8 +73,10 @@ def redirect_page():
     except Exception as e:
         print(e)
 
+=======
     # return redirect(url_for('user.home', _external=True))
     return redirect('http://localhost:3000/home')
+
 
 
 @ auth_bp.route("/auth/token_expired")
