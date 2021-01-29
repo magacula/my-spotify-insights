@@ -1,9 +1,8 @@
-from flask import Blueprint, url_for, session, redirect, request, jsonify
-import spotipy
-from server.api.decorators import login_required
+from flask import Blueprint, session, redirect, request
+from api import login_required
 # from server.api.decorators import db, db_cursor
-from server.api.utils import get_spotify_oauth, get_token_info, get_spotify_object, refresh_token_info
-from server.api.extensions import limiter
+from api import get_spotify_oauth, get_spotify_object, refresh_token_info
+from api import limiter
 
 # routes relate to authentication
 

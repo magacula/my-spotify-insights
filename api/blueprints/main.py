@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from server.api.extensions import limiter
+from api import limiter
 
 #routes for public (not specific to a user)
 

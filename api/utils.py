@@ -2,7 +2,7 @@ import os
 from spotipy.oauth2 import SpotifyOAuth
 from flask import url_for, session
 import spotipy
-from server.api.decorators import token_checked
+from api import token_checked
 
 # this file contains functions that are useful and used in many different places
 

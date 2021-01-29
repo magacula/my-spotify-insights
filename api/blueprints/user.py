@@ -1,6 +1,6 @@
-from flask import Blueprint, session, render_template
-from server.api.decorators import login_required, token_checked
-from server.api.extensions import limiter
+from flask import Blueprint
+from api import login_required, token_checked
+from api import limiter
 
 # routes for specific user (information)
 
