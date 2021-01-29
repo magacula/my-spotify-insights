@@ -6,7 +6,6 @@ import HomeDashboard from "./HomeDashboard";
 import Navbar from "./Navbar";
 import PopularArtists from "./PopularArtists";
 import Rank from "./Rank";
-import Error from "./Error";
 import LoginPage from "./LoginPage";
 
 // For LOGGING OUT OUT User, just route to path="/" after clicking button
@@ -37,9 +36,6 @@ const User = () => {
             <Rank />
           </Route>
         </div>
-        <Route path="*">
-          <Error />
-        </Route>
       </Switch>
     </Router>
   );

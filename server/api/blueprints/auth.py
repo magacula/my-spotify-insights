@@ -14,7 +14,8 @@ auth_bp = Blueprint('auth', __name__)
 @login_required
 def logout():
     session['LOGGED_IN'] = False
-    return "logged out successful"
+
+    return redirect('http://localhost:3000')
 
 
 @auth_bp.route("/auth/login",  methods=['GET'])
@@ -84,4 +85,3 @@ def token_expired():
 @ auth_bp.route("/auth/access_denied")
 def access_denied():
     return "You don't have the permission for this operation"
-
