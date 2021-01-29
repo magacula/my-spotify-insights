@@ -63,7 +63,7 @@ def redirect_page():
         cur_user_name = cur_user['display_name']
         cur_user_id = cur_user['id']
 
-        # FIXME: databaseneeded
+        # FIXME: database needed
 
         session['LOGGED_IN'] = True
         session['USER_NAME'] = cur_user_name
@@ -72,6 +72,7 @@ def redirect_page():
     except Exception as e:
         print(e)
 
+    #FIXME: this line should be changed to return to the frontend url
     return redirect(url_for('user.home', _external=True))
 
 
