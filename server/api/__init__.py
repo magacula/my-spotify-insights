@@ -32,8 +32,8 @@ def create_app(config_name=None):
     register_blueprints(app)
     register_extensions(app)
 
-    #FIXME: change this to the actual file path of the html status file path in front end
-    #return this error code if user exceed the rate limit
+    # FIXME: change this to the actual file path of the html status file path in front end
+    # return this error code if user exceed the rate limit
     @app.errorhandler(429)
     def rate_limit_reached(e):
         return "your rate limited reached.. 429 ... Change me in api.__init__ file"
