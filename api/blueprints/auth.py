@@ -1,8 +1,8 @@
-from flask import Blueprint, session, redirect, request
-from api import login_required
-# from server.api.decorators import db, db_cursor
-from api import get_spotify_oauth, get_spotify_object, refresh_token_info
-from api import limiter
+from flask import Blueprint, url_for, session, redirect, request, jsonify
+import spotipy
+from api.decorators import login_required
+#from api.decorators import db, db_cursor
+from api.utils import get_spotify_oauth, get_token_info, get_spotify_object, refresh_token_info
 
 # routes relate to authentication
 
@@ -13,12 +13,10 @@ auth_bp = Blueprint('auth', __name__)
 @login_required
 def logout():
     session['LOGGED_IN'] = False
-
-    return redirect('http://localhost:3000')
+    return "logged out successful"
 
 
 @auth_bp.route("/auth/login",  methods=['GET'])
-@limiter.limit("2 per second")
 def login():
     # set up the spotify authorization
     sp_oauth = get_spotify_oauth()
@@ -72,8 +70,7 @@ def redirect_page():
     except Exception as e:
         print(e)
 
-    # return redirect(url_for('user.home', _external=True))
-    return redirect('http://localhost:3000/home')
+    return redirect(url_for('user.home', _external=True))
 
 
 @ auth_bp.route("/auth/token_expired")
