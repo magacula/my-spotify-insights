@@ -26,10 +26,6 @@ const Button = styled.a`
     transition: 0.35s;
     background: ${colors.pink};
   }
-
-  a {
-    color: ${colors.white};
-  }
 `;
 
 const HomeDashboard = () => {
@@ -37,7 +33,6 @@ const HomeDashboard = () => {
     <div>
       <h1>User Home Page</h1>
       <Button href={LOGOUT_USER}>Logout</Button>
-      {/* <Button href={LOGOUT}></Button> */}
     </div>
   );
 };

@@ -18,6 +18,10 @@ body {
 a {
   text-decoration: none;
 }
+
+h1 {
+  margin-left:110px;
+}
 `;
 
 export default GlobalStyles;

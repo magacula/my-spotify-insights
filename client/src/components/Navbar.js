@@ -5,12 +5,23 @@ import { Link } from "react-router-dom";
 
 const { colors } = themes;
 
-const NavContainer = styled.div``;
+const NavContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100px;
+  background-color: ${colors.black};
+  text-align: center;
+  z-index: 99;
+`;
 
 const NavMenu = styled.ul``;
 
 const NavMenuItem = styled.li`
-  margin: 0.25rem 0;
+  margin: 1rem 0;
 `;
 
 const NavLink = styled(Link)`
