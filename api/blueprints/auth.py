@@ -3,7 +3,7 @@ import spotipy
 from api.decorators import login_required
 #from api.decorators import db, db_cursor
 from api.utils import get_spotify_oauth, get_token_info, get_spotify_object, refresh_token_info
-from server.api.extensions import limiter
+from api.extensions import limiter
 
 # routes relate to authentication
 
