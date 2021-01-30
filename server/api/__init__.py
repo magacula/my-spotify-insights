@@ -31,14 +31,24 @@ def create_app(config_name=None):
 
     register_blueprints(app)
     register_extensions(app)
+    register_error_handler(app)
 
+
+    return app
+
+def register_error_handler(app):
     # FIXME: change this to the actual file path of the html status file path in front end
+
     # return this error code if user exceed the rate limit
     @app.errorhandler(429)
     def rate_limit_reached(e):
         return "your rate limited reached.. 429 ... Change me in api.__init__ file"
 
-    return app
+
+    #no permission error
+    @app.errorhandler(403)
+    def permission_denied(e):
+        return "You don't have the permission.. 403"
 
 
 def register_blueprints(app):
