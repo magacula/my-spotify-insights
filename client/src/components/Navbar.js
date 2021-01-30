@@ -57,6 +57,11 @@ const Navbar = () => {
             <div>Ranks</div>
           </NavLink>
         </NavMenuItem>
+        <NavMenuItem>
+          <NavLink to="/Tops">
+            <div>Tops</div>
+          </NavLink>
+        </NavMenuItem>
       </NavMenu>
     </NavContainer>
   );

@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import PopularArtists from "./PopularArtists";
 import Rank from "./Rank";
 import LoginPage from "./LoginPage";
+import Tops from "./Tops";
 
 // For LOGGING OUT OUT User, just route to path="/" after clicking button
 
@@ -34,6 +35,9 @@ const User = () => {
           </Route>
           <Route path="/ranks">
             <Rank />
+          </Route>
+          <Route path="/Tops">
+            <Tops />
           </Route>
         </div>
       </Switch>
