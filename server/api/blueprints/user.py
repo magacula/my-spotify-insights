@@ -116,3 +116,22 @@ def top_albums():
 
 
 
+@user_bp.route("/user/recently_played_tracks")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def recently_played_tracks():
+    sp = get_spotify_object()
+
+    recently_played_tracks = []
+
+    recentlY_played_raw = sp.current_user_recently_played()
+
+    for one_record in recentlY_played_raw['items']:
+        #time_stamp = one_record["played_at"]
+        one_track = one_record['track']
+        recently_played_tracks.append(one_track['name'])
+
+
+    #FIXME: not final
+    return render_template("user/recently_played_tracks.html", recently_played_tracks=recently_played_tracks)

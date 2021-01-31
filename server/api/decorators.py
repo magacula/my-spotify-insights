@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import session, redirect, url_for
+from flask import session, redirect, url_for, abort
 import time
 import spotipy
 
@@ -39,6 +39,28 @@ def token_checked(func):
 
 
     return decorated_function
+
+
+
+#check if user has certain privileges
+#3 layers will enable it to accept parameters in the decorator
+def permission_required(permission_name):
+    def decorator(func):
+        @wraps(func)
+        def decorated_function(*args, **kwargs):
+
+            # FIXME: need access to dtabase when there is one
+            if(permission_name == "no"):
+                #raise 403 Forbidden
+                abort(403)
+
+
+            return func(*args, **kwargs)
+        return decorated_function
+    return decorator
+
+
+
 
 """
 #template for decorators

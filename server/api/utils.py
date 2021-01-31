@@ -38,8 +38,8 @@ def get_spotify_object():
 def refresh_token_info(refresh_token):
     sp_oauth_local = get_spotify_oauth()
     session['TOKEN_INFO'] = sp_oauth_local.refresh_access_token(refresh_token)
-    print("----------refreashed... session now: ")
-    print(session['TOKEN_INFO'])
+    #print("----------refreashed... session now: ")
+    #print(session['TOKEN_INFO'])
 
 
 def get_token_info():

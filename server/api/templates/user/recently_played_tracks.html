@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recently Played Tracks</title>
+</head>
+<body>
+
+
+
+    <ol>
+        {% for one_track in recently_played_tracks%}
+        <li>
+            {{one_track}}
+        </li>
+        {% endfor %}
+    </ol>
+
+</body>
+</html>
