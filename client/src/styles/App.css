@@ -20,3 +20,7 @@
 .tab-content{
   margin-left: 110px;
 }
+
+.active-navlink {
+  background-color:#EE3EC9;
+}

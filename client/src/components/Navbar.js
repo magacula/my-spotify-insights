@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import themes from "../styles/themes";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { HiHome } from "react-icons/hi";
+import { FiStar } from "react-icons/fi";
+import { AiFillFire } from "react-icons/ai";
+import { IoIosFilm } from "react-icons/io";
+import { FaCrown } from "react-icons/fa";
+import "../styles/App.css";
 
 const { colors } = themes;
 
@@ -21,65 +27,99 @@ const NavContainer = styled.div`
 const NavMenu = styled.ul``;
 
 const NavMenuItem = styled.li`
-  margin: 1rem 0;
+  padding: 1rem;
 
   &:hover,
-  &:focus,
-  &.active {
+  &:focus {
     color: ${colors.pink};
-    /* background-color: ${colors.black}; */
-    border-left: 5px solid ${colors.pink};
-  }
-
-  img {
-    padding: 1rem;
-
-    &.active {
-      fill: ${colors.pink};
-    }
+    background-color: ${colors.pink};
   }
 `;
 
-// const NavLink = styled(Link)``;
+const Home = styled(HiHome)`
+  color: white;
+  font-size: 3rem;
+`;
 
-const isActive = ({ isCurrent }) =>
-  isCurrent ? { className: "active" } : null;
+const Star = styled(FiStar)`
+  fill: white;
+  color: white;
+  font-size: 3rem;
+`;
 
-const NavLink = (props) => <Link getProps={isActive} {...props} />;
+const Fire = styled(AiFillFire)`
+  fill: white;
+  color: white;
+  font-size: 3rem;
+`;
+
+const Film = styled(IoIosFilm)`
+  fill: white;
+  color: white;
+  font-size: 3rem;
+`;
+
+const Crown = styled(FaCrown)`
+  fill: white;
+  color: white;
+  font-size: 3rem;
+`;
+
+const Link = styled(NavLink)`
+  color: ${colors.white};
+
+  font-size: 0.25rem;
+`;
 
 const Navbar = () => {
   return (
     <NavContainer>
       <NavMenu>
         <NavMenuItem>
-          <NavLink to="/home">
-            <img src="home.png" title="Home" />
-          </NavLink>
+          <Link exact to="/home" title="Home" activeClassName="active-navlink">
+            <Home />
+          </Link>
         </NavMenuItem>
         <NavMenuItem>
-          <NavLink to="/discover">
-            <img src="discover.png" title="Discover" />
-          </NavLink>
+          <Link
+            exact
+            to="/discover"
+            title="Discover"
+            activeClassName="active-navlink">
+            <Star />
+          </Link>
         </NavMenuItem>
         <NavMenuItem>
-          <NavLink to="/popular_artists">
-            <img src="popular.png" title="Most Popular Artists" />
-          </NavLink>
+          <Link
+            exact
+            to="/popular_artists"
+            title="Most Popular Artists"
+            activeClassName="active-navlink">
+            <Fire />
+          </Link>
         </NavMenuItem>
         <NavMenuItem>
-          <NavLink to="/film_maker">
-            <img src="film.png" title="Film Maker" />
-          </NavLink>
+          <Link
+            exact
+            to="/film_maker"
+            title="Film Maker"
+            activeClassName="active-navlink">
+            <Film />
+          </Link>
         </NavMenuItem>
         <NavMenuItem>
-          <NavLink to="/ranks">
-            <img src="ranks.png" title="Your Rank" />
-          </NavLink>
+          <Link
+            exact
+            to="/ranks"
+            title="Your Rank"
+            activeClassName="active-navlink">
+            <Crown />
+          </Link>
         </NavMenuItem>
         <NavMenuItem>
-          <NavLink to="/Tops">
+          <Link exact to="/Tops">
             <div>Tops</div>
-          </NavLink>
+          </Link>
         </NavMenuItem>
       </NavMenu>
     </NavContainer>
