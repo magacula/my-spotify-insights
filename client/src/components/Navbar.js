@@ -27,8 +27,6 @@ const NavContainer = styled.div`
 const NavMenu = styled.ul``;
 
 const NavMenuItem = styled.li`
-  padding: 1rem;
-
   &:hover,
   &:focus {
     color: ${colors.pink};
@@ -39,36 +37,39 @@ const NavMenuItem = styled.li`
 const Home = styled(HiHome)`
   color: white;
   font-size: 3rem;
+  margin: 1rem 0;
 `;
 
 const Star = styled(FiStar)`
   fill: white;
   color: white;
   font-size: 3rem;
+  margin: 1rem 0;
 `;
 
 const Fire = styled(AiFillFire)`
   fill: white;
   color: white;
   font-size: 3rem;
+  margin: 1rem 0;
 `;
 
 const Film = styled(IoIosFilm)`
   fill: white;
   color: white;
   font-size: 3rem;
+  margin: 1rem 0;
 `;
 
 const Crown = styled(FaCrown)`
   fill: white;
   color: white;
   font-size: 3rem;
+  margin: 1rem 0;
 `;
 
 const Link = styled(NavLink)`
   color: ${colors.white};
-
-  font-size: 0.25rem;
 `;
 
 const Navbar = () => {
