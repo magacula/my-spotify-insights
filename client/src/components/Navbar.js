@@ -26,6 +26,10 @@ const NavMenuItem = styled.li`
 
 const NavLink = styled(Link)`
   color: ${colors.white};
+
+  img {
+    padding: 1rem;
+  }
 `;
 
 const Navbar = () => {
@@ -34,27 +38,27 @@ const Navbar = () => {
       <NavMenu>
         <NavMenuItem>
           <NavLink to="/home">
-            <div>Home</div>
+            <img src="home.png" title="Home" />
           </NavLink>
         </NavMenuItem>
         <NavMenuItem>
           <NavLink to="/discover">
-            <div>Discover</div>
+            <img src="discover.png" title="Discover" />
           </NavLink>
         </NavMenuItem>
         <NavMenuItem>
           <NavLink to="/popular_artists">
-            <div>Popular Artists</div>
+            <img src="popular.png" title="Most Popular Artists" />
           </NavLink>
         </NavMenuItem>
         <NavMenuItem>
           <NavLink to="/film_maker">
-            <div>Film Maker</div>
+            <img src="film.png" title="Film Maker" />
           </NavLink>
         </NavMenuItem>
         <NavMenuItem>
           <NavLink to="/ranks">
-            <div>Ranks</div>
+            <img src="ranks.png" title="Your Rank" />
           </NavLink>
         </NavMenuItem>
         <NavMenuItem>
