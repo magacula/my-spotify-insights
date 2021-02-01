@@ -22,15 +22,30 @@ const NavMenu = styled.ul``;
 
 const NavMenuItem = styled.li`
   margin: 1rem 0;
-`;
 
-const NavLink = styled(Link)`
-  color: ${colors.white};
+  &:hover,
+  &:focus,
+  &.active {
+    color: ${colors.pink};
+    /* background-color: ${colors.black}; */
+    border-left: 5px solid ${colors.pink};
+  }
 
   img {
     padding: 1rem;
+
+    &.active {
+      fill: ${colors.pink};
+    }
   }
 `;
+
+// const NavLink = styled(Link)``;
+
+const isActive = ({ isCurrent }) =>
+  isCurrent ? { className: "active" } : null;
+
+const NavLink = (props) => <Link getProps={isActive} {...props} />;
 
 const Navbar = () => {
   return (
