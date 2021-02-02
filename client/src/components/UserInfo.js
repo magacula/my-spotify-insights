@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const UserInfo = () => {
   // example to display userInfo using useState & fetch call
-  const [userInfo, setUserInfo] = useState("");
+  const [userInfo, setUserInfo] = useState([]);
 
   useEffect(() => {
     fetch("user.json")
