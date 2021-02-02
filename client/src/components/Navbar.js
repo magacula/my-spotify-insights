@@ -118,8 +118,13 @@ const Navbar = () => {
           </Link>
         </NavMenuItem>
         <NavMenuItem>
-          <Link exact to="/Tops">
+          <Link exact to="/Tops" activeClassName="active-navlink">
             <div>Tops</div>
+          </Link>
+        </NavMenuItem>
+        <NavMenuItem>
+          <Link exact to="/RecentlyPlayed" activeClassName="active-navlink">
+            <div>Recently Played</div>
           </Link>
         </NavMenuItem>
       </NavMenu>
