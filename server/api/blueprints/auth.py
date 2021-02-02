@@ -26,6 +26,7 @@ def login():
 
     # make the authorization request and return the link where can approve the request
     auth_url = sp_oauth.get_authorize_url()
+
     # redirect user to that link (where they can click "agree")
     return redirect(auth_url)
 
@@ -70,8 +71,11 @@ def redirect_page():
         session['USER_NAME'] = cur_user_name
         session['USER_ID'] = cur_user_id
 
+
+
     except Exception as e:
         print(e)
+
 
     return redirect('http://localhost:3000/home')
 

@@ -17,7 +17,15 @@ def create_app(config_name=None):
     template_dir = os.path.abspath('./api/templates')
 
     app = Flask('api', template_folder=template_dir)
+
+    app.config['CORS_SUPPORTS_CREDENTIALS'] = True
+    app.config['CORS_ORIGINS'] = 'http://localhost:3000'
     CORS(app)
+
+    app.config['SESSION_COOKIE_SECURE'] = True
+    app.config['SESSION_COOKIE_HTTPONLY'] = True
+    app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+
     #app = Flask('api')
 
     # secret key used to sign session cookie
