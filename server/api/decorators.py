@@ -3,17 +3,23 @@ from flask import session, redirect, url_for, abort
 import time
 import spotipy
 
-#this file contains all kinds of decorators we are going to use
+# this file contains all kinds of decorators we are going to use
 
-#used as a decorator, under the route decorator, check if user is logged in
+# used as a decorator, under the route decorator, check if user is logged in
+
+
 def login_required(func):
+
     @wraps(func)
     def decorated_function(*args, **kwargs):
-        #if logged_in value not exist or false, then user is not logged in
+        print("-------------current session: ", session)
+        # if logged_in value not exist or false, then user is not logged in
         try:
             if not session['LOGGED_IN']:
                 return redirect(url_for('auth.access_denied'))
-        except:
+        except Exception as e:
+            print("-------------logged in Exception: ", e)
+
             return redirect(url_for('auth.access_denied'))
 
         return func(*args, **kwargs)
@@ -21,29 +27,27 @@ def login_required(func):
     return decorated_function
 
 
-#check if token still valid or exist
+# check if token still valid or exist
 def token_checked(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
         token_info = session.get("TOKEN_INFO", None)
         if token_info == None:
-            #FIXME: for now
+            # FIXME: for now
             return redirect(url_for('auth.token_expired'))
 
         now = int(time.time())
         if token_info['expires_at'] - now <= 0:
-            #FIXME: for now
+            # FIXME: for now
             return redirect(url_for('auth.token_expired'))
 
         return func(*args, **kwargs)
 
-
     return decorated_function
 
 
-
-#check if user has certain privileges
-#3 layers will enable it to accept parameters in the decorator
+# check if user has certain privileges
+# 3 layers will enable it to accept parameters in the decorator
 def permission_required(permission_name):
     def decorator(func):
         @wraps(func)
@@ -51,19 +55,16 @@ def permission_required(permission_name):
 
             # FIXME: need access to dtabase when there is one
             if(permission_name == "no"):
-                #raise 403 Forbidden
+                # raise 403 Forbidden
                 abort(403)
-
 
             return func(*args, **kwargs)
         return decorated_function
     return decorator
 
 
-
-
 """
-#template for decorators
+# template for decorators
 def token_check(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
