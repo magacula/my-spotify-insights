@@ -24,7 +24,9 @@ const NavContainer = styled.div`
   z-index: 99;
 `;
 
-const NavMenu = styled.ul``;
+const NavMenu = styled.ul`
+  list-style: none;
+`;
 
 const NavMenuItem = styled.li`
   &:hover,
