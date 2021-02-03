@@ -22,7 +22,8 @@ const RecentlyPlayed = () => {
     fetch("http://127.0.0.1:5000/user/recently_played_tracks",{
     //fetch("http://127.0.0.1:5000/user/test",{
             credentials: 'include'
-            //mode: 'cors'
+            //credentials: 'include',
+            //referrerPolicy: 'no-referrer-when-downgrade'
             }
         )
       .then((res) => res.text())
