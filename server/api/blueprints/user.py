@@ -148,14 +148,14 @@ def recently_played_tracks():
     #FIXME: not final
     return {'recent_tracks': recently_played_tracks}
 
+    # this is already set in the __init__.py in api folder, but don't delete, for reference later
     # response.headers.add("Access-Control-Allow-Origin",
     #                      "http://localhost:3000")
     # response.headers.add("Access-Control-Allow-Credentials", "true")
-
     # response.headers.add("samesite", None)
-    # response.set_cookie('same-site-cookie', 'foo', samesite='Lax')
-    # response.set_cookie('cross-site-cookie', 'bar',
-    #                     samesite='None', secure=True)
+    # response.set_cookie(key="spotifyTempCookie", value="temp value", samesite='None', secure='true')
+    # response.set_cookie(key="spotifyTempCookie", value="temp value", httponly=True ,samesite='None')
+    # response.set_cookie(key="spotifyTempCookie", value="temp value", samesite='Lax')
     # return response
 
     # returns JSON data to be returned to frontend

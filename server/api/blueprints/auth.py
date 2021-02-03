@@ -16,6 +16,9 @@ def logout():
     session['LOGGED_IN'] = False
 
     return redirect('http://localhost:3000')
+    # return redirect(url_for('user.test', _external=True))
+    # time.sleep(5)
+    # return "still in redirect page.."
 
 
 @auth_bp.route("/auth/login",  methods=['GET'])

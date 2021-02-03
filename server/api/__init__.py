@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session
 from flask_cors import CORS
 #from authlib.integrations.flask_client import OAuth
 # for oauth
@@ -20,8 +20,10 @@ def create_app(config_name=None):
 
     app.config['CORS_SUPPORTS_CREDENTIALS'] = True
     app.config['CORS_ORIGINS'] = 'http://localhost:3000'
-    CORS(app)
+    # CORS(app)
+    CORS(app, supports_credentials=True)
 
+    # FIXME: uncomment this when doing deployment
     # app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_HTTPONLY'] = True
     app.config['SESSION_COOKIE_SAMESITE'] = 'None'
@@ -32,7 +34,7 @@ def create_app(config_name=None):
     app.secret_key = os.getenv('SECRET_KEY')
 
     # for now
-    app.config['SESSION_COOKIE_NAME'] = 'mySpotifyInsight_cookie'
+    app.config['SESSION_COOKIE_NAME'] = 'mySpityfInsight_session'
     # oauth = OAuth(app)
 
     # FIXME: for now
