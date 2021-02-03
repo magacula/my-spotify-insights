@@ -34,19 +34,22 @@ const RecentlyPlayed = () => {
   }, []);
 
   return (
-    <ol>
-      {recentlyPlayed.map((track, index) => {
-        return (
-          <Tracks
-            key={index}
-            tracks={recentlyPlayed}
-            {...track}
-            style={{ marginLeft: "150px" }}>
-            {track}
-          </Tracks>
-        );
-      })}
-    </ol>
+    <React.Fragment>
+      <h1>Your Recently Played Tracks</h1>
+      <ol>
+        {recentlyPlayed.map((track, index) => {
+          return (
+            <Tracks
+              key={index}
+              tracks={recentlyPlayed}
+              {...track}
+              style={{ marginLeft: "150px" }}>
+              {track}
+            </Tracks>
+          );
+        })}
+      </ol>
+    </React.Fragment>
   );
 };
 
