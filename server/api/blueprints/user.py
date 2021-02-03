@@ -10,8 +10,8 @@ user_bp = Blueprint('user', __name__)
 
 
 @user_bp.route("/user/test")
-#@login_required
-#@token_checked
+# @login_required
+# @token_checked
 def test():
     print("---------in test, session: ", session)
     response = make_response(
@@ -19,8 +19,10 @@ def test():
             {'recent_tracks': "temp"}
         )
     )
-    response.set_cookie(key="spotifyTempCookie", value="temp value", samesite='None', secure='true')
+    response.set_cookie(key="spotifyTempCookie",
+                        value="temp value", samesite='None', secure='true')
     return response
+
 
 @user_bp.route("/user/homepage")
 @limiter.limit("5 per second")
@@ -31,7 +33,7 @@ def home():
     # get current user
     current_user = sp.current_user()
 
-    print("------home page..",session)
+    print("------home page..", session)
 
     # some basic user information
 
@@ -144,22 +146,19 @@ def recently_played_tracks():
         recently_played_tracks.append(one_track['name'])
 
     #FIXME: not final
-    response = make_response(
-                jsonify(
-                {'recent_tracks': recently_played_tracks}
-                )
-            )
-    #response.headers.add("Access-Control-Allow-Origin", "*")
-    #response.headers.add("samesite", None)
-    response.set_cookie('same-site-cookie', 'foo', samesite='Lax')
-    response.set_cookie('cross-site-cookie', 'bar', samesite='None', secure=True)
-    return response
+    return {'recent_tracks': recently_played_tracks}
+
+    # response.headers.add("Access-Control-Allow-Origin",
+    #                      "http://localhost:3000")
+    # response.headers.add("Access-Control-Allow-Credentials", "true")
+
+    # response.headers.add("samesite", None)
+    # response.set_cookie('same-site-cookie', 'foo', samesite='Lax')
+    # response.set_cookie('cross-site-cookie', 'bar',
+    #                     samesite='None', secure=True)
+    # return response
 
     # returns JSON data to be returned to frontend
-    #return {'recent_tracks': recently_played_tracks}
+    # return {'recent_tracks': recently_played_tracks}
 
     # return render_template("user/recently_played_tracks.html", recently_played_tracks=recently_played_tracks)
-
-    # FOR TESTING
-    # print('This is standard output', file=sys.stdout)
-    # print(jsonify({'recent_tracks': recently_played_tracks}), file=sys.stdout)

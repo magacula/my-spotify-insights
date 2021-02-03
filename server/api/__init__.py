@@ -22,7 +22,7 @@ def create_app(config_name=None):
     app.config['CORS_ORIGINS'] = 'http://localhost:3000'
     CORS(app)
 
-    app.config['SESSION_COOKIE_SECURE'] = True
+    # app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_HTTPONLY'] = True
     app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 
@@ -41,8 +41,8 @@ def create_app(config_name=None):
     register_extensions(app)
     register_error_handler(app)
 
-
     return app
+
 
 def register_error_handler(app):
     # FIXME: change this to the actual file path of the html status file path in front end
@@ -52,8 +52,8 @@ def register_error_handler(app):
     def rate_limit_reached(e):
         return "your rate limited reached.. 429 ... Change me in api.__init__ file"
 
+    # no permission error
 
-    #no permission error
     @app.errorhandler(403)
     def permission_denied(e):
         return "You don't have the permission.. 403"

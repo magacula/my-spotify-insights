@@ -71,22 +71,19 @@ def redirect_page():
         session['USER_NAME'] = cur_user_name
         session['USER_ID'] = cur_user_id
 
-
-
     except Exception as e:
         print(e)
-
 
     return redirect('http://localhost:3000/home')
 
 
-#FIXME: if you want to have a html page for this
+# FIXME: if you want to have a html page for this
 @ auth_bp.route("/auth/token_expired")
 def token_expired():
     return "Your access token is expired, please go to login page to refresh the access token"
 
 
-#FIXME: if you want to have a html page for this
+# FIXME: if you want to have a html page for this
 @ auth_bp.route("/auth/access_denied")
 def access_denied():
     return "You don't have the permission for this operation"
