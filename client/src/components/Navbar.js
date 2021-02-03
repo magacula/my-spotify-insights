@@ -129,6 +129,11 @@ const Navbar = () => {
             <div>Recently Played</div>
           </Link>
         </NavMenuItem>
+        <NavMenuItem>
+          <Link exact to="/TopTracksGraph" activeClassName="active-navlink">
+            <div>Top Tracks Graph</div>
+          </Link>
+        </NavMenuItem>
       </NavMenu>
     </NavContainer>
   );
