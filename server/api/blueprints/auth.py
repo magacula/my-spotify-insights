@@ -16,6 +16,9 @@ def logout():
     session['LOGGED_IN'] = False
 
     return redirect('http://localhost:3000')
+    # return redirect(url_for('user.test', _external=True))
+    # time.sleep(5)
+    # return "still in redirect page.."
 
 
 @auth_bp.route("/auth/login",  methods=['GET'])
@@ -71,11 +74,8 @@ def redirect_page():
         session['USER_NAME'] = cur_user_name
         session['USER_ID'] = cur_user_id
 
-
-
     except Exception as e:
         print(e)
-
 
     return redirect('http://localhost:3000/home')
     #return redirect(url_for('user.test', _external=True))
@@ -83,13 +83,13 @@ def redirect_page():
     #return "still in redirect page.."
 
 
-#FIXME: if you want to have a html page for this
+# FIXME: if you want to have a html page for this
 @ auth_bp.route("/auth/token_expired")
 def token_expired():
     return "Your access token is expired, please go to login page to refresh the access token"
 
 
-#FIXME: if you want to have a html page for this
+# FIXME: if you want to have a html page for this
 @ auth_bp.route("/auth/access_denied")
 def access_denied():
     return "You don't have the permission for this operation"

@@ -24,7 +24,9 @@ const NavContainer = styled.div`
   z-index: 99;
 `;
 
-const NavMenu = styled.ul``;
+const NavMenu = styled.ul`
+  list-style: none;
+`;
 
 const NavMenuItem = styled.li`
   &:hover,
@@ -125,6 +127,11 @@ const Navbar = () => {
         <NavMenuItem>
           <Link exact to="/RecentlyPlayed" activeClassName="active-navlink">
             <div>Recently Played</div>
+          </Link>
+        </NavMenuItem>
+        <NavMenuItem>
+          <Link exact to="/TopTracksGraph" activeClassName="active-navlink">
+            <div>Top Tracks Graph</div>
           </Link>
         </NavMenuItem>
       </NavMenu>

@@ -4,7 +4,6 @@ from flask_cors import CORS
 # for oauth
 
 from server.api.blueprints.main import main_bp
-
 from server.api.blueprints.admin import admin_bp
 from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
@@ -15,20 +14,17 @@ import os
 
 def create_app(config_name=None):
 
-
-
     template_dir = os.path.abspath('./api/templates')
 
     app = Flask('api', template_folder=template_dir)
 
     app.config['CORS_SUPPORTS_CREDENTIALS'] = True
     app.config['CORS_ORIGINS'] = 'http://localhost:3000'
-
-    #CORS(app)
+    # CORS(app)
     CORS(app, supports_credentials=True)
 
-    #FIXME: uncomment this when doing deployment
-    #app.config['SESSION_COOKIE_SECURE'] = True
+    # FIXME: uncomment this when doing deployment
+    # app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_HTTPONLY'] = True
     app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 
@@ -47,8 +43,8 @@ def create_app(config_name=None):
     register_extensions(app)
     register_error_handler(app)
 
-
     return app
+
 
 def register_error_handler(app):
     # FIXME: change this to the actual file path of the html status file path in front end
@@ -58,8 +54,8 @@ def register_error_handler(app):
     def rate_limit_reached(e):
         return "your rate limited reached.. 429 ... Change me in api.__init__ file"
 
+    # no permission error
 
-    #no permission error
     @app.errorhandler(403)
     def permission_denied(e):
         return "You don't have the permission.. 403"

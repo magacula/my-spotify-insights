@@ -4,7 +4,7 @@ import "../styles/App.css";
 
 const Tops = () => {
   // gets the data from the JSON file
-  const [userInfo, setUserInfo] = useState("");
+  const [userInfo, setUserInfo] = useState([]);
 
   useEffect(() => {
     fetch("user.json")
