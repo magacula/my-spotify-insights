@@ -252,7 +252,7 @@ def get_track_ids():
     return ids
 
 
-# Takes track ID(s) and returns the audio features
+# Takes track ID(s) and returns an array of the audio feature objects
 @user_bp.route("/user/top_audio_features")
 @limiter.limit("5 per second")
 @login_required
