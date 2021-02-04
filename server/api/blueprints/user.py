@@ -67,7 +67,7 @@ def top_tracks():
             break
 
     # FIXME: change this part when need to work with front end
-    return render_template("user/top_tracks.html", top_tracks=top_tracks)
+    return {'top_tracks': top_tracks}
 
 
 @user_bp.route("/user/top_artists")
@@ -96,7 +96,7 @@ def top_artists():
             break
 
     # FIXME: change this part when need to work with front end
-    return render_template("user/top_artists.html", top_artists=top_artists)
+    return {'top_artists': top_artists}
 
 
 @user_bp.route("/user/top_albums")
@@ -126,7 +126,7 @@ def top_albums():
             break
 
     # FIXME: change this part when need to work with front end
-    return render_template("user/top_albums.html", top_albums=top_albums)
+    return {"top_albums": top_albums}
 
 
 @user_bp.route("/user/recently_played_tracks")
