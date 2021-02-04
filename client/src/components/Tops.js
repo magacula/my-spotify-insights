@@ -6,7 +6,6 @@ import styled from "styled-components";
 const Tracks = styled.li``;
 
 const Tops = () => {
-  
   const [topTracks, setTopTracks] = useState([]);
   const [topAlbums, setTopAlbums] = useState([]);
   const [topArtists, setTopArtists] = useState([]);
@@ -21,7 +20,7 @@ const Tops = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setTopTracks(data.top_tracks);
+        setTopTracks(data);
       });
 
     fetch("http://127.0.0.1:5000/user/top_albums", {
@@ -33,10 +32,10 @@ const Tops = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setTopAlbums(data.top_albums);
+        setTopAlbums(data);
       });
 
-      fetch("http://127.0.0.1:5000/user/top_artists", {
+    fetch("http://127.0.0.1:5000/user/top_artists", {
       credentials: "include",
       headers: {
         Accept: "application/json",
@@ -45,7 +44,7 @@ const Tops = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setTopArtists(data.top_artists);
+        setTopArtists(data);
       });
   }, []);
 
@@ -54,45 +53,45 @@ const Tops = () => {
       <h1>Top Lists</h1>
       <Tabs>
         <div label="Tracks">
-        <ol>
-            {topTracks.map((track, index) => {
+          <ol>
+            {Object.values(topTracks).map((trackName, index) => {
               return (
                 <Tracks
-                key = {index}
-                tracks = {topTracks}
-                {...track}
-                style={{marginLeft: "25px"}}>
-                {track}
+                  key={index}
+                  tracks={trackName}
+                  {...trackName}
+                  style={{ marginLeft: "25px" }}>
+                  {trackName}
                 </Tracks>
               );
             })}
           </ol>
         </div>
         <div label="Artists">
-        <ol>
-            {topArtists.map((track, index) => {
+          <ol>
+            {Object.values(topArtists).map((artistName, index) => {
               return (
                 <Tracks
-                key = {index}
-                tracks = {topTracks}
-                {...track}
-                style={{marginLeft: "25px"}}>
-                {track}
+                  key={index}
+                  tracks={artistName}
+                  {...artistName}
+                  style={{ marginLeft: "25px" }}>
+                  {artistName}
                 </Tracks>
               );
             })}
           </ol>
         </div>
         <div label="Albums">
-        <ol>
-            {topAlbums.map((track, index) => {
+          <ol>
+            {Object.values(topAlbums).map((albumName, index) => {
               return (
                 <Tracks
-                key = {index}
-                tracks = {topTracks}
-                {...track}
-                style={{marginLeft: "25px"}}>
-                {track}
+                  key={index}
+                  tracks={albumName}
+                  {...albumName}
+                  style={{ marginLeft: "25px" }}>
+                  {albumName}
                 </Tracks>
               );
             })}

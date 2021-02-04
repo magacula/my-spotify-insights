@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-// const Tracks = ({ tracks }) => {
-//   return <li style={{ marginLeft: "150px" }}>{tracks}</li>;
-// };
-
-const Tracks = styled.li``;
+// TODO: Create separate track component later to allow a clickable for
+// more info
+const Track = styled.li``;
 
 const RecentlyPlayed = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
@@ -22,7 +20,7 @@ const RecentlyPlayed = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setRecentlyPlayed(data.recent_tracks);
+        setRecentlyPlayed(data);
       });
   }, []);
 
@@ -30,15 +28,15 @@ const RecentlyPlayed = () => {
     <React.Fragment>
       <h1>Your Recently Played Tracks</h1>
       <ol>
-        {recentlyPlayed.map((track, index) => {
+        {Object.values(recentlyPlayed).map((trackName, index) => {
           return (
-            <Tracks
+            <Track
               key={index}
               tracks={recentlyPlayed}
-              {...track}
+              {...trackName}
               style={{ marginLeft: "150px" }}>
-              {track}
-            </Tracks>
+              {trackName}
+            </Track>
           );
         })}
       </ol>
