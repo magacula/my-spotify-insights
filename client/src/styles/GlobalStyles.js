@@ -20,6 +20,7 @@ a {
 }
 
 h1 {
+  margin-top: 1rem;
   margin-left:110px;
 }
 

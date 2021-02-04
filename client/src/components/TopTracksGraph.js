@@ -9,7 +9,7 @@ const ChartContainer = styled.div`
 const TopTracksGraph = () => {
   return (
     <React.Fragment>
-      <h1>Top Tracks Graph</h1>
+      <h1>Graph of Audio Features from Top Tracks</h1>
       <ChartContainer>
         <AudioFeatureChart />
       </ChartContainer>

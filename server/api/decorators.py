@@ -12,8 +12,8 @@ def login_required(func):
 
     @wraps(func)
     def decorated_function(*args, **kwargs):
-        print("-------current session: ", session)
-        #if logged_in value not exist or false, then user is not logged in
+        # print("-------current session: ", session)
+        # if logged_in value not exist or false, then user is not logged in
         try:
             if not session['LOGGED_IN']:
                 return redirect(url_for('auth.access_denied'))
