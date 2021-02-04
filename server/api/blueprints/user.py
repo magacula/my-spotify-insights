@@ -141,11 +141,11 @@ def recently_played_tracks():
     recentlY_played_raw = sp.current_user_recently_played()
 
     for one_record in recentlY_played_raw['items']:
-        #time_stamp = one_record["played_at"]
+        # time_stamp = one_record["played_at"]
         one_track = one_record['track']
         recently_played_tracks.append(one_track['name'])
 
-    #FIXME: not final
+    # FIXME: not final
     return {'recent_tracks': recently_played_tracks}
 
     # this is already set in the __init__.py in api folder, but don't delete, for reference later
@@ -162,3 +162,36 @@ def recently_played_tracks():
     # return {'recent_tracks': recently_played_tracks}
 
     # return render_template("user/recently_played_tracks.html", recently_played_tracks=recently_played_tracks)
+
+
+# Takes an array of a user's top tracks and returns an array of common seperated strings of track ID(s)
+@login_required
+@token_checked
+def get_track_ids():
+    sp = get_spotify_object()
+
+    ids = []
+
+    top_tracks = sp.current_user_top_tracks(limit=50, offset=0)
+
+    for one_track in top_tracks['items']:
+        one_track_id = one_track['id']
+        ids.append(one_track_id)
+
+    return ids
+
+
+# Takes track ID(s) and returns the audio features
+@user_bp.route("/user/top_audio_features")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def top_tracks_audio_features():
+    sp = get_spotify_object()
+
+    ids = get_track_ids()
+
+    audio_features = sp.audio_features(ids)
+    # print(audio_features, sys.stdout)
+
+    return {'top_tracks_audio_features': audio_features}
