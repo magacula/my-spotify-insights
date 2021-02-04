@@ -19,8 +19,10 @@ def test():
             {'recent_tracks': "temp"}
         )
     )
-    response.set_cookie(key="spotifyTempCookie",
-                        value="temp value", samesite='None', secure='true')
+    # this is already set in the __init__.py in api folder, but don't delete, for reference later
+    #response.set_cookie(key="spotifyTempCookie", value="temp value", samesite='None', secure='true')
+    #response.set_cookie(key="spotifyTempCookie", value="temp value", httponly=True ,samesite='None')
+    #response.set_cookie(key="spotifyTempCookie", value="temp value", samesite='Lax')
     return response
 
 
@@ -145,21 +147,15 @@ def recently_played_tracks():
         one_track = one_record['track']
         recently_played_tracks.append(one_track['name'])
 
-    # FIXME: not final
+    # returns JSON data to be returned to frontend
     return {'recent_tracks': recently_played_tracks}
 
     # this is already set in the __init__.py in api folder, but don't delete, for reference later
-    # response.headers.add("Access-Control-Allow-Origin",
-    #                      "http://localhost:3000")
-    # response.headers.add("Access-Control-Allow-Credentials", "true")
-    # response.headers.add("samesite", None)
-    # response.set_cookie(key="spotifyTempCookie", value="temp value", samesite='None', secure='true')
-    # response.set_cookie(key="spotifyTempCookie", value="temp value", httponly=True ,samesite='None')
-    # response.set_cookie(key="spotifyTempCookie", value="temp value", samesite='Lax')
-    # return response
+    #response.headers.add("Access-Control-Allow-Origin", "*")
+    #response.headers.add("samesite", None)
 
-    # returns JSON data to be returned to frontend
-    # return {'recent_tracks': recently_played_tracks}
+    #response.set_cookie('same-site-cookie', 'foo', samesite='Lax')
+    #response.set_cookie('cross-site-cookie', 'bar', samesite='None', secure=True)
 
     # return render_template("user/recently_played_tracks.html", recently_played_tracks=recently_played_tracks)
 

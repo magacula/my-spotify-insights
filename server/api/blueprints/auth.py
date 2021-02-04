@@ -78,6 +78,9 @@ def redirect_page():
         print(e)
 
     return redirect('http://localhost:3000/home')
+    # return redirect(url_for('user.test', _external=True))
+    # time.sleep(5)
+    # return "still in redirect page.."
 
 
 # FIXME: if you want to have a html page for this

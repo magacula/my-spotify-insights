@@ -4,6 +4,7 @@ from flask_cors import CORS
 # for oauth
 
 from server.api.blueprints.main import main_bp
+
 from server.api.blueprints.admin import admin_bp
 from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
