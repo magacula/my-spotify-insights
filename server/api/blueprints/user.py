@@ -143,6 +143,7 @@ def recently_played_tracks():
     for one_record in recentlY_played_raw['items']:
         #time_stamp = one_record["played_at"]
         one_track = one_record['track']
+        #recently_played_tracks.append(one_track['name'])
         recently_played_tracks.append(one_track['name'])
 
     #FIXME: not final
@@ -162,3 +163,70 @@ def recently_played_tracks():
     # return {'recent_tracks': recently_played_tracks}
 
     # return render_template("user/recently_played_tracks.html", recently_played_tracks=recently_played_tracks)
+
+    # FOR TESTING
+    # print('This is standard output', file=sys.stdout)
+    # print(jsonify({'recent_tracks': recently_played_tracks}), file=sys.stdout)
+
+
+@user_bp.route("/user/user_playlists")
+@limiter.limit("2 per second")
+@login_required
+@token_checked
+def get_user_playlists():
+    sp = get_spotify_object()
+    user_playlists = {}
+
+    offset_count = 0
+    limit_count = 50
+    while(True):
+        user_playlists_raw = sp.current_user_playlists(limit=limit_count, offset=offset_count)
+        offset_count += limit_count
+
+        for one_playlist in user_playlists_raw['items']:
+            one_playlist_name = one_playlist['name']
+            one_playlist_id = one_playlist['id']
+            one_playlist_count = one_playlist['tracks']['total']
+            one_playlist_is_public = one_playlist['public']
+            #id, name, count, public
+            user_playlists[one_playlist_id] = {'name': one_playlist_name,
+                                               'count': one_playlist_count,
+                                               'public': one_playlist_is_public}
+
+        if len(user_playlists_raw['items']) < limit_count:
+            break
+
+    return user_playlists
+
+
+@user_bp.route("/user/user_playlist_details/<playlist_id>")
+@limiter.limit("2 per second")
+@login_required
+@token_checked
+def get_user_playlist_details(playlist_id):
+    sp = get_spotify_object()
+
+
+    playlist_details_raw = sp.playlist(playlist_id)
+
+
+    """
+    playlist_details = {
+        'id': playlist_details_raw['id'],
+        'name': playlist_details_raw['name'],
+        'followers_count': playlist_details_raw['followers']['total'],
+        'count': playlist_details_raw['tracks']['total'],
+        'owner_name': playlist_details_raw['owner']['display_name'],
+        'owner_id': playlist_details_raw['owner']['id'],
+
+
+        }
+
+    #FIXME: not done
+    return playlist_details
+    """
+
+    #looks like it's better to return the whole json in this case
+    return playlist_details_raw
+
+
