@@ -103,6 +103,7 @@ const AudioFeaturesChart = () => {
                 },
                 ticks: {
                   fontSize: 12,
+                  fontColor: "rgba(255, 255, 255, 0.6)",
                 },
               },
             ],
