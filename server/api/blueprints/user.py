@@ -1,7 +1,7 @@
-from flask import Blueprint, session, render_template, jsonify, make_response
+from flask import Blueprint, session, render_template, jsonify, make_response, request
 from server.api.decorators import login_required, token_checked
 from server.api.extensions import limiter
-from server.api.utils import get_spotify_object
+from server.api.utils import get_spotify_object, translate_bool_value
 import sys
 
 # routes for specific user (information)
@@ -13,7 +13,7 @@ user_bp = Blueprint('user', __name__)
 # @login_required
 # @token_checked
 def test():
-    print("---------in test, session: ", session)
+    #print("---------in test, session: ", session)
     response = make_response(
         jsonify(
             {'recent_tracks': "temp"}
@@ -33,7 +33,7 @@ def home():
     # get current user
     current_user = sp.current_user()
 
-    print("------home page..", session)
+    #print("------home page..", session)
 
     # some basic user information
 
@@ -173,7 +173,7 @@ def recently_played_tracks():
 @limiter.limit("2 per second")
 @login_required
 @token_checked
-def get_user_playlists():
+def user_playlists():
     sp = get_spotify_object()
     user_playlists = {}
 
@@ -188,6 +188,7 @@ def get_user_playlists():
             one_playlist_id = one_playlist['id']
             one_playlist_count = one_playlist['tracks']['total']
             one_playlist_is_public = one_playlist['public']
+
             #id, name, count, public
             user_playlists[one_playlist_id] = {'name': one_playlist_name,
                                                'count': one_playlist_count,
@@ -199,34 +200,34 @@ def get_user_playlists():
     return user_playlists
 
 
-@user_bp.route("/user/user_playlist_details/<playlist_id>")
+
+
+@user_bp.route("/user/set_user_playlist/<playlist_id>", methods = ['POST'])
 @limiter.limit("2 per second")
 @login_required
 @token_checked
-def get_user_playlist_details(playlist_id):
+def set_user_playlist (playlist_id):
+    #get necessary data from the json passed along with the post request
+    # FIXME: make sure none of they empty..
+    data_json = request.get_json()
+    name = data_json['name']
+    public = translate_bool_value(data_json['public'])
+    collaborative = translate_bool_value(data_json['collaborative'])
+    description = data_json['description']
+
+
+
     sp = get_spotify_object()
+    #FIXME: can not change private back to public, maybe the latency of scope update, check this later..
+    sp.playlist_change_details(playlist_id=playlist_id,
+                               name=name,
+                               public=public,
+                               collaborative=collaborative,
+                               description=description
+                               )
 
 
-    playlist_details_raw = sp.playlist(playlist_id)
+    #print ("input I got: id: ", playlist_id," ,name: " , name , " ,public: ",public, " , coll: ", collaborative, " ,desc: ", description)
 
-
-    """
-    playlist_details = {
-        'id': playlist_details_raw['id'],
-        'name': playlist_details_raw['name'],
-        'followers_count': playlist_details_raw['followers']['total'],
-        'count': playlist_details_raw['tracks']['total'],
-        'owner_name': playlist_details_raw['owner']['display_name'],
-        'owner_id': playlist_details_raw['owner']['id'],
-
-
-        }
-
-    #FIXME: not done
-    return playlist_details
-    """
-
-    #looks like it's better to return the whole json in this case
-    return playlist_details_raw
-
+    return "updated your playlist detials!!!"
 
