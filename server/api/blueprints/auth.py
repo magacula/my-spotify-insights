@@ -77,7 +77,6 @@ def redirect_page():
     except Exception as e:
         print(e)
 
-
     return redirect('http://localhost:3000/home')
     # return redirect(url_for('user.test', _external=True))
     # time.sleep(5)
