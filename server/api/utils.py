@@ -19,6 +19,8 @@ def get_spotify_oauth():
               "user-read-email, "
               "user-read-private,"
               "playlist-read-private,"
+              "playlist-modify-public,"
+              "playlist-modify-private,"
               "user-read-recently-played,"
               "user-top-read"
     )
@@ -39,7 +41,7 @@ def refresh_token_info(refresh_token):
     sp_oauth_local = get_spotify_oauth()
     session['TOKEN_INFO'] = sp_oauth_local.refresh_access_token(refresh_token)
     #print("----------refreashed... session now: ")
-    #print(session['TOKEN_INFO'])
+    # print(session['TOKEN_INFO'])
 
 
 def get_token_info():
@@ -53,3 +55,10 @@ def get_token_info():
         session['TOKEN_INFO'] = refresh_token_info(token_info['refresh_token'])
 
     return session['TOKEN_INFO']
+
+
+def translate_bool_value(bool_string):
+    if bool_string.lower() == "true":
+        return True
+
+    return False
