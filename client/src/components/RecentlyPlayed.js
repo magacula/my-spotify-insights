@@ -22,15 +22,6 @@ const RecentlyPlayed = () => {
         console.log(data);
         setRecentlyPlayed(data.recent_tracks);
       });
-
-    // TESTING ENDPOINT
-    // fetch("/user/recently_played_tracks", {
-    //   credentials: "include",
-    //   //fetch("http://127.0.0.1:5000/user/test",{
-    //   //mode: 'cors'
-    // })
-    //   .then((res) => res.text())
-    //   .then((data) => console.log(data));
   }, []);
 
   return (
