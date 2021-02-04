@@ -90,7 +90,7 @@ const AudioFeaturesChart = () => {
           },
           title: {
             display: true,
-            text: `Tracks Audio Features (Avg.)`,
+            text: `Top Tracks Audio Features (Avg.)`,
             fontSize: 20,
             fontColor: "#ffffff",
             padding: 30,
