@@ -78,8 +78,8 @@ def redirect_page():
         print(e)
 
 
-    #return redirect('http://localhost:3000/home')
-    return redirect(url_for('user.test', _external=True))
+    return redirect('http://localhost:3000/home')
+    #return redirect(url_for('user.test', _external=True))
     #return "still in redirect page.."
 
 
