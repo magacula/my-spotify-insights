@@ -24,6 +24,10 @@ h1 {
   margin-left:110px;
 }
 
+ul {
+  list-style: none;
+}
+
 `;
 
 export default GlobalStyles;
