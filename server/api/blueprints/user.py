@@ -152,23 +152,26 @@ def top_albums():
 def recently_played_tracks():
     sp = get_spotify_object()
 
-    recently_played_tracks = {}
+    recently_played_tracks = []
+    # recently_played_tracks = {}
 
     recentlY_played_raw = sp.current_user_recently_played()
 
     for one_record in recentlY_played_raw['items']:
         # time_stamp = one_record["played_at"]
         one_track = one_record['track']
-        one_track_name = one_track['name']
-        one_track_id = one_track['id']
-        # recently_played_tracks.append(one_track['name'])
-        recently_played_tracks[one_track_id] = one_track_name
 
-    # not final
-    # return {'recent_tracks': recently_played_tracks}
+        # one_track_name = one_track['name']
+        # one_track_id = one_track['id']
+
+        recently_played_tracks.append(one_track)
+
+        # recently_played_tracks[one_track_id] = one_track_name
 
     # FIXME: current json format: {track_id: track_name}
-    return recently_played_tracks
+    # recently_played_tracks
+
+    return {'recent_tracks': recently_played_tracks}
 
     # this is already set in the __init__.py in api folder, but don't delete, for reference later
     #response.headers.add("Access-Control-Allow-Origin", "*")

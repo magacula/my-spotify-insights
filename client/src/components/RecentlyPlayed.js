@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Track from "./Track";
 
 // TODO: Create separate track component later to allow a clickable for
 // more info
-const Track = styled.li``;
+// const Track = styled.li``;
 
 const RecentlyPlayed = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
+  const [trackId, setTrackId] = useState([]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:5000/user/recently_played_tracks", {
@@ -19,27 +21,22 @@ const RecentlyPlayed = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setRecentlyPlayed(data);
-      });
+        // console.log(data);
+        setRecentlyPlayed(data.recent_tracks);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   return (
     <React.Fragment>
       <h1>Your Recently Played Tracks</h1>
-      <ol>
-        {Object.values(recentlyPlayed).map((trackName, index) => {
+      <ul style={{ marginLeft: "150px" }}>
+        {recentlyPlayed.map((track, index) => {
           return (
-            <Track
-              key={index}
-              tracks={recentlyPlayed}
-              {...trackName}
-              style={{ marginLeft: "150px" }}>
-              {trackName}
-            </Track>
+            <Track key={index} track={track} style={{ marginLeft: "150px" }} />
           );
         })}
-      </ol>
+      </ul>
     </React.Fragment>
   );
 };
