@@ -50,7 +50,7 @@ def home():
 def top_tracks():
     sp = get_spotify_object()
 
-    top_tracks = {}
+    top_tracks = []
 
     # keep get top tracks until there is no more left
     offset_count = 0
@@ -61,19 +61,14 @@ def top_tracks():
         offset_count += limit_count
 
         for one_track in top_tracks_raw['items']:
-            one_track_name = one_track['name']
-            one_track_id = one_track['id']
-            # top_tracks.append(one_track_name)
-            top_tracks[one_track_id] = one_track_name
+            top_tracks.append(one_track)
 
         # if there are less tracks then limit_count, then no need to do another search
         if len(top_tracks_raw['items']) < limit_count:
             break
 
-    # return render_template("user/top_tracks.html", top_tracks=top_tracks)
 
-    # FIXME: current json format: {track_id: track_name}
-    return top_tracks
+    return {"top_tracks": top_tracks}
 
 
 @user_bp.route("/user/top_artists")
@@ -83,7 +78,7 @@ def top_tracks():
 def top_artists():
     sp = get_spotify_object()
 
-    top_artists = {}
+    top_artists = []
 
     # keep get top artists until there is no more left
     offset_count = 0
@@ -94,20 +89,13 @@ def top_artists():
         offset_count += limit_count
 
         for one_artist in top_artists_raw['items']:
-            one_artist_name = one_artist['name']
-            one_artist_id = one_artist['id']
-            # top_artists.append(one_artist_name)
-            top_artists[one_artist_id] = one_artist_name
+            top_artists.append(one_artist)
 
         # if there are less tracks then limit_count, then no need to do another search
         if len(top_artists_raw['items']) < limit_count:
             break
 
-    # FIXME: change this part when need to work with front end
-      # return render_template("user/top_artists.html", top_artists=top_artists)
-
-    # FIXME: current return json: {artist_id: artist_name}
-    return top_artists
+    return {"top_artists": top_artists}
 
 
 @user_bp.route("/user/top_albums")
@@ -117,8 +105,9 @@ def top_artists():
 def top_albums():
     sp = get_spotify_object()
 
-    top_albums = {}
+    top_albums = []
 
+    history = []
     # keep get top tracks until there is no more left
     offset_count = 0
     limit_count = 50
@@ -128,21 +117,20 @@ def top_albums():
         offset_count += limit_count
 
         for one_track in top_tracks_raw['items']:
-            cur_album_name = one_track['album']['name']
+            cur_album = one_track['album']
             cur_album_id = one_track['album']['id']
-            if cur_album_name not in top_albums:
-                # top_albums.append(cur_album_name)
-                top_albums[cur_album_id] = cur_album_name
+
+            if cur_album_id not in history:
+                top_albums.append(cur_album)
+                #make sure they don't repeat
+                history.append((cur_album_id))
 
         # if there are less tracks then limit_count, then no need to do another search
         if len(top_tracks_raw['items']) < limit_count:
             break
 
-    # FIXME: change this part when need to work with front end
-    # return render_template("user/top_albums.html", top_albums=top_albums)
 
-    # FIXME: current json format: {album_id: album_name}
-    return top_albums
+    return {"top_albums": top_albums}
 
 
 @user_bp.route("/user/recently_played_tracks")
@@ -189,7 +177,7 @@ def recently_played_tracks():
 @token_checked
 def playlists():
     sp = get_spotify_object()
-    user_playlists = {}
+    user_playlists = []
 
     offset_count = 0
     limit_count = 50
@@ -199,43 +187,38 @@ def playlists():
         offset_count += limit_count
 
         for one_playlist in user_playlists_raw['items']:
-            one_playlist_name = one_playlist['name']
-            one_playlist_id = one_playlist['id']
-            one_playlist_count = one_playlist['tracks']['total']
-            one_playlist_is_public = one_playlist['public']
-
-            #id, name, count, public
-            user_playlists[one_playlist_id] = {'name': one_playlist_name,
-                                               'count': one_playlist_count,
-                                               'public': one_playlist_is_public}
+            user_playlists.append(one_playlist)
 
         if len(user_playlists_raw['items']) < limit_count:
             break
 
-    return user_playlists
+    return {"playlists" : user_playlists}
 
 
-@user_bp.route("/user/set_user_playlist/<playlist_id>", methods=['POST'])
+#when you use method "GET" it will return the playlist detail, if "POST" you can set the values with the json
+@user_bp.route("/user/set_user_playlist/<playlist_id>", methods=['GET','POST'])
 @limiter.limit("2 per second")
 @login_required
 @token_checked
 def set_user_playlist(playlist_id):
-    # get necessary data from the json passed along with the post request
-    # FIXME: make sure none of they empty..
-    data_json = request.get_json()
-    name = data_json['name']
-    public = translate_bool_value(data_json['public'])
-    collaborative = translate_bool_value(data_json['collaborative'])
-    description = data_json['description']
-
     sp = get_spotify_object()
-    # FIXME: can not change private back to public, maybe the latency of scope update, check this later..
-    sp.playlist_change_details(playlist_id=playlist_id, name=name,
-                               public=public, collaborative=collaborative, description=description)
+    if request.method == "POST":
+        # get necessary data from the json passed along with the post request
+        # FIXME: make sure none of they empty..
+        data_json = request.get_json()
+        name = data_json['name']
+        public = translate_bool_value(data_json['public'])
+        collaborative = translate_bool_value(data_json['collaborative'])
+        description = data_json['description']
 
-    #print ("input I got: id: ", playlist_id," ,name: " , name , " ,public: ",public, " , coll: ", collaborative, " ,desc: ", description)
+        sp.playlist_change_details(playlist_id=playlist_id, name=name,
+                                   public=public, collaborative=collaborative, description=description)
 
-    return "updated your playlist detials!!!"
+
+        return "updated your playlist detials!!!"
+    else:
+        one_playlist_raw = sp.playlist(playlist_id)
+        return one_playlist_raw
 
 
 # Takes an array of a user's top tracks and returns an array of common seperated strings of track ID(s)
