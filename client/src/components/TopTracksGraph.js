@@ -4,15 +4,16 @@ import AudioFeatureChart from "./AudioFeaturesChart";
 import AudioFeatureDescriptions from "./AudioFeatureDescriptions";
 
 const ChartContainer = styled.div`
-  padding: 30rem;
+  padding: 30px;
   margin-bottom: 100px;
 `;
 
 const FeatureDescription = styled.div`
-  padding: 30rem;
+  padding: 30px;
   margin-bottom: 100px;
   font-size: 1.3em;
-  text-align: left;
+  margin-left: 110px;
+  /* text-align: left; */
 `;
 
 const TopTracksGraph = () => {
@@ -27,10 +28,8 @@ const TopTracksGraph = () => {
       <FeatureDescription>
         <AudioFeatureDescriptions />
       </FeatureDescription>
-
     </React.Fragment>
   );
 };
-
 
 export default TopTracksGraph;
