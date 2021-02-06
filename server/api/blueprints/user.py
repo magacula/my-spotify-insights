@@ -67,7 +67,7 @@ def top_tracks():
         # if there are less tracks then limit_count, then no need to do another search
         if len(top_tracks_raw['items']) < limit_count:
             break
-
+            
     return {"top_tracks": top_tracks}
 
 
@@ -128,8 +128,7 @@ def top_albums():
         # if there are less tracks then limit_count, then no need to do another search
         if len(top_tracks_raw['items'])  < limit_count:
             break
-
-
+            
     return {"top_albums": top_albums}
 
 # Returns dictionary of a user's recently played tracks
@@ -212,8 +211,8 @@ def set_user_playlist(playlist_id):
         sp.playlist_change_details(playlist_id=playlist_id, name=name,
                                    public=public, collaborative=collaborative, description=description)
 
-
         return "updated your playlist details!!!"
+
     else:
         one_playlist_raw = sp.playlist(playlist_id)
         return one_playlist_raw
