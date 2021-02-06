@@ -21,7 +21,7 @@ const RecentlyPlayed = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        console.log(data.recent_tracks);
         setRecentlyPlayed(data.recent_tracks);
       })
       .catch((error) => console.log(error));
