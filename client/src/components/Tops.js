@@ -19,8 +19,8 @@ const Tops = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setTopTracks(data);
+        console.log(data.top_tracks);
+        setTopTracks(data.top_tracks);
       });
 
     fetch("http://127.0.0.1:5000/user/top_albums", {
@@ -31,8 +31,8 @@ const Tops = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setTopAlbums(data);
+        console.log(data.top_artists);
+        setTopAlbums(data.top_artists);
       });
 
     fetch("http://127.0.0.1:5000/user/top_artists", {
@@ -43,8 +43,8 @@ const Tops = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setTopArtists(data);
+        console.log(data.top_albums);
+        setTopArtists(data.top_albums);
       });
   }, []);
 
@@ -54,7 +54,7 @@ const Tops = () => {
       <Tabs>
         <div label="Tracks">
           <ol>
-            {Object.values(topTracks).map((trackName, index) => {
+            {topTracks.map((trackName, index) => {
               return (
                 <Tracks
                   key={index}
@@ -69,7 +69,7 @@ const Tops = () => {
         </div>
         <div label="Artists">
           <ol>
-            {Object.values(topArtists).map((artistName, index) => {
+            {topArtists.map((artistName, index) => {
               return (
                 <Tracks
                   key={index}
@@ -84,7 +84,7 @@ const Tops = () => {
         </div>
         <div label="Albums">
           <ol>
-            {Object.values(topAlbums).map((albumName, index) => {
+            {topAlbums.map((albumName, index) => {
               return (
                 <Tracks
                   key={index}

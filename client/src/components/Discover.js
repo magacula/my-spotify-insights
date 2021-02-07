@@ -1,10 +1,12 @@
 import React from "react";
+import RecommendedTracks from "./RecommendedTracks";
 
 const Discover = () => {
   return (
-    <div>
+    <React.Fragment>
       <h1>Discover Page</h1>
-    </div>
+      <RecommendedTracks />
+    </React.Fragment>
   );
 };
 

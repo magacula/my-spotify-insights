@@ -10,6 +10,11 @@ const { colors } = themes;
 
 const TrackContainer = styled(Link)`
   color: ${colors.white};
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 `;
 
 const TrackItem = styled.li`
