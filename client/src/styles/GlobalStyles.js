@@ -19,7 +19,7 @@ a {
   text-decoration: none;
 }
 
-h1 {
+h1, h2 {
   margin-top: 1rem;
   margin-left:110px;
 }
