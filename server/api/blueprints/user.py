@@ -167,7 +167,7 @@ def recently_played_tracks():
 # Returns dictionary of user's playlists (50 max)
 
 
-@user_bp.route("/user/playlists", methods=['GET','POST'])
+@user_bp.route("/user/playlists", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 @login_required
 @token_checked
@@ -175,7 +175,7 @@ def playlists():
 
     sp = get_spotify_object()
 
-    #if request is get, return all the playlists current user has
+    # if request is get, return all the playlists current user has
     if request.method == 'GET':
         user_playlists = []
 
@@ -192,10 +192,9 @@ def playlists():
             if len(user_playlists_raw['items']) < limit_count:
                 break
 
-        return {"playlists" : user_playlists}
+        return {"playlists": user_playlists}
 
-
-    #-----else if request is post, create a new playlist and store the tracks
+    # -----else if request is post, create a new playlist and store the tracks
     data_json = request.get_json()
     user_id = session['USER_ID']
     playlist_name = data_json['name']
@@ -220,7 +219,7 @@ def recommended_tracks():
     for one_track in top_tracks_raw['items']:
         tracks.append(one_track['id'])
 
-    #generate recommendation based on 5 top tracks (5 is max)
+    # generate recommendation based on 5 top tracks (5 is max)
     recommended_tracks_raw = sp.recommendations(seed_tracks=tracks)
 
     result = [one_track for one_track in recommended_tracks_raw['tracks']]
@@ -252,10 +251,6 @@ def set_user_playlist(playlist_id):
     else:
         one_playlist_raw = sp.playlist(playlist_id)
         return one_playlist_raw
-
-
-
-
 
 
 # Takes an array of a user's top tracks and returns an array of common seperated strings of track ID(s)
