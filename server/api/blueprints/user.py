@@ -171,28 +171,64 @@ def recently_played_tracks():
     # return render_template("user/recently_played_tracks.html", recently_played_tracks=recently_played_tracks)
 
 
-@user_bp.route("/user/playlists")
+@user_bp.route("/user/playlists", methods=['GET','POST'])
 @limiter.limit("2 per second")
 @login_required
 @token_checked
 def playlists():
     sp = get_spotify_object()
-    user_playlists = []
 
-    offset_count = 0
-    limit_count = 50
-    while(True):
-        user_playlists_raw = sp.current_user_playlists(
-            limit=limit_count, offset=offset_count)
-        offset_count += limit_count
+    #if request is get, return all the playlists current user has
+    if request.method == 'GET':
+        user_playlists = []
 
-        for one_playlist in user_playlists_raw['items']:
-            user_playlists.append(one_playlist)
+        offset_count = 0
+        limit_count = 50
+        while(True):
+            user_playlists_raw = sp.current_user_playlists(
+                limit=limit_count, offset=offset_count)
+            offset_count += limit_count
 
-        if len(user_playlists_raw['items']) < limit_count:
-            break
+            for one_playlist in user_playlists_raw['items']:
+                user_playlists.append(one_playlist)
 
-    return {"playlists" : user_playlists}
+            if len(user_playlists_raw['items']) < limit_count:
+                break
+
+        return {"playlists" : user_playlists}
+
+
+    #-----else if request is post, create a new playlist and store the tracks
+    data_json = request.get_json()
+    user_id = session['USER_ID']
+    playlist_name = data_json['name']
+    public = translate_bool_value(data_json['public'])
+
+    sp.user_playlist_create(user=user_id, name=playlist_name, public=public)
+
+    return
+
+
+@user_bp.route("/user/recommended_tracks")
+@limiter.limit("2 per second")
+@login_required
+@token_checked
+def recommended_tracks():
+    sp = get_spotify_object()
+
+    tracks = []
+
+    top_tracks_raw = sp.current_user_top_tracks(limit=5)
+
+    for one_track in top_tracks_raw['items']:
+        tracks.append(one_track['id'])
+
+    #generate recommendation based on 5 top tracks (5 is max)
+    recommended_tracks_raw = sp.recommendations(seed_tracks=tracks)
+
+    result = [one_track for one_track in recommended_tracks_raw['tracks']]
+
+    return {"recommended_tracks": result}
 
 
 #when you use method "GET" it will return the playlist detail, if "POST" you can set the values with the json
@@ -219,6 +255,10 @@ def set_user_playlist(playlist_id):
     else:
         one_playlist_raw = sp.playlist(playlist_id)
         return one_playlist_raw
+
+
+
+
 
 
 # Takes an array of a user's top tracks and returns an array of common seperated strings of track ID(s)
