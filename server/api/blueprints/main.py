@@ -57,6 +57,11 @@ def track_preview_url(track_id):
     # FIXME: should search in database, if none call api
     track_details = sp.track(track_id)
     track_preview_link = track_details['preview_url']
+
+    #some tracks do not have preview url
+    if not track_preview_link:
+        return "false"
+
     return track_preview_link
 
 
