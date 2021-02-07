@@ -8,7 +8,6 @@ import Track from "./Track";
 
 const RecentlyPlayed = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
-  const [trackId, setTrackId] = useState([]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:5000/user/recently_played_tracks", {
