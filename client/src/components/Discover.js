@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import RecommendedTracks from "./RecommendedTracks";
 
 const Discover = () => {
