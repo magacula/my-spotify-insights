@@ -15,6 +15,7 @@ const ButtonContainer = styled.button`
   color: ${colors.white};
   font-weight: bold;
   margin-left: 110px;
+  cursor: pointer;
 
   &:hover {
     transition: 0.35s;
@@ -24,7 +25,6 @@ const ButtonContainer = styled.button`
 
 const RecommendedTracks = () => {
   const [recommededTracks, setRecommendedTracks] = useState([]);
-  const [buttonText, setButtonText] = useState("Get Reccomendations");
 
   const fetchData = async () => {
     try {

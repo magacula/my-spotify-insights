@@ -58,7 +58,7 @@ def top_tracks():
     limit_count = 50
     while(True):
         top_tracks_raw = sp.current_user_top_tracks(
-            limit=limit_count, after=offset_count)
+            limit=limit_count, offset=offset_count)
         offset_count += limit_count
 
         for one_track in top_tracks_raw['items']:

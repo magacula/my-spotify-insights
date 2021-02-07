@@ -23,7 +23,7 @@ const Tops = () => {
         setTopTracks(data.top_tracks);
       });
 
-    fetch("http://127.0.0.1:5000/user/top_albums", {
+    fetch("http://127.0.0.1:5000/user/top_artists", {
       credentials: "include",
       headers: {
         Accept: "application/json",
@@ -35,7 +35,7 @@ const Tops = () => {
         setTopAlbums(data.top_artists);
       });
 
-    fetch("http://127.0.0.1:5000/user/top_artists", {
+    fetch("http://127.0.0.1:5000/user/top_albums", {
       credentials: "include",
       headers: {
         Accept: "application/json",
@@ -54,14 +54,10 @@ const Tops = () => {
       <Tabs>
         <div label="Tracks">
           <ol>
-            {topTracks.map((trackName, index) => {
+            {topTracks.map((track, index) => {
               return (
-                <Tracks
-                  key={index}
-                  tracks={trackName}
-                  {...trackName}
-                  style={{ marginLeft: "25px" }}>
-                  {trackName}
+                <Tracks key={index} style={{ marginLeft: "25px" }}>
+                  {track.name}
                 </Tracks>
               );
             })}
@@ -69,14 +65,10 @@ const Tops = () => {
         </div>
         <div label="Artists">
           <ol>
-            {topArtists.map((artistName, index) => {
+            {topArtists.map((artist, index) => {
               return (
-                <Tracks
-                  key={index}
-                  tracks={artistName}
-                  {...artistName}
-                  style={{ marginLeft: "25px" }}>
-                  {artistName}
+                <Tracks key={index} style={{ marginLeft: "25px" }}>
+                  {artist.name}
                 </Tracks>
               );
             })}
@@ -84,14 +76,10 @@ const Tops = () => {
         </div>
         <div label="Albums">
           <ol>
-            {topAlbums.map((albumName, index) => {
+            {topAlbums.map((album, index) => {
               return (
-                <Tracks
-                  key={index}
-                  tracks={albumName}
-                  {...albumName}
-                  style={{ marginLeft: "25px" }}>
-                  {albumName}
+                <Tracks key={index} style={{ marginLeft: "25px" }}>
+                  {album.name}
                 </Tracks>
               );
             })}
