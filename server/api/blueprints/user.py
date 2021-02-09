@@ -1,7 +1,7 @@
 from flask import Blueprint, session, render_template, jsonify, make_response, request
 from server.api.decorators import login_required, token_checked
 from server.api.extensions import limiter
-from server.api.utils import get_spotify_object, translate_bool_value
+from server.api.utils import get_spotify_object
 import sys
 
 # routes for specific user (information)
@@ -198,11 +198,9 @@ def playlists():
     data_json = request.get_json()
     user_id = session['USER_ID']
     playlist_name = data_json['name']
-    public = translate_bool_value(data_json['public'])
+    public = data_json['public']
 
-    sp.user_playlist_create(user=user_id, name=playlist_name, public=public)
-
-    return
+    return sp.user_playlist_create(user=user_id, name=playlist_name, public=public)
 
 
 @user_bp.route("/user/recommended_tracks")
