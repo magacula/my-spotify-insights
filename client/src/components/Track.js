@@ -23,10 +23,13 @@ const TrackItem = styled.li`
 `;
 
 const TrackImage = styled.img`
-  width: 20%;
+  width: 35%;
+  margin-left: 4rem;
 `;
 
-const TrackInfo = styled.div``;
+const TrackInfo = styled.div`
+  width: 80%;
+`;
 
 const TrackName = styled.h4``;
 
@@ -40,11 +43,9 @@ const Track = ({ track }) => {
       <TrackContainer to={`/track/${track.id}`}>
         <TrackImage src={track.album.images[0].url} />
         <TrackInfo>
-          <div>
-            <TrackName>{track.name}</TrackName>
-            <ArtistName>{track.artists[0].name}</ArtistName>
-            <AlbumName>{track.album.name}</AlbumName>
-          </div>
+          <TrackName>{track.name}</TrackName>
+          <ArtistName>{track.artists[0].name}</ArtistName>
+          <AlbumName>{track.album.name}</AlbumName>
         </TrackInfo>
       </TrackContainer>
     </TrackItem>
