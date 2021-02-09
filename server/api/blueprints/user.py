@@ -194,13 +194,21 @@ def playlists():
 
         return {"playlists": user_playlists}
 
-    # -----else if request is post, create a new playlist and store the tracks
+    # -----else if request is post, create a new playlist
     data_json = request.get_json()
     user_id = session['USER_ID']
     playlist_name = data_json['name']
     public = data_json['public']
+    #list of tracks' ids
+    tracks = data_json['tracks']
 
-    return sp.user_playlist_create(user=user_id, name=playlist_name, public=public)
+    playlist_raw = sp.user_playlist_create(user=user_id, name=playlist_name, public=public)
+    playlist_id = playlist_raw['id']
+
+    #store the tracks
+    sp.playlist_add_items(playlist_id=playlist_id, items=tracks)
+
+    return ('', 204)
 
 
 @user_bp.route("/user/recommended_tracks")
@@ -221,8 +229,9 @@ def recommended_tracks():
     recommended_tracks_raw = sp.recommendations(seed_tracks=tracks)
 
     result = [one_track for one_track in recommended_tracks_raw['tracks']]
+    track_ids = [one_track['id'] for one_track in recommended_tracks_raw['tracks']]
 
-    return {"recommended_tracks": result}
+    return {"recommended_tracks": result, "ids": track_ids}
 
 
 # when you use method "GET" it will return the playlist detail, if "POST" you can set the values with the json
