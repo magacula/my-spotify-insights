@@ -32,7 +32,7 @@ const Tops = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data.top_artists);
-        setTopAlbums(data.top_artists);
+        setTopArtists(data.top_artists);
       });
 
     fetch("http://127.0.0.1:5000/user/top_albums", {
@@ -44,7 +44,7 @@ const Tops = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data.top_albums);
-        setTopArtists(data.top_albums);
+        setTopAlbums(data.top_albums);
       });
   }, []);
 
