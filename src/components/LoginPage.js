@@ -27,6 +27,7 @@ const Heading = styled.h1`
   font-size: 4rem;
   font-family: "Montserrat", sans-serif;
   letter-spacing: 1.8px;
+  margin-left: 0;
 `;
 
 const SubHeading = styled.p`
