@@ -24,6 +24,12 @@ h1, h2 {
   margin-left:110px;
 }
 
+h3 {
+  margin-top: 0.5rem;
+  margin-left:110px;
+}
+
+
 ul {
   list-style: none;
 }
