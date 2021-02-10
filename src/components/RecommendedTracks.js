@@ -44,16 +44,13 @@ const RecommendedTracks = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        "http://127.0.0.1:5000/user/recommended_tracks",
-        {
-          credentials: "include",
-          //referrerPolicy: 'no-referrer-when-downgrade
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      );
+      const response = await fetch("/user/recommended_tracks", {
+        credentials: "include",
+        //referrerPolicy: 'no-referrer-when-downgrade
+        headers: {
+          Accept: "application/json",
+        },
+      });
       const data = await response.json();
       console.log(data.recommended_tracks);
       setRecommendedTracks(data.recommended_tracks);
@@ -82,22 +79,19 @@ const RecommendedTracks = () => {
           <Button
             onClick={async () => {
               try {
-                const response = await fetch(
-                  `http://127.0.0.1:5000/user/playlists`,
-                  {
-                    method: "POST",
-                    credentials: "include",
-                    //referrerPolicy: 'no-referrer-when-downgrade
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      name: "Recommended Songs Based on Top Tracks",
-                      public: "True",
-                      tracks: trackURIS,
-                    }),
-                  }
-                );
+                const response = await fetch(`/user/playlists`, {
+                  method: "POST",
+                  credentials: "include",
+                  //referrerPolicy: 'no-referrer-when-downgrade
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    name: "Recommended Songs Based on Top Tracks",
+                    public: "True",
+                    tracks: trackURIS,
+                  }),
+                });
                 console.log(response);
 
                 if (response.ok) {
