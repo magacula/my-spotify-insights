@@ -1,5 +1,5 @@
 from flask import Flask, session
-from flask_cors import CORS
+#from flask_cors import CORS
 #from authlib.integrations.flask_client import OAuth
 # for oauth
 
@@ -15,19 +15,21 @@ import os
 
 def create_app(config_name=None):
 
-    template_dir = os.path.abspath('./api/templates')
 
-    app = Flask('api', template_folder=template_dir)
+    #app = Flask('api', template_folder=template_dir)
+
+    #point static folder to the build folder
+    app = Flask('api', static_folder='build', static_url_path='/')
 
     app.config['CORS_SUPPORTS_CREDENTIALS'] = True
     app.config['CORS_ORIGINS'] = 'http://localhost:3000'
     # CORS(app)
-    CORS(app, supports_credentials=True)
+    #CORS(app, supports_credentials=True)
 
     # FIXME: uncomment this when doing deployment
     # app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_HTTPONLY'] = True
-    app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+    #app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 
     #app = Flask('api')
 
@@ -61,6 +63,10 @@ def register_error_handler(app):
     def permission_denied(e):
         return "You don't have the permission.. 403"
 
+    #when path not in backend, check frontend
+    @app.errorhandler(404)
+    def route_to_frontend(e):
+        return app.send_static_file('index.html')
 
 def register_blueprints(app):
     app.register_blueprint(main_bp)
@@ -71,3 +77,9 @@ def register_blueprints(app):
 
 def register_extensions(app):
     limiter.init_app(app)
+
+if __name__ == "__main__":
+    app = create_app()
+    #PORT is given by heroku, not necessary 5000
+    port = int(os.getenv('PORT'), 5000)
+    app.run(host='0.0.0.0', port=port)

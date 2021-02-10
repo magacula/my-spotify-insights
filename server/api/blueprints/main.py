@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, current_app
 from server.api.extensions import limiter
 from server.api.decorators import login_required, token_checked
 from server.api.utils import get_spotify_oauth, get_token_info, get_spotify_object, refresh_token_info
@@ -8,12 +8,18 @@ from server.api.utils import get_spotify_oauth, get_token_info, get_spotify_obje
 main_bp = Blueprint('main', __name__)
 
 
-# FIXME: may not need this later
+#first route being called in heroku
 @main_bp.route("/")
 @limiter.limit("5 per second")
 def index():
     # return "hello, this is a test page..."
-    return render_template('main/site_landing_page.html')
+    #return render_template('main/site_landing_page.html')
+
+    #return the index.html file in the build folder (front end)
+    return current_app.send_static_file('index.html')
+
+
+
 
 # FIXME: delete later
 
