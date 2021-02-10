@@ -11,7 +11,7 @@ const Tops = () => {
   const [topArtists, setTopArtists] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/user/top_tracks", {
+    fetch("/user/top_tracks", {
       credentials: "include",
       headers: {
         Accept: "application/json",
@@ -23,7 +23,7 @@ const Tops = () => {
         setTopTracks(data.top_tracks);
       });
 
-    fetch("http://127.0.0.1:5000/user/top_artists", {
+    fetch("/user/top_artists", {
       credentials: "include",
       headers: {
         Accept: "application/json",
@@ -35,7 +35,7 @@ const Tops = () => {
         setTopArtists(data.top_artists);
       });
 
-    fetch("http://127.0.0.1:5000/user/top_albums", {
+    fetch("/user/top_albums", {
       credentials: "include",
       headers: {
         Accept: "application/json",

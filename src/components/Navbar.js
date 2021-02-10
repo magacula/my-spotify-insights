@@ -8,7 +8,7 @@ import { AiFillFire } from "react-icons/ai";
 import { IoIosFilm } from "react-icons/io";
 import { FaCrown } from "react-icons/fa";
 import { HiClock } from "react-icons/hi";
-import { BsGraphUp } from "react-icons/bs"
+import { BsGraphUp } from "react-icons/bs";
 import { SiAudioboom } from "react-icons/si";
 import "../styles/App.css";
 
@@ -36,13 +36,15 @@ const NavMenuItem = styled.li`
   &:focus {
     color: ${colors.pink};
     background-color: ${colors.pink};
+    cursor: pointer;
   }
 `;
 
 const Home = styled(HiHome)`
   color: white;
   font-size: 3rem;
-  margin: 1rem 0;
+  margin: 1rem 0rem;
+  width: 100%;
 `;
 
 const Star = styled(FiStar)`
@@ -50,6 +52,7 @@ const Star = styled(FiStar)`
   color: white;
   font-size: 3rem;
   margin: 1rem 0;
+  width: 100%;
 `;
 
 const Fire = styled(AiFillFire)`
@@ -57,6 +60,7 @@ const Fire = styled(AiFillFire)`
   color: white;
   font-size: 3rem;
   margin: 1rem 0;
+  width: 100%;
 `;
 
 const Film = styled(IoIosFilm)`
@@ -64,13 +68,15 @@ const Film = styled(IoIosFilm)`
   color: white;
   font-size: 3rem;
   margin: 1rem 0;
+  width: 100%;
 `;
 
 const Crown = styled(FaCrown)`
   fill: white;
   color: white;
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin: 1rem 0;
+  width: 100%;
 `;
 
 const Clock = styled(HiClock)`
@@ -78,6 +84,7 @@ const Clock = styled(HiClock)`
   color: white;
   font-size: 3rem;
   margin: 1rem 0;
+  width: 100%;
 `;
 
 const GraphUp = styled(BsGraphUp)`
@@ -85,6 +92,7 @@ const GraphUp = styled(BsGraphUp)`
   color: white;
   font-size: 3rem;
   margin: 1rem 0;
+  width: 100%;
 `;
 
 const AudioFeatures = styled(SiAudioboom)`
@@ -92,6 +100,7 @@ const AudioFeatures = styled(SiAudioboom)`
   color: white;
   font-size: 3rem;
   margin: 1rem 0;
+  width: 100%;
 `;
 
 const Link = styled(NavLink)`
@@ -102,7 +111,6 @@ const Navbar = () => {
   return (
     <NavContainer>
       <NavMenu>
-
         <NavMenuItem>
           <Link exact to="/home" title="Home" activeClassName="active-navlink">
             <Home />
@@ -156,9 +164,7 @@ const Navbar = () => {
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link exact
-                to="/RecentlyPlayed"
-                activeClassName="active-navlink">
+          <Link exact to="/RecentlyPlayed" activeClassName="active-navlink">
             <Clock />
           </Link>
         </NavMenuItem>
@@ -168,7 +174,6 @@ const Navbar = () => {
             <AudioFeatures />
           </Link>
         </NavMenuItem>
-
       </NavMenu>
     </NavContainer>
   );

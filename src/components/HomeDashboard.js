@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import themes from "../styles/themes";
 const { colors } = themes;
 
-const LOGOUT_USER = "http://127.0.0.1:5000/auth/logout";
+const LOGOUT_USER = "/auth/logout";
 
 const Button = styled.a`
   display: inline-block;

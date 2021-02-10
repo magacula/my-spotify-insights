@@ -4,7 +4,7 @@ import themes from "../styles/themes";
 const { colors } = themes;
 
 // URI to authorize user
-const AUTH_URI = "http://127.0.0.1:5000/auth/login";
+const AUTH_URI = "/auth/login";
 
 const Login = styled.main`
   width: 100%;

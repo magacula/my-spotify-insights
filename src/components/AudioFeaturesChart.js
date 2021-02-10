@@ -16,7 +16,7 @@ const AudioFeaturesChart = () => {
     let liveness = [];
     let valence = [];
 
-    fetch("http://127.0.0.1:5000/user/top_audio_features", {
+    fetch("/user/top_audio_features", {
       credentials: "include",
       headers: {
         Accept: "application/json",
