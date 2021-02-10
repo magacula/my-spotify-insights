@@ -131,9 +131,8 @@ def top_albums():
 
     return {"top_albums": top_albums}
 
+
 # Returns dictionary of a user's recently played tracks
-
-
 @user_bp.route("/user/recently_played_tracks")
 @limiter.limit("5 per second")
 @login_required
@@ -164,9 +163,8 @@ def recently_played_tracks():
 
 # return render_template("user/recently_played_tracks.html", recently_played_tracks=recently_played_tracks)
 
+
 # Returns dictionary of user's playlists (50 max)
-
-
 @user_bp.route("/user/playlists", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 @login_required
@@ -195,20 +193,21 @@ def playlists():
         return {"playlists": user_playlists}
 
     # -----else if request is post, create a new playlist
-    data_json = request.get_json()
-    user_id = session['USER_ID']
-    playlist_name = data_json['name']
-    public = data_json['public']
-    #list of tracks' ids
-    tracks = data_json['tracks']
+    if request.method == "POST":
+        data_json = request.get_json()
+        user_id = session['USER_ID']
+        playlist_name = data_json['name']
+        public = data_json['public']
+        # list of tracks' ids
+        tracks = data_json['tracks']
 
-    playlist_raw = sp.user_playlist_create(user=user_id, name=playlist_name, public=public)
-    playlist_id = playlist_raw['id']
+        playlist_raw = sp.user_playlist_create(
+            user=user_id, name=playlist_name, public=public)
+        playlist_id = playlist_raw['id']
 
-    #store the tracks
-    sp.playlist_add_items(playlist_id=playlist_id, items=tracks)
-
-    return ('', 204)
+        # store the tracks
+        return sp.user_playlist_add_tracks(
+            user=user_id, playlist_id=playlist_id, tracks=tracks)
 
 
 @user_bp.route("/user/recommended_tracks")
@@ -229,9 +228,11 @@ def recommended_tracks():
     recommended_tracks_raw = sp.recommendations(seed_tracks=tracks)
 
     result = [one_track for one_track in recommended_tracks_raw['tracks']]
-    track_ids = [one_track['id'] for one_track in recommended_tracks_raw['tracks']]
 
-    return {"recommended_tracks": result, "ids": track_ids}
+    track_uris = [one_track['uri']
+                  for one_track in recommended_tracks_raw['tracks']]
+
+    return {"recommended_tracks": result, "uris": track_uris}
 
 
 # when you use method "GET" it will return the playlist detail, if "POST" you can set the values with the json
@@ -246,8 +247,8 @@ def set_user_playlist(playlist_id):
         # FIXME: make sure none of they empty..
         data_json = request.get_json()
         name = data_json['name']
-        public = translate_bool_value(data_json['public'])
-        collaborative = translate_bool_value(data_json['collaborative'])
+        public = data_json['public']
+        collaborative = data_json['collaborative']
         description = data_json['description']
 
         sp.playlist_change_details(playlist_id=playlist_id, name=name,
@@ -289,6 +290,5 @@ def top_tracks_audio_features():
     ids = get_track_ids()
 
     audio_features = sp.audio_features(ids)
-    # print(audio_features, sys.stdout)
 
     return {'top_tracks_audio_features': audio_features}

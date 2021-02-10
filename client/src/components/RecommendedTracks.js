@@ -39,6 +39,7 @@ const Button = styled.button`
 
 const RecommendedTracks = () => {
   const [recommededTracks, setRecommendedTracks] = useState([]);
+  const [trackURIS, setTrackURIS] = useState([]);
   const [showButton, setShowButton] = useState(false);
 
   const fetchData = async () => {
@@ -56,6 +57,8 @@ const RecommendedTracks = () => {
       const data = await response.json();
       console.log(data.recommended_tracks);
       setRecommendedTracks(data.recommended_tracks);
+      console.log(data.uris);
+      setTrackURIS(data.uris);
     } catch (error) {
       console.log(error);
     }
@@ -69,8 +72,9 @@ const RecommendedTracks = () => {
   return (
     <React.Fragment>
       <h2>
-        Recommended Tracks Based on <Link to="/Tops">Your Top Tracks:</Link>
+        Get Recommended Tracks Based on <Link to="/Tops">Your Top Tracks:</Link>
       </h2>
+      <h3>Then save tracks to a playlist on Spotify!</h3>
 
       <ButtonContainer>
         <Button onClick={handleClick}>Get Recommendations</Button>
@@ -84,16 +88,17 @@ const RecommendedTracks = () => {
                     method: "POST",
                     credentials: "include",
                     //referrerPolicy: 'no-referrer-when-downgrade
-                    mode: "cors",
                     headers: {
                       "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                      name: "Playlist Based on Top Tracks",
+                      name: "Recommended Songs Based on Top Tracks",
                       public: "True",
+                      tracks: trackURIS,
                     }),
                   }
                 );
+                console.log(response);
 
                 if (response.ok) {
                   console.log("response worked!");
@@ -102,7 +107,7 @@ const RecommendedTracks = () => {
                 console.log(error);
               }
             }}>
-            Save Playlist to Spotify
+            Save To Spotify
           </Button>
         )}
       </ButtonContainer>
