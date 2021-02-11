@@ -4,25 +4,20 @@ from server.api.extensions import limiter
 from server.api.utils import get_spotify_object
 import sys
 
-# routes for specific user (information)
+# this file contains routes for specific user (information)
 
 user_bp = Blueprint('user', __name__)
 
 
 @user_bp.route("/user/test")
-@login_required
-@token_checked
+#@login_required
+#@token_checked
 def test():
-    # print("---------in test, session: ", session)
     response = make_response(
         jsonify(
             {'recent_tracks': "temp"}
         )
     )
-    # this is already set in the __init__.py in api folder, but don't delete, for reference later
-    # response.set_cookie(key="spotifyTempCookie", value="temp value", samesite='None', secure='true')
-    # response.set_cookie(key="spotifyTempCookie", value="temp value", httponly=True ,samesite='None')
-    # response.set_cookie(key="spotifyTempCookie", value="temp value", samesite='Lax')
     return response
 
 
@@ -35,11 +30,8 @@ def home():
     # get current user
     current_user = sp.current_user()
 
-    #  print("------home page..", session)
 
-    # some basic user information
 
-    # return "this is user page..."
     return render_template("user/dashboard_interface.html", user_info={})
 
 
@@ -146,25 +138,12 @@ def recently_played_tracks():
 
     for one_record in recentlY_played_raw['items']:
         one_track = one_record['track']
-        # one_track_name = one_track['name']
-        # one_track_id = one_track['id']
         recently_played_tracks.append(one_track)
 
-        # recently_played_tracks[one_track_id] = one_track_name
 
     return {"recent_tracks": recently_played_tracks}
 
-# this is already set in the __init__.py in api folder, but don't delete, for reference later
-# response.headers.add("Access-Control-Allow-Origin", "*")
-# response.headers.add("samesite", None)
 
-# response.set_cookie('same-site-cookie', 'foo', samesite='Lax')
-# response.set_cookie('cross-site-cookie', 'bar', samesite='None', secure=True)
-
-# return render_template("user/recently_played_tracks.html", recently_played_tracks=recently_played_tracks)
-
-
-# Returns dictionary of user's playlists (50 max)
 @user_bp.route("/user/playlists", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 @login_required
@@ -292,3 +271,28 @@ def top_tracks_audio_features():
     audio_features = sp.audio_features(ids)
 
     return {'top_tracks_audio_features': audio_features}
+
+
+@user_bp.route("/user/my_profile")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def my_profile():
+
+    sp = get_spotify_object()
+
+    user_profile_raw = sp.current_user()
+
+    return user_profile_raw
+
+@user_bp.route("/user/profile/<user_id>")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def profile(user_id):
+
+    sp = get_spotify_object()
+
+    user_profile_raw = sp.user(user_id)
+
+    return user_profile_raw

@@ -3,7 +3,7 @@ from server.api.extensions import limiter
 from server.api.decorators import login_required, token_checked
 from server.api.utils import get_spotify_oauth, get_token_info, get_spotify_object, refresh_token_info
 
-# -------routes for public (not specific to a user)---------------
+# -------this file contains routes for public (not specific to a user)---------------
 
 main_bp = Blueprint('main', __name__)
 
@@ -12,8 +12,6 @@ main_bp = Blueprint('main', __name__)
 @main_bp.route("/")
 @limiter.limit("5 per second")
 def index():
-    # return "hello, this is a test page..."
-    #return render_template('main/site_landing_page.html')
 
     #return the index.html file in the build folder (front end)
     return current_app.send_static_file('index.html')
@@ -22,8 +20,6 @@ def index():
 
 
 # FIXME: delete later
-
-
 @main_bp.route("/testlimit")
 @limiter.limit("1 per second")
 def test_limit():
@@ -92,18 +88,4 @@ def playlist_details(playlist_id):
 
     playlist_details_raw = sp.playlist(playlist_id)
 
-    """
-    playlist_details = {
-        'id': playlist_details_raw['id'],
-        'name': playlist_details_raw['name'],
-        'followers_count': playlist_details_raw['followers']['total'],
-        'count': playlist_details_raw['tracks']['total'],
-        'owner_name': playlist_details_raw['owner']['display_name'],
-        'owner_id': playlist_details_raw['owner']['id'],
-        }
-    #FIXME: not done
-    return playlist_details
-    """
-
-    # looks like it's better to return the whole json in this case
     return playlist_details_raw
