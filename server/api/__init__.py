@@ -64,6 +64,7 @@ def register_error_handler(app):
         return "You don't have the permission.. 403"
 
     #when path not in backend, check frontend
+    #FIXME: frontend need to take care of 404 error if it does not have the page either
     @app.errorhandler(404)
     def route_to_frontend(e):
         return app.send_static_file('index.html')

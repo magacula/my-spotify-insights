@@ -10,8 +10,8 @@ user_bp = Blueprint('user', __name__)
 
 
 @user_bp.route("/user/test")
-@login_required
-@token_checked
+#@login_required
+#@token_checked
 def test():
     # print("---------in test, session: ", session)
     response = make_response(
@@ -292,3 +292,28 @@ def top_tracks_audio_features():
     audio_features = sp.audio_features(ids)
 
     return {'top_tracks_audio_features': audio_features}
+
+
+@user_bp.route("/user/my_profile")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def my_profile():
+
+    sp = get_spotify_object()
+
+    user_profile_raw = sp.current_user()
+
+    return user_profile_raw
+
+@user_bp.route("/user/profile/<user_id>")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def profile(user_id):
+
+    sp = get_spotify_object()
+
+    user_profile_raw = sp.user(user_id)
+
+    return user_profile_raw
