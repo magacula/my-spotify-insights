@@ -1,7 +1,4 @@
 from flask import Flask, session
-#from flask_cors import CORS
-#from authlib.integrations.flask_client import OAuth
-# for oauth
 
 from server.api.blueprints.main import main_bp
 
@@ -16,29 +13,16 @@ import os
 def create_app(config_name=None):
 
 
-    #app = Flask('api', template_folder=template_dir)
-
     #point static folder to the build folder
     app = Flask('api', static_folder='build', static_url_path='/')
 
-    app.config['CORS_SUPPORTS_CREDENTIALS'] = True
-    app.config['CORS_ORIGINS'] = 'http://localhost:3000'
-    # CORS(app)
-    #CORS(app, supports_credentials=True)
-
-    # FIXME: uncomment this when doing deployment
-    # app.config['SESSION_COOKIE_SECURE'] = True
     app.config['SESSION_COOKIE_HTTPONLY'] = True
-    #app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 
-    #app = Flask('api')
 
     # secret key used to sign session cookie
     app.secret_key = os.getenv('SECRET_KEY')
 
-    # for now
-    app.config['SESSION_COOKIE_NAME'] = 'mySpityfInsight_session'
-    # oauth = OAuth(app)
+    app.config['SESSION_COOKIE_NAME'] = 'mySpotifyInsights_session'
 
     # FIXME: for now
 

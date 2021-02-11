@@ -15,13 +15,9 @@ auth_bp = Blueprint('auth', __name__)
 def logout():
     session['LOGGED_IN'] = False
 
-    #return redirect('http://localhost:3000')
 
     #refer to index
     return redirect("/")
-    # return redirect(url_for('user.test', _external=True))
-    # time.sleep(5)
-    # return "still in redirect page.."
 
 
 @auth_bp.route("/auth/login",  methods=['GET'])
@@ -79,11 +75,6 @@ def redirect_page():
 
     except Exception as e:
         print(e)
-
-    #return redirect('http://localhost:3000/home')
-    # return redirect(url_for('user.test', _external=True))
-    # time.sleep(5)
-    # return "still in redirect page.."
 
     #refer to the /home in front end route
     return redirect("/home")
