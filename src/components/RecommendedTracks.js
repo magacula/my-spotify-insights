@@ -139,7 +139,7 @@ const RecommendedTracks = () => {
         {showOpenButton && (
           <SpotifyLink
             onclick="return false;"
-            href="https://open.spotify.com/"
+            href="https://open.spotify.com/collection/playlists"
             target="_blank"
             onClick={() => setShowOpenButton(false)}>
             Open to Spotify
