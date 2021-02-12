@@ -126,6 +126,7 @@ const RecommendedTracks = () => {
         <Button onClick={handleClick}>Get Recommendations</Button>
         {showButton && (
           <Button
+            onclick="return false;"
             onClick={() => {
               createPlaylist();
               handleClick2();
