@@ -80,6 +80,31 @@ const RecommendedTracks = () => {
     }
   };
 
+  const createPlaylist = async () => {
+    try {
+      const response = await fetch(`/user/playlists`, {
+        method: "POST",
+        credentials: "include",
+        //referrerPolicy: 'no-referrer-when-downgrade
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: "Recommended Songs Based on Top Tracks",
+          public: "True",
+          tracks: trackURIS,
+        }),
+      });
+      console.log(response);
+
+      if (response.ok) {
+        console.log("response worked!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleClick = () => {
     fetchData();
     setShowButton(true);
@@ -101,36 +126,19 @@ const RecommendedTracks = () => {
         <Button onClick={handleClick}>Get Recommendations</Button>
         {showButton && (
           <Button
-            onClick={async () => {
+            onClick={() => {
+              createPlaylist();
               handleClick2();
-              try {
-                const response = await fetch(`/user/playlists`, {
-                  method: "POST",
-                  credentials: "include",
-                  //referrerPolicy: 'no-referrer-when-downgrade
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    name: "Recommended Songs Based on Top Tracks",
-                    public: "True",
-                    tracks: trackURIS,
-                  }),
-                });
-                console.log(response);
-
-                if (response.ok) {
-                  console.log("response worked!");
-                }
-              } catch (error) {
-                console.log(error);
-              }
             }}>
             Save To Spotify
           </Button>
         )}
         {showOpenButton && (
-          <SpotifyLink href="https://open.spotify.com/">
+          <SpotifyLink
+            onclick="return false;"
+            href="https://open.spotify.com/"
+            target="_blank"
+            onClick={() => setShowOpenButton(false)}>
             Open to Spotify
           </SpotifyLink>
         )}
