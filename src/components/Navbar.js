@@ -112,14 +112,13 @@ const Navbar = () => {
     <NavContainer>
       <NavMenu>
         <NavMenuItem>
-          <Link exact to="/home" title="Home" activeClassName="active-navlink">
+          <Link to="/home" title="Home" activeClassName="active-navlink">
             <Home />
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
           <Link
-            exact
             to="/discover"
             title="Discover"
             activeClassName="active-navlink">
@@ -129,7 +128,6 @@ const Navbar = () => {
 
         <NavMenuItem>
           <Link
-            exact
             to="/popular_artists"
             title="Most Popular Artists"
             activeClassName="active-navlink">
@@ -139,7 +137,6 @@ const Navbar = () => {
 
         <NavMenuItem>
           <Link
-            exact
             to="/film_maker"
             title="Film Maker"
             activeClassName="active-navlink">
@@ -148,29 +145,25 @@ const Navbar = () => {
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link
-            exact
-            to="/ranks"
-            title="Your Rank"
-            activeClassName="active-navlink">
+          <Link to="/ranks" title="Your Rank" activeClassName="active-navlink">
             <Crown />
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link exact to="/Tops" activeClassName="active-navlink">
+          <Link to="/Tops" activeClassName="active-navlink">
             <GraphUp />
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link exact to="/RecentlyPlayed" activeClassName="active-navlink">
+          <Link to="/RecentlyPlayed" activeClassName="active-navlink">
             <Clock />
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link exact to="/TopTracksGraph" activeClassName="active-navlink">
+          <Link to="/TopTracksGraph" activeClassName="active-navlink">
             <AudioFeatures />
           </Link>
         </NavMenuItem>
