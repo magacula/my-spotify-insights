@@ -123,7 +123,9 @@ const RecommendedTracks = () => {
       <h3>Then save tracks to a playlist on Spotify!</h3>
 
       <ButtonContainer>
-        <Button onClick={handleClick}>Get Recommendations</Button>
+        <Button onclick="return false;" onClick={handleClick}>
+          Get Recommendations
+        </Button>
         {showButton && (
           <Button
             onclick="return false;"
