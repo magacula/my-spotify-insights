@@ -9,12 +9,31 @@ const Link = styled(NavLink)`
   color: ${colors.lightBlue};
 `;
 
+const SpotifyLink = styled.a`
+  margin-top: 2rem;
+  display: inline-block;
+  background: ${colors.sidePanelGray};
+  padding: 0.75rem 2.5rem;
+  border-radius: 1.5rem;
+  border-style: none;
+  margin-right: 2rem;
+  outline: none;
+  color: ${colors.white};
+  font-weight: bold;
+  font-size: 0.8rem;
+  cursor: pointer;
+
+  &:hover {
+    transition: 0.35s;
+    background: #65d36e;
+  }
+`;
+
 const RecommendationPage = styled(NavLink)``;
 
 const ButtonContainer = styled.div`
   margin-left: 110px;
   display: flex;
-  space: 2;
 `;
 
 const Button = styled.button`
@@ -24,7 +43,6 @@ const Button = styled.button`
   padding: 0.75rem 2.5rem;
   border-radius: 1.5rem;
   border-style: none;
-
   margin-right: 2rem;
   outline: none;
   color: ${colors.white};
@@ -41,6 +59,7 @@ const RecommendedTracks = () => {
   const [recommededTracks, setRecommendedTracks] = useState([]);
   const [trackURIS, setTrackURIS] = useState([]);
   const [showButton, setShowButton] = useState(false);
+  const [showOpenButton, setShowOpenButton] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -66,6 +85,11 @@ const RecommendedTracks = () => {
     setShowButton(true);
   };
 
+  const handleClick2 = () => {
+    setShowButton(false);
+    setShowOpenButton(true);
+  };
+
   return (
     <React.Fragment>
       <h2>
@@ -78,6 +102,7 @@ const RecommendedTracks = () => {
         {showButton && (
           <Button
             onClick={async () => {
+              handleClick2();
               try {
                 const response = await fetch(`/user/playlists`, {
                   method: "POST",
@@ -103,6 +128,11 @@ const RecommendedTracks = () => {
             }}>
             Save To Spotify
           </Button>
+        )}
+        {showOpenButton && (
+          <SpotifyLink href="https://open.spotify.com/">
+            Open to Spotify
+          </SpotifyLink>
         )}
       </ButtonContainer>
 

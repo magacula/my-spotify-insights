@@ -10,8 +10,8 @@ user_bp = Blueprint('user', __name__)
 
 
 @user_bp.route("/user/test")
-#@login_required
-#@token_checked
+# @login_required
+# @token_checked
 def test():
     response = make_response(
         jsonify(
@@ -29,8 +29,6 @@ def home():
     sp = get_spotify_object()
     # get current user
     current_user = sp.current_user()
-
-
 
     return render_template("user/dashboard_interface.html", user_info={})
 
@@ -139,7 +137,6 @@ def recently_played_tracks():
     for one_record in recentlY_played_raw['items']:
         one_track = one_record['track']
         recently_played_tracks.append(one_track)
-
 
     return {"recent_tracks": recently_played_tracks}
 
@@ -284,6 +281,7 @@ def my_profile():
     user_profile_raw = sp.current_user()
 
     return user_profile_raw
+
 
 @user_bp.route("/user/profile/<user_id>")
 @limiter.limit("5 per second")
