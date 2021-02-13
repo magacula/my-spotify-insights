@@ -29,11 +29,37 @@ const Button = styled.a`
 `;
 
 const HomeDashboard = () => {
+  const [userInfo, setUserInfo] = useState([]);
+
+  useEffect(() => {
+    fetch("/user/my_profile")
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data.user);
+        setUserInfo(data.user);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
-    <div>
-      <h1>User Home Page</h1>
-      <Button href={LOGOUT_USER}>Logout</Button>
-    </div>
+    <React.Fragment>
+      <div>
+        <h1>User Home Page</h1>
+        <Button href={LOGOUT_USER}>Logout</Button>
+      </div>
+      <div style={{ marginLeft: "150px" }}>
+        {userInfo.map((item, index) => {
+          return (
+            <div key={index}>
+              <p>Username: {item.display_name}</p>
+              <p>{item.followers.total} followers</p>
+              <p>Country: {item.country}</p>
+              <img src={item.images[0].url} alt="" />
+            </div>
+          );
+        })}
+      </div>
+    </React.Fragment>
   );
 };
 
