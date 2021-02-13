@@ -1,10 +1,13 @@
 import React from "react";
+import ChangeBackground from "./ChangeBackground";
 
 const Rank = () => {
   return (
-    <div>
-      <h1>Rank Page</h1>
-    </div>
+      <React.Fragment>
+          <h1>Rank Page</h1>
+          <ChangeBackground />
+      </React.Fragment>
+
   );
 };
 
