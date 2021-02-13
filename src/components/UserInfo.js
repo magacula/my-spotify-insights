@@ -2,27 +2,31 @@ import React, { useState, useEffect } from "react";
 
 const UserInfo = () => {
   // example to display userInfo using useState & fetch call
-  const [userInfo, setUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     fetch("user.json")
       .then((res) => res.json())
       .then((data) => {
-        setUserInfo(data.top_tracks);
+        setUserInfo(data);
+        console.log(data);
       });
   }, []);
 
   return (
     <>
-      <ol style={{ marginLeft: "110px" }}>
-        {userInfo.map((track, index) => {
+      <div style={{ marginLeft: "150px" }}>
+        {Object.values(userInfo).forEach((item, index) => {
           return (
-            <li key={index} style={{ marginLeft: "25px" }}>
-              {track.track.album.name}
-            </li>
+            <div key={index}>
+              <p>Username: {item.display_name}</p>
+              {/* <p>Followers: {item.followers.total}</p> */}
+              {/* <img src={item.images[0].url} alt="" /> */}
+              <p>Country: {item.country}</p>
+            </div>
           );
         })}
-      </ol>
+      </div>
     </>
   );
 };
