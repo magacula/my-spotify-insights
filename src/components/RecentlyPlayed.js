@@ -73,7 +73,7 @@ const RecentlyPlayed = () => {
         })}
       </ul>
 
-      <h1>Your Recently Played Playlists</h1>
+      <h1>Your Playlists</h1>
 
       <ButtonContainer>
           <Button onClick={async() => {

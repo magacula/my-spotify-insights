@@ -76,15 +76,6 @@ const ChangeBackground = () => {
 
 
 
-
-
-
-
-
-
-
-
-
 };
 
 export default ChangeBackground;
