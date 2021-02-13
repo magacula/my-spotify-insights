@@ -50,28 +50,27 @@ const ChangeBackground = () => {
         setShowButton(true);
     };
 
+    const changeLight = () => {
+        document.body.style.background = "Gainsboro";
+        document.getElementsByTagName('html')[0].style['background-color'] = "Gainsboro";
+        [...document.getElementsByTagName('h1', 'h2', 'a', 'p')].forEach(x => x.style['color'] = 'black')
+        
+    };
+
+    //Default
+    const changeDark = () => {
+        document.body.style.background = "#222222";
+    };
+
     //FIXME: Make so only accessible with certain rank(s)
     return (
         <React.Fragment>
             <ButtonContainer>
                 <Button onClick={handleClick}>Change Background</Button>
                 {showButton && (
-                    <Button
-                        onClick={async () => {
-                            try {
-
-
-
-
-                            } catch (error) {
-                                console.log(error);
-                            }
-                        }}>
-                        Light Mode
-                    </Button>
+                    <Button onClick={changeLight}>Light</Button>
                 )}
             </ButtonContainer>
-
         </React.Fragment>
     );
 
