@@ -280,17 +280,4 @@ def my_profile():
 
     user_profile_raw = sp.current_user()
 
-    return user_profile_raw
-
-
-@user_bp.route("/user/profile/<user_id>")
-@limiter.limit("5 per second")
-@login_required
-@token_checked
-def profile(user_id):
-
-    sp = get_spotify_object()
-
-    user_profile_raw = sp.user(user_id)
-
-    return user_profile_raw
+    return {"user": [user_profile_raw]}
