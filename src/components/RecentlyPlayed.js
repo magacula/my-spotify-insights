@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Track from "./Track";
+import Playlist from "./Playlist";
+
 import themes from "../styles/themes";
 import { NavLink } from "react-router-dom";
 const { colors } = themes;
@@ -34,6 +36,7 @@ const Button = styled.button`
 
 const RecentlyPlayed = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
+  const [recentPlaylists] = useState([]);
 
   useEffect(() => {
     fetch("/user/recently_played_tracks", {
@@ -65,19 +68,45 @@ const RecentlyPlayed = () => {
         })}
       </ul>
 
-      <h1>Your Recently Played Playlists</h1>
-
+      <h1>Your Playlists</h1>
       <ButtonContainer>
         <Button
           onClick={async () => {
             try {
+              const response = await fetch(`/user/playlists`, {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  name: "Recently Played Playlists",
+                  public: "True",
+                  //tracks: trackURIS,
+                }),
+              });
+              console.log(response);
+
+              if (response.ok) {
+                console.log("successful");
+              }
             } catch (error) {
               console.log(error);
             }
           }}>
           Load Playlists
         </Button>
-        {/* Load user's recent playlists */}
+        <ul style={{ marginLeft: "12rem" }}>
+          {recentPlaylists.map((playlist, index) => {
+            return (
+              <Playlist
+                key={index}
+                playlist={playlist}
+                style={{ marginLeft: "150px" }}
+              />
+            );
+          })}
+        </ul>
       </ButtonContainer>
     </React.Fragment>
   );
