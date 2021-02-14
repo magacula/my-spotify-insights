@@ -2,13 +2,37 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Track from "./Track";
 import Playlist from "./Playlist";
+
 import themes from "../styles/themes";
 import { NavLink } from "react-router-dom";
 const { colors } = themes;
 
 // TODO: Create separate track component later to allow a clickable for
 // more info
-// const Track = styled.li``;
+
+const ButtonContainer = styled.div`
+  margin-left: 110px;
+  display: flex;
+  space: 2;
+`;
+
+const Button = styled.button`
+  margin-top: 2rem;
+  display: inline-block;
+  background: ${colors.lightBlue};
+  padding: 0.75rem 2.5rem;
+  border-radius: 1.5rem;
+  border-style: none;
+  margin-right: 2rem;
+  outline: none;
+  color: ${colors.white};
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    transition: 0.35s;
+    background: ${colors.pink};
+  }
+`;
 
 const ButtonContainer = styled.div`
   margin-left: 110px;
@@ -39,7 +63,8 @@ const Button = styled.button`
 const RecentlyPlayed = () => {
   const [recentPlaylists] = useState([]);
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
-  const [trackURIS] = useState([]);
+  const [recentPlaylists] = useState([]);
+
 
   useEffect(() => {
     fetch("/user/recently_played_tracks", {
@@ -58,9 +83,8 @@ const RecentlyPlayed = () => {
       .catch((error) => console.log(error));
   }, []);
 
-    const handleClick = () => {
 
-    };
+  const handleClick = () => {};
 
   return (
     <React.Fragment>
@@ -76,46 +100,46 @@ const RecentlyPlayed = () => {
       <h1>Your Playlists</h1>
 
       <ButtonContainer>
-          <Button onClick={async() => {
+        <Button
+          onClick={async () => {
             try {
-                const response = await fetch(`/user/playlists`, {
-                    method: "GET",
-                    credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        name: "Recently Played Playlists",
-                        public: "True",
-                        //tracks: trackURIS,
-                    }),
-                });
-                console.log(response);
+              const response = await fetch(`/user/playlists`, {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  name: "Recently Played Playlists",
+                  public: "True",
+                  //tracks: trackURIS,
+                }),
+              });
+              console.log(response);
 
-                if (response.ok) {
-                    console.log("successful");
-                }
-
+              if (response.ok) {
+                console.log("successful");
+              }
             } catch (error) {
-                  console.log(error);
+              console.log(error);
             }
-
-          }}> Load Playlists</Button>
-
-        </ButtonContainer>
-
+          }}>
+          Load Playlists
+        </Button>
         <ul style={{ marginLeft: "12rem" }}>
-            {recentPlaylists.map((playlist, index) => {
-                return (
-                    <Playlist key={index} playlist={playlist} style={{ marginLeft: "150px" }} />
-                );
-            })}
+          {recentPlaylists.map((playlist, index) => {
+            return (
+              <Playlist
+                key={index}
+                playlist={playlist}
+                style={{ marginLeft: "150px" }}
+              />
+            );
+          })}
         </ul>
-
+      </ButtonContainer>
     </React.Fragment>
   );
-
-
 };
 
 export default RecentlyPlayed;

@@ -20,7 +20,6 @@ const Button = styled.button`
   padding: 0.75rem 2.5rem;
   border-radius: 1.5rem;
   border-style: none;
-
   margin-right: 2rem;
   outline: none;
   color: ${colors.white};
@@ -32,7 +31,6 @@ const Button = styled.button`
     background: ${colors.pink};
   }
 `;
-
 
 const ChangeBackground = () => {
     const [backgrounds, setBackgrounds] = useState([]);
@@ -73,9 +71,6 @@ const ChangeBackground = () => {
             </ButtonContainer>
         </React.Fragment>
     );
-
-
-
 };
 
 export default ChangeBackground;
