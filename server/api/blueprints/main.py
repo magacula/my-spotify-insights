@@ -8,15 +8,13 @@ from server.api.utils import get_spotify_oauth, get_token_info, get_spotify_obje
 main_bp = Blueprint('main', __name__)
 
 
-#first route being called in heroku
+# first route being called in heroku
 @main_bp.route("/")
 @limiter.limit("5 per second")
 def index():
 
-    #return the index.html file in the build folder (front end)
+    # return the index.html file in the build folder (front end)
     return current_app.send_static_file('index.html')
-
-
 
 
 # FIXME: delete later
@@ -60,11 +58,30 @@ def track_preview_url(track_id):
     track_details = sp.track(track_id)
     track_preview_link = track_details['preview_url']
 
-    #some tracks do not have preview url
+    # some tracks do not have preview url
     if not track_preview_link:
         return "false"
 
     return track_preview_link
+
+
+@main_bp.route("/main/start_playback/<track_id>")
+@limiter.limit("2 per second")
+@login_required
+@token_checked
+def playback(track_id):
+    sp = get_spotify_object
+    track_details = sp.track(track_id)
+    track_preview_link = track_details['preview_url']
+
+    sp.start_playback(uris=[f'spotify:track:{track_id}'])
+
+    # if unable to play track
+    if not track_preview_link:
+
+        return False
+
+    return True
 
 
 @main_bp.route("/main/album_details/<album_id>")
