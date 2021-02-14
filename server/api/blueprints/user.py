@@ -186,6 +186,9 @@ def playlists():
             user=user_id, playlist_id=playlist_id, tracks=tracks)
 
 
+
+#FIXME: check if spotify api gives indicators of recently played / created playlists
+@user_bp.route("/user/playlists", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 @login_required
 @token_checked

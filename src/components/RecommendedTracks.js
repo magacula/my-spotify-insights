@@ -56,7 +56,7 @@ const Button = styled.button`
 `;
 
 const RecommendedTracks = () => {
-  const [recommededTracks, setRecommendedTracks] = useState([]);
+  const [recommendedTracks, setRecommendedTracks] = useState([]);
   const [trackURIS, setTrackURIS] = useState([]);
   const [showButton, setShowButton] = useState(false);
   const [showOpenButton, setShowOpenButton] = useState(false);
@@ -145,7 +145,7 @@ const RecommendedTracks = () => {
       </ButtonContainer>
 
       <ul style={{ marginLeft: "12rem" }}>
-        {recommededTracks.map((track, index) => {
+        {recommendedTracks.map((track, index) => {
           return (
             <Track key={index} track={track} style={{ marginLeft: "150px" }} />
           );

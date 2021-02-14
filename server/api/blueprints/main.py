@@ -43,7 +43,7 @@ def track_details(track_id):
     sp = get_spotify_object()
     track_details = sp.track(track_id)
 
-    # get preview_url using:  track_detials['preview_url']
+    # get preview_url using:  track_details['preview_url']
     # looks like it's better to return the whole json in this case
     return track_details
 
@@ -75,6 +75,7 @@ def playback(track_id):
     track_preview_link = track_details['preview_url']
 
     sp.start_playback(uris=[f'spotify:track:{track_id}'])
+
 
     # if unable to play track
     if not track_preview_link:

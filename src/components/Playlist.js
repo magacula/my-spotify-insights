@@ -30,16 +30,16 @@ const PlaylistInfo = styled.div`
 const PlaylistName = styled.h4``;
 
 const Playlist = ({ playlist }) => {
-  return (
-    <PlaylistItem>
-      <PlaylistContainer to={`/playlist/${playlist.id}`}>
-        <PlaylistImage src={playlist.image.url} />
-        <PlaylistInfo>
-          <PlaylistName>{playlist.name}</PlaylistName>
-        </PlaylistInfo>
-      </PlaylistContainer>
-    </PlaylistItem>
-  );
+    return (
+        <PlaylistItem>
+            <PlaylistContainer to={`/playlist/${playlist.id}`}>
+                <PlaylistImage src={playlist.image.url} />
+                <PlaylistInfo>
+                    <PlaylistName>{playlist.name}</PlaylistName>
+                </PlaylistInfo>
+            </PlaylistContainer>
+        </PlaylistItem>
+    );
 };
 
 export default Playlist;
