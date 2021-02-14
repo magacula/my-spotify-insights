@@ -186,6 +186,34 @@ def playlists():
             user=user_id, playlist_id=playlist_id, tracks=tracks)
 
 
+@limiter.limit("2 per second")
+@login_required
+@token_checked
+def recent_playlists():
+
+    sp = get_spotify_object()
+
+    # returns users playlists
+    if request.method == 'GET':
+
+        user_playlists = []
+        offset_count = 0
+        limit_count = 10
+
+        while(True):
+            user_playlists_raw = sp.current_user_playlists(
+                limit=limit_count, offset=offset_count)
+            offset_count += limit_count
+
+            for one_playlist in user_playlists_raw['items']:
+                user_playlists.append(one_playlist)
+
+            if len(user_playlists_raw['items']) < limit_count:
+                break
+
+        return {"playlists": user_playlists}
+
+
 @user_bp.route("/user/recommended_tracks")
 @limiter.limit("2 per second")
 @login_required
