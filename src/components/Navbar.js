@@ -120,7 +120,6 @@ const Navbar = () => {
   return (
     <NavContainer>
       <NavMenu>
-        
         <NavMenuItem>
           <Link to="/home" title="Home" activeClassName="active-navlink">
             <Home />
@@ -177,13 +176,6 @@ const Navbar = () => {
             <AudioFeatures />
           </Link>
         </NavMenuItem>
-
-        <NavMenuItem>
-          <Link exact to="/UserProfile" activeClassName="active-navlink">
-            <UserProfile />
-          </Link>
-        </NavMenuItem>
-
       </NavMenu>
     </NavContainer>
   );
