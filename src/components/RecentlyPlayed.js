@@ -7,37 +7,11 @@ import themes from "../styles/themes";
 import { NavLink } from "react-router-dom";
 const { colors } = themes;
 
-// TODO: Create separate track component later to allow a clickable for
-// more info
+// TODO: Create separate track component later to allow a clickable for more info
 
 const ButtonContainer = styled.div`
   margin-left: 110px;
   display: flex;
-  space: 2;
-`;
-
-const Button = styled.button`
-  margin-top: 2rem;
-  display: inline-block;
-  background: ${colors.lightBlue};
-  padding: 0.75rem 2.5rem;
-  border-radius: 1.5rem;
-  border-style: none;
-  margin-right: 2rem;
-  outline: none;
-  color: ${colors.white};
-  font-weight: bold;
-  cursor: pointer;
-  &:hover {
-    transition: 0.35s;
-    background: ${colors.pink};
-  }
-`;
-
-const ButtonContainer = styled.div`
-  margin-left: 110px;
-  display: flex;
-  space: 2;
 `;
 
 const Button = styled.button`
@@ -63,8 +37,6 @@ const Button = styled.button`
 const RecentlyPlayed = () => {
   const [recentPlaylists] = useState([]);
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
-  const [recentPlaylists] = useState([]);
-
 
   useEffect(() => {
     fetch("/user/recently_played_tracks", {
@@ -82,7 +54,6 @@ const RecentlyPlayed = () => {
       })
       .catch((error) => console.log(error));
   }, []);
-
 
   const handleClick = () => {};
 
