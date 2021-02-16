@@ -7,7 +7,6 @@ const Rank = () => {
       <div>
         <h1>Rank Page</h1>
       </div>
-      <h1>Rank Page</h1>
       <ChangeBackground />
     </React.Fragment>
   );
