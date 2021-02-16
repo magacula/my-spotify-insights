@@ -30,18 +30,6 @@ const Button = styled.a`
 `;
 
 const HomeDashboard = () => {
-  const [userInfo, setUserInfo] = useState([]);
-
-  useEffect(() => {
-    fetch("/user/my_profile")
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data.user);
-        setUserInfo(data.user);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
   return (
     <React.Fragment>
       <div>
