@@ -29,8 +29,6 @@ const SpotifyLink = styled.a`
   }
 `;
 
-const RecommendationPage = styled(NavLink)``;
-
 const ButtonContainer = styled.div`
   margin-left: 110px;
   display: flex;
