@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import themes from "../styles/themes";
+import UserProfile from "./UserProfile";
 const { colors } = themes;
 
 const LOGOUT_USER = "/auth/logout";
@@ -47,18 +48,7 @@ const HomeDashboard = () => {
         <h1>User Home Page</h1>
         <Button href={LOGOUT_USER}>Logout</Button>
       </div>
-      <div style={{ marginLeft: "150px" }}>
-        {userInfo.map((item, index) => {
-          return (
-            <div key={index}>
-              <p>Username: {item.display_name}</p>
-              <p>{item.followers.total} followers</p>
-              <p>Country: {item.country}</p>
-              <img src={item.images[0].url} alt="" />
-            </div>
-          );
-        })}
-      </div>
+      <UserProfile />
     </React.Fragment>
   );
 };
