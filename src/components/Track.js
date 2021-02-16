@@ -48,18 +48,17 @@ const ArtistName = styled.p``;
 
 const AlbumName = styled.p``;
 
-var sound
-    let soundPlay = (src) => {
-        sound = new Howl({
-          src,
-          html5: true
-        })
-        sound.play();
-        sound.fade(0.0,1.0,5000);
-    }
+var sound;
+let soundPlay = (src) => {
+  sound = new Howl({
+    src,
+    html5: true,
+  });
+  sound.play();
+  sound.fade(0.0, 1.0, 5000);
+};
 
 const Track = ({ track }) => {
-
   return (
     <TrackItem>
       <TrackContainer to={`/track/${track.id}`}>
@@ -67,13 +66,13 @@ const Track = ({ track }) => {
         <TrackInfo>
           <TrackName>{track.name}</TrackName>
           <ArtistName>{track.artists[0].name}</ArtistName>
-          <AlbumName>{track.album.name}</AlbumName> 
+          <AlbumName>{track.album.name}</AlbumName>
         </TrackInfo>
         <PlayButton
-        onMouseEnter={() => soundPlay(track.preview_url)}
-        onMouseLeave={() => {sound.stop();}}>
-
-        </PlayButton>
+          onMouseEnter={() => soundPlay(track.preview_url)}
+          onMouseLeave={() => {
+            sound.stop();
+          }}></PlayButton>
       </TrackContainer>
     </TrackItem>
   );
