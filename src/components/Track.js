@@ -17,6 +17,11 @@ const PlayButton = styled(HiPlay)`
   margin: 1rem;
   width: 65%;
   height: 90px;
+
+  &:hover {
+    fill: #65d36e;
+    transition: 0.35s;
+  }
 `;
 
 const TrackContainer = styled(Link)`
@@ -68,11 +73,15 @@ const Track = ({ track }) => {
           <ArtistName>{track.artists[0].name}</ArtistName>
           <AlbumName>{track.album.name}</AlbumName>
         </TrackInfo>
-        <PlayButton
-          onMouseEnter={() => soundPlay(track.preview_url)}
-          onMouseLeave={() => {
-            sound.stop();
-          }}></PlayButton>
+        {track.preview_url == null ? (
+          <div></div>
+        ) : (
+          <PlayButton
+            onMouseEnter={() => soundPlay(track.preview_url)}
+            onMouseLeave={() => {
+              sound.stop();
+            }}></PlayButton>
+        )}
       </TrackContainer>
     </TrackItem>
   );
