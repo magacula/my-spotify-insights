@@ -10,6 +10,7 @@ import LoginPage from "./LoginPage";
 import Tops from "./Tops";
 import RecentlyPlayed from "./RecentlyPlayed";
 import TopTracksGraph from "./TopTracksGraph";
+import Playlists from "./Playlists";
 
 // For LOGGING OUT OUT User, just route to path="/" after clicking button
 
@@ -46,6 +47,9 @@ const User = () => {
           </Route>
           <Route path="/TopTracksGraph">
             <TopTracksGraph />
+          </Route>
+          <Route path="/Playlists">
+            <Playlists />
           </Route>
         </div>
       </Switch>

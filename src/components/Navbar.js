@@ -10,7 +10,7 @@ import { FaCrown } from "react-icons/fa";
 import { HiClock } from "react-icons/hi";
 import { BsGraphUp } from "react-icons/bs";
 import { SiAudioboom } from "react-icons/si";
-import { HiOutlineUserCircle } from "react-icons/hi";
+import { MdQueueMusic } from "react-icons/md";
 import "../styles/App.css";
 
 const { colors } = themes;
@@ -104,8 +104,8 @@ const AudioFeatures = styled(SiAudioboom)`
   width: 100%;
 `;
 
-const UserProfile = styled(HiOutlineUserCircle)`
-  fill: grey;
+const Playlists = styled(MdQueueMusic)`
+  fill: white;
   color: white;
   font-size: 3rem;
   margin: 1rem 0;
@@ -174,6 +174,12 @@ const Navbar = () => {
         <NavMenuItem>
           <Link to="/TopTracksGraph" activeClassName="active-navlink">
             <AudioFeatures />
+          </Link>
+        </NavMenuItem>
+
+        <NavMenuItem>
+          <Link to="/Playlists" activeClassName="active-navlink">
+            <Playlists />
           </Link>
         </NavMenuItem>
       </NavMenu>

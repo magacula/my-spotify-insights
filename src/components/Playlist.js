@@ -13,7 +13,7 @@ const PlaylistContainer = styled(Link)`
   grid-template-columns: 1fr 1fr;
 `;
 
-const PlaylistItem = styled.li`
+const PlaylistItem = styled.div`
   margin-top: 2rem;
   margin-bottom: 1rem;
 `;
@@ -30,16 +30,16 @@ const PlaylistInfo = styled.div`
 const PlaylistName = styled.h4``;
 
 const Playlist = ({ playlist }) => {
-    return (
-        <PlaylistItem>
-            <PlaylistContainer to={`/playlist/${playlist.id}`}>
-                <PlaylistImage src={playlist.image.url} />
-                <PlaylistInfo>
-                    <PlaylistName>{playlist.name}</PlaylistName>
-                </PlaylistInfo>
-            </PlaylistContainer>
-        </PlaylistItem>
-    );
+  return (
+    <PlaylistItem>
+      <PlaylistContainer to={`/playlist/${playlist.id}`}>
+        <PlaylistImage src={playlist.images[0].url} />
+        <PlaylistInfo>
+          <PlaylistName>{playlist.name}</PlaylistName>
+        </PlaylistInfo>
+      </PlaylistContainer>
+    </PlaylistItem>
+  );
 };
 
 export default Playlist;
