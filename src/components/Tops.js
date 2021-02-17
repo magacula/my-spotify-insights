@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Tabs from "./Tabs";
+import Loader from "./Loader";
 import "../styles/App.css";
 import styled from "styled-components";
 
@@ -9,8 +10,10 @@ const Tops = () => {
   const [topTracks, setTopTracks] = useState([]);
   const [topAlbums, setTopAlbums] = useState([]);
   const [topArtists, setTopArtists] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch("/user/top_tracks", {
       credentials: "include",
       headers: {
@@ -21,6 +24,7 @@ const Tops = () => {
       .then((data) => {
         console.log(data.top_tracks);
         setTopTracks(data.top_tracks);
+        setLoading(false);
       });
 
     fetch("/user/top_artists", {
@@ -62,6 +66,7 @@ const Tops = () => {
               );
             })}
           </ol>
+          {loading && <Loader />}
         </div>
         <div label="Artists">
           <ol>

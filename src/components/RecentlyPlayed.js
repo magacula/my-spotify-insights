@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Track from "./Track";
+import Loader from "./Loader";
 import { NavLink } from "react-router-dom";
 import themes from "../styles/themes";
 const { colors } = themes;
@@ -9,8 +10,10 @@ const { colors } = themes;
 
 const RecentlyPlayed = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch("/user/recently_played_tracks", {
       credentials: "include",
       //credentials: 'include',
@@ -23,8 +26,12 @@ const RecentlyPlayed = () => {
       .then((data) => {
         console.log(data.recent_tracks);
         setRecentlyPlayed(data.recent_tracks);
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -37,6 +44,8 @@ const RecentlyPlayed = () => {
           );
         })}
       </ul>
+      {/* uses conditional rendering to render our loading component */}
+      {loading && <Loader />}
     </React.Fragment>
   );
 };

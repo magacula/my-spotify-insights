@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Loader from "./Loader";
 
 const UserProfile = () => {
   // example to display userInfo using useState & fetch call
   const [userInfo, setUserInfo] = useState([]);
   const [isShown, setIsShown] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch("/user/my_profile")
       .then((res) => res.json())
       .then((data) => {
         console.log(data.user);
         setUserInfo(data.user);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -66,6 +70,8 @@ const UserProfile = () => {
           );
         })}
       </div>
+      {/* uses conditional rendering to render our loading component */}
+      {loading && <Loader />}
     </>
   );
 };
