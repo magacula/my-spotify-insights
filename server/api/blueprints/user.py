@@ -1,7 +1,7 @@
 from flask import Blueprint, session, render_template, jsonify, make_response, request
 from server.api.decorators import login_required, token_checked
 from server.api.extensions import limiter, db
-from server.api.models import User_Info, Top_Tracks_Info, Top_Artists_Info
+from server.api.models import User_Info, Top_Tracks_Info, Top_Artists_Info, Recent_Tracks_Info
 from server.api.utils import get_spotify_object
 import sys
 from datetime import datetime
@@ -122,16 +122,25 @@ def top_albums():
 @token_checked
 def recently_played_tracks():
     sp = get_spotify_object()
+    cur_user_id = session['USER_ID']
 
-    recently_played_tracks = []
+    #database query
+    db_recent_tracks_info = Recent_Tracks_Info.query.filter(Recent_Tracks_Info.user_id == cur_user_id).first()
+    if db_recent_tracks_info:
+        #database will update the data according to the time interval set
+        return {'recent_tracks': [ one_track_raw['track'] for one_track_raw in db_recent_tracks_info.get_json()['items']]}
 
-    recentlY_played_raw = sp.current_user_recently_played()
+    else:
+        #if not exist in database, then add it
+        recent_tracks_raw = sp.current_user_recently_played(limit=50)
 
-    for one_record in recentlY_played_raw['items']:
-        one_track = one_record['track']
-        recently_played_tracks.append(one_track)
+        new_recent_tracks_info = Recent_Tracks_Info(user_id=cur_user_id)
+        new_recent_tracks_info.update(recent_tracks_raw)
+        db.session.add(new_recent_tracks_info)
+        # push the changes to database
+        db.session.commit()
 
-    return {"recent_tracks": recently_played_tracks}
+        return {"recent_tracks": [ one_track_raw['track'] for one_track_raw in recent_tracks_raw['items']]}
 
 
 @user_bp.route("/user/playlists", methods=['GET', 'POST'])

@@ -12,6 +12,7 @@ class User(db.Model):
     user_email = db.Column(db.String(20))
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
 
+
 #store user profile info json file
 class User_Info(db.Model):
     user_id = db.Column(db.String(25), primary_key=True, nullable=False)
@@ -131,5 +132,48 @@ class Top_Artists_Info(db.Model):
         self.update(new_json_info)
 
         #self.update(new_json_info)
+
+        return self.info_json
+
+
+
+
+class Recent_Tracks_Info(db.Model):
+    user_id = db.Column(db.String(25), primary_key=True, nullable=False)
+    info_json = db.Column(db_json_field.JSONField(enforce_string=True,
+                                                  enforce_unicode=False
+                                                  )
+                          )
+    update_datetime = db.Column(db.DateTime, nullable=False)
+
+    #valid for 1 hour
+    def is_new(self):
+        if not self.update_datetime:
+            return False
+
+        current_time = datetime.utcnow()
+        diff = current_time - self.update_datetime
+
+        if diff > timedelta(minutes=5):
+            return False
+
+        return True
+
+    def update(self, recent_tracks_info_json):
+        print("---in db, updating user recent tracks info...")
+        self.info_json = recent_tracks_info_json
+        self.update_datetime = datetime.utcnow()
+
+    def get_json(self):
+        if self.is_new():
+            return self.info_json
+
+        #else update by calling api
+        sp = get_spotify_object()
+
+        #new_json_info = sp.current_user_top_artists(limit=50, time_range='long_term')
+        new_json_info = sp.current_user_recently_played(limit=50)
+        #self.update(new_json_info)
+        self.update(new_json_info)
 
         return self.info_json
