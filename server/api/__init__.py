@@ -83,15 +83,25 @@ def register_command(app):
     #show table: user
     @app.cli.command()
     def show_db():
-        from server.api.models import User
-        users = User.query.all()
+        from server.api.models import User, User_Info
         print("-------show db-----------")
+        """
+        users = User.query.all()
         for user in users:
             print("user id: ", user.user_id)
             print("user name: ", user.user_name)
             print("join date: ", user.join_date)
             print("info json: ", user.info_json)
             print("**********")
+        """
+
+        user_infos = User_Info.query.all()
+        print("user infos: ", user_infos)
+        for user_info in user_infos:
+            print("user id: ", user_info.user_id)
+            print("info_json: ", user_info.info_json)
+            print("datetime: ", user_info.update_datetime)
+
         print("=======END show db=======")
 
 

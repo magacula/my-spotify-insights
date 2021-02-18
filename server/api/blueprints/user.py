@@ -299,17 +299,35 @@ def top_tracks_audio_features():
 def my_profile():
 
     sp = get_spotify_object()
-
-    user_profile_raw = sp.current_user()
     cur_user_id = session['USER_ID']
 
-    #keep updating for now
-    check_user = User_Info.query.filter(User_Info.user_id == cur_user_id).first()
-    if check_user:
-        #check_user.update({'info_json': user_profile_raw})
-        check_user.info_json = user_profile_raw
-        check_user.update_date = datetime.utcnow()
-        db.session.commit()
+    result = {}
+
+    #database query
+    db_user_info = User_Info.query.filter(User_Info.user_id == cur_user_id).first()
+    if db_user_info:
+        if db_user_info.is_new():
+            return {'user': [db_user_info.info_json]}
+
+        #if info not fresh, do api call
+        #get the latest version from api
+        user_profile_raw = sp.current_user()
+        db_user_info.update(user_profile_raw)
+        result = {'user': [user_profile_raw]}
 
 
-    return {"user": [user_profile_raw]}
+    else:
+        #if not exist in database, then add it
+        user_profile_raw = sp.current_user()
+        new_user_info = User_Info(user_id=cur_user_id)
+        new_user_info.update(user_profile_raw)
+        db.session.add(new_user_info)
+        result = {'user': [user_profile_raw]}
+
+
+    #push the changes to database
+    db.session.commit()
+
+
+    #return {"user": [user_profile_raw]}
+    return result
