@@ -1,7 +1,7 @@
 from flask import Blueprint, session, render_template, jsonify, make_response, request
 from server.api.decorators import login_required, token_checked
 from server.api.extensions import limiter, db
-from server.api.models import User_Info, Top_Tracks_Info
+from server.api.models import User_Info, Top_Tracks_Info, Top_Artists_Info
 from server.api.utils import get_spotify_object
 import sys
 from datetime import datetime
@@ -59,25 +59,26 @@ def top_tracks():
 @token_checked
 def top_artists():
     sp = get_spotify_object()
+    cur_user_id = session['USER_ID']
 
-    top_artists = []
+    #database query
+    db_top_artists_info = Top_Artists_Info.query.filter(Top_Artists_Info.user_id == cur_user_id).first()
+    if db_top_artists_info:
+        #database will update the data according to the time interval set
+        return {'top_artists': db_top_artists_info.get_json()['items']}
 
-    # keep get top artists until there is no more left
-    offset_count = 0
-    limit_count = 50
-    while(True):
+    else:
+        #if not exist in database, then add it
         top_artists_raw = sp.current_user_top_artists(
-            limit=limit_count, offset=offset_count)
-        offset_count += limit_count
+            limit=50, time_range='long_term')
 
-        for one_artist in top_artists_raw['items']:
-            top_artists.append(one_artist)
+        new_top_artists_info = Top_Artists_Info(user_id=cur_user_id)
+        new_top_artists_info.update(top_artists_raw)
+        db.session.add(new_top_artists_info)
+        # push the changes to database
+        db.session.commit()
 
-        # if there are less tracks then limit_count, then no need to do another search
-        if len(top_artists_raw['items']) < limit_count:
-            break
-
-    return {"top_artists": top_artists}
+        return {"top_artists": top_artists_raw['items']}
 
 
 @user_bp.route("/user/top_albums")
