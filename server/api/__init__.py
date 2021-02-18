@@ -63,9 +63,36 @@ def register_extensions(app):
 
 
 def register_command(app):
+    #in cmd, run:  flask test
     @app.cli.command()
     def test():
         click.echo("this is testing command")
+
+    #command to initialize database, use will care...
+    @app.cli.command()
+    @click.option("--drop", is_flag=True, help="drop the tables")
+    def init_db(drop):
+        if drop:
+            click.confirm("this will drop all the tables, are you sure? ", abort=True)
+            db.drop_all()
+            click.echo("dropped all the tables...")
+
+        #recreate all the tables (empty)
+        db.create_all()
+
+    #show table: user
+    @app.cli.command()
+    def show_db():
+        from server.api.models import User
+        users = User.query.all()
+        print("-------show db-----------")
+        for user in users:
+            print("user id: ", user.user_id)
+            print("user name: ", user.user_name)
+            print("join date: ", user.join_date)
+            print("info json: ", user.info_json)
+            print("**********")
+        print("=======END show db=======")
 
 
 if __name__ == "__main__":
