@@ -1,4 +1,5 @@
 import sqlalchemy_jsonfield as db_json_field
+from server.api.utils import get_spotify_object
 
 #---- This file store model/definitions for database tables
 from server.api.extensions import db
@@ -34,7 +35,18 @@ class User_Info(db.Model):
         return True
 
     def update(self, user_info_json):
-    #def update_time(self):
-        print("---in db, updating...")
+        print("---in db, updating user profile...")
         self.info_json = user_info_json
         self.update_datetime = datetime.utcnow()
+
+    def get_json(self):
+        if self.is_new():
+            return self.info_json
+
+        #else update by calling api
+        sp = get_spotify_object()
+        self.update(sp.current_user())
+
+        return self.info_json
+
+
