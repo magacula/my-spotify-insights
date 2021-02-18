@@ -1,8 +1,10 @@
 from flask import Blueprint, session, render_template, jsonify, make_response, request
 from server.api.decorators import login_required, token_checked
-from server.api.extensions import limiter
+from server.api.extensions import limiter, db
+from server.api.models import User_Info
 from server.api.utils import get_spotify_object
 import sys
+from datetime import datetime
 
 # this file contains routes for specific user (information)
 
@@ -20,17 +22,6 @@ def test():
     )
     return response
 
-
-@user_bp.route("/user/homepage")
-@limiter.limit("5 per second")
-@login_required
-@token_checked
-def home():
-    sp = get_spotify_object()
-    # get current user
-    current_user = sp.current_user()
-
-    return render_template("user/dashboard_interface.html", user_info={})
 
 
 # Returns dictionary of user's top tracks
@@ -310,5 +301,15 @@ def my_profile():
     sp = get_spotify_object()
 
     user_profile_raw = sp.current_user()
+    cur_user_id = session['USER_ID']
+
+    #keep updating for now
+    check_user = User_Info.query.filter(User_Info.user_id == cur_user_id).first()
+    if check_user:
+        #check_user.update({'info_json': user_profile_raw})
+        check_user.info_json = user_profile_raw
+        check_user.update_date = datetime.utcnow()
+        db.session.commit()
+
 
     return {"user": [user_profile_raw]}
