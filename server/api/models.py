@@ -1,5 +1,6 @@
 import sqlalchemy_jsonfield as db_json_field
 from server.api.utils import get_spotify_object
+from server.api.extensions import db
 
 #---- This file store model/definitions for database tables
 from server.api.extensions import db
@@ -131,7 +132,6 @@ class Top_Artists_Info(db.Model):
         new_json_info = sp.current_user_top_artists(limit=50, time_range='long_term')
         self.update(new_json_info)
 
-        #self.update(new_json_info)
 
         return self.info_json
 
@@ -146,7 +146,7 @@ class Recent_Tracks_Info(db.Model):
                           )
     update_datetime = db.Column(db.DateTime, nullable=False)
 
-    #valid for 1 hour
+    #valid for 5 min
     def is_new(self):
         if not self.update_datetime:
             return False
@@ -171,9 +171,76 @@ class Recent_Tracks_Info(db.Model):
         #else update by calling api
         sp = get_spotify_object()
 
-        #new_json_info = sp.current_user_top_artists(limit=50, time_range='long_term')
         new_json_info = sp.current_user_recently_played(limit=50)
-        #self.update(new_json_info)
         self.update(new_json_info)
+
+        return self.info_json
+
+
+
+class Track_Info(db.Model):
+    track_id = db.Column(db.String(25), primary_key=True, nullable=False)
+    track_name = db.Column(db.String(25))
+    #if not enough space, delete records according to last_active
+    last_active = db.Column(db.DateTime)
+    lyrics = db.Column(db.Text)
+    background_info = db.Column(db.Text)
+
+
+    info_json = db.Column(db_json_field.JSONField(enforce_string=True,
+                                                  enforce_unicode=False
+                                                  )
+                          )
+    update_datetime = db.Column(db.DateTime)
+
+
+    #call this method to update in database
+    def update(self, name, lyrics="", bg_info=""):
+        self.track_name = name
+        self.last_active = datetime.utcnow()
+        self.lyrics = lyrics
+        self.background_info = bg_info
+
+    #call this method to get the data in json format
+    def get_json(self):
+        return {'track_id': self.track_id,
+                'track_name': self.track_name,
+                'lyrics': self.lyrics,
+                'background_info': self.background_info,
+                #make sure info_json is updated, everytime "get"
+                'info_json': self.__get_json()
+                }
+
+    #valid for a week
+    def __is_new(self):
+        if not self.update_datetime:
+            return False
+
+        current_time = datetime.utcnow()
+        diff = current_time - self.update_datetime
+
+        if diff > timedelta(weeks=1):
+            return False
+
+        return True
+
+    def __update_json(self, track_info_json):
+        print("---in db, updating track info...")
+        self.update_datetime = datetime.utcnow()
+        self.info_json = track_info_json
+
+    def __get_json(self):
+        if self.__is_new():
+            return self.info_json
+
+        #else update by calling api
+        sp = get_spotify_object()
+
+        #FIXME: make sure track_id is there
+        new_info_json = sp.track(self.track_id)
+        self.__update_json(new_info_json)
+
+        #since the caller is itself, do commit itself
+        db.session.commit()
 
         return self.info_json
