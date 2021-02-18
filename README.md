@@ -61,10 +61,20 @@ pip install flask python-dotenv flask-cors gunicorn boto3 matplotlib
 - matplotlib: A package used to make plots. This only really matters since our test API will be using it to generate a pie chart
 
 ## Get Ready for Testing Runing in Local Machine
-- Frontend:
-  - Save the changes, and redeploy in heroku
-  
 - Backend:
+  - Save the changes, and redeploy in heroku
+  - If you made any changes to the structure of the database, or you don't have one yet,
+    you need to reset/initialize the database
+    - To initialize the database (for the first time):
+        ```bash
+        flask init-db
+        ```
+    - To reset the database:
+        ```bash
+        flask init-db --drop
+        ``` 
+  
+- Frontend:
   - If you ever made any changes to the frontend, you will need to build the whole frontend again to reflect the change
   - In **root folder**:
   ```bash
