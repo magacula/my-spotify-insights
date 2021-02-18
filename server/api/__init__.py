@@ -1,34 +1,31 @@
 from flask import Flask, session
-
+import click
 from server.api.blueprints.main import main_bp
-
 from server.api.blueprints.admin import admin_bp
 from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
-from server.api.extensions import limiter
+from server.api.extensions import limiter, db
+from server.api.settings import website_config
 
 import os
 
 
-def create_app(config_name=None):
+def create_app(config_name='production'):
 
 
     #point static folder to the build folder
     app = Flask('api', static_folder='build', static_url_path='/')
 
-    app.config['SESSION_COOKIE_HTTPONLY'] = True
+    #load configurations
+    app.config.from_object(website_config[config_name])
 
 
-    # secret key used to sign session cookie
-    app.secret_key = os.getenv('SECRET_KEY')
-
-    app.config['SESSION_COOKIE_NAME'] = 'mySpotifyInsights_session'
-
-    # FIXME: for now
+    # FIXME: for now, more to add later
 
     register_blueprints(app)
     register_extensions(app)
     register_error_handler(app)
+    register_command(app)
 
     return app
 
@@ -61,7 +58,15 @@ def register_blueprints(app):
 
 
 def register_extensions(app):
+    #db.init_app(app)
     limiter.init_app(app)
+
+
+def register_command(app):
+    @app.cli.command()
+    def test():
+        click.echo("this is testing command")
+
 
 if __name__ == "__main__":
     app = create_app()
