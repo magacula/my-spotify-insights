@@ -58,8 +58,8 @@ def register_blueprints(app):
 
 
 def register_extensions(app):
-    #db.init_app(app)
     limiter.init_app(app)
+    db.init_app(app)
 
 
 def register_command(app):

@@ -1,7 +1,7 @@
 from flask import Blueprint
 from server.api.decorators import permission_required, login_required
 from server.api.extensions import limiter
-from server.api.utils import connect_to_database, init_db
+#from server.api.utils import connect_to_database, init_db
 #routes for admin related works
 
 admin_bp = Blueprint('admin', __name__)
@@ -22,6 +22,7 @@ def admin_test():
 
 
 
+"""
 @admin_bp.route("/admin/testdatabase")
 def admin_test_db():
     db = None
@@ -88,3 +89,5 @@ def show_table_user():
         db.close()
 
     return db_result
+
+"""
