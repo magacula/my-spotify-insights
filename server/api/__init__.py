@@ -1,34 +1,31 @@
 from flask import Flask, session
-
+import click
 from server.api.blueprints.main import main_bp
-
 from server.api.blueprints.admin import admin_bp
 from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
-from server.api.extensions import limiter
+from server.api.extensions import limiter, db
+from server.api.settings import website_config
 
 import os
 
 
-def create_app(config_name=None):
+def create_app(config_name='production'):
 
 
     #point static folder to the build folder
     app = Flask('api', static_folder='build', static_url_path='/')
 
-    app.config['SESSION_COOKIE_HTTPONLY'] = True
+    #load configurations
+    app.config.from_object(website_config[config_name])
 
 
-    # secret key used to sign session cookie
-    app.secret_key = os.getenv('SECRET_KEY')
-
-    app.config['SESSION_COOKIE_NAME'] = 'mySpotifyInsights_session'
-
-    # FIXME: for now
+    # FIXME: for now, more to add later
 
     register_blueprints(app)
     register_extensions(app)
     register_error_handler(app)
+    register_command(app)
 
     return app
 
@@ -62,6 +59,51 @@ def register_blueprints(app):
 
 def register_extensions(app):
     limiter.init_app(app)
+    db.init_app(app)
+
+
+def register_command(app):
+    #in cmd, run:  flask test
+    @app.cli.command()
+    def test():
+        click.echo("this is testing command")
+
+    #command to initialize database, use will care...
+    @app.cli.command()
+    @click.option("--drop", is_flag=True, help="drop the tables")
+    def init_db(drop):
+        if drop:
+            click.confirm("this will drop all the tables, are you sure? ", abort=True)
+            db.drop_all()
+            click.echo("dropped all the tables...")
+
+        #recreate all the tables (empty)
+        db.create_all()
+
+    #show table: user
+    @app.cli.command()
+    def show_db():
+        from server.api.models import User, User_Info
+        print("-------show db-----------")
+        """
+        users = User.query.all()
+        for user in users:
+            print("user id: ", user.user_id)
+            print("user name: ", user.user_name)
+            print("join date: ", user.join_date)
+            print("info json: ", user.info_json)
+            print("**********")
+        """
+
+        user_infos = User_Info.query.all()
+        print("user infos: ", user_infos)
+        for user_info in user_infos:
+            print("user id: ", user_info.user_id)
+            print("info_json: ", user_info.info_json)
+            print("datetime: ", user_info.update_datetime)
+
+        print("=======END show db=======")
+
 
 if __name__ == "__main__":
     app = create_app()

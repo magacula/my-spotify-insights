@@ -3,7 +3,8 @@ import spotipy
 from server.api.decorators import login_required
 # from server.api.decorators import db, db_cursor
 from server.api.utils import get_spotify_oauth, get_token_info, get_spotify_object, refresh_token_info
-from server.api.extensions import limiter
+from server.api.extensions import limiter, db
+from server.api.models import User
 
 # routes relate to authentication
 
@@ -67,7 +68,13 @@ def redirect_page():
         cur_user_name = cur_user['display_name']
         cur_user_id = cur_user['id']
 
-        # FIXME: database needed
+        # FIXME: may need more info later
+        temp_user = User.query.filter(User.user_id == cur_user_id).first()
+        if not temp_user:
+            cur_user = User(user_name=cur_user_name, user_id=cur_user_id)
+            db.session.add(cur_user)
+            db.session.commit()
+
 
         session['LOGGED_IN'] = True
         session['USER_NAME'] = cur_user_name

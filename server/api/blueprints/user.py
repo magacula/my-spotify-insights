@@ -1,8 +1,10 @@
 from flask import Blueprint, session, render_template, jsonify, make_response, request
 from server.api.decorators import login_required, token_checked
-from server.api.extensions import limiter
+from server.api.extensions import limiter, db
+from server.api.models import User_Info, Top_Tracks_Info, Top_Artists_Info, Recent_Tracks_Info
 from server.api.utils import get_spotify_object
 import sys
+from datetime import datetime
 
 # this file contains routes for specific user (information)
 
@@ -21,17 +23,6 @@ def test():
     return response
 
 
-@user_bp.route("/user/homepage")
-@limiter.limit("5 per second")
-@login_required
-@token_checked
-def home():
-    sp = get_spotify_object()
-    # get current user
-    current_user = sp.current_user()
-
-    return render_template("user/dashboard_interface.html", user_info={})
-
 
 # Returns dictionary of user's top tracks
 @user_bp.route("/user/top_tracks")
@@ -40,25 +31,26 @@ def home():
 @token_checked
 def top_tracks():
     sp = get_spotify_object()
+    cur_user_id = session['USER_ID']
 
-    top_tracks = []
+    #database query
+    db_top_tracks_info = Top_Tracks_Info.query.filter(Top_Tracks_Info.user_id == cur_user_id).first()
+    if db_top_tracks_info:
+        #database will update the data according to the time interval set
+        return {'top_tracks': db_top_tracks_info.get_json()['items']}
 
-    # keep get top tracks until there is no more left
-    offset_count = 0
-    limit_count = 50
-    while(True):
+    else:
+        #if not exist in database, then add it
         top_tracks_raw = sp.current_user_top_tracks(
-            limit=limit_count, offset=offset_count)
-        offset_count += limit_count
+            limit=50, time_range='long_term')
 
-        for one_track in top_tracks_raw['items']:
-            top_tracks.append(one_track)
+        new_top_tracks_info = Top_Tracks_Info(user_id=cur_user_id)
+        new_top_tracks_info.update(top_tracks_raw)
+        db.session.add(new_top_tracks_info)
+        # push the changes to database
+        db.session.commit()
 
-        # if there are less tracks then limit_count, then no need to do another search
-        if len(top_tracks_raw['items']) < limit_count:
-            break
-
-    return {"top_tracks": top_tracks}
+        return {"top_tracks": top_tracks_raw['items']}
 
 
 @user_bp.route("/user/top_artists")
@@ -67,25 +59,26 @@ def top_tracks():
 @token_checked
 def top_artists():
     sp = get_spotify_object()
+    cur_user_id = session['USER_ID']
 
-    top_artists = []
+    #database query
+    db_top_artists_info = Top_Artists_Info.query.filter(Top_Artists_Info.user_id == cur_user_id).first()
+    if db_top_artists_info:
+        #database will update the data according to the time interval set
+        return {'top_artists': db_top_artists_info.get_json()['items']}
 
-    # keep get top artists until there is no more left
-    offset_count = 0
-    limit_count = 50
-    while(True):
+    else:
+        #if not exist in database, then add it
         top_artists_raw = sp.current_user_top_artists(
-            limit=limit_count, offset=offset_count)
-        offset_count += limit_count
+            limit=50, time_range='long_term')
 
-        for one_artist in top_artists_raw['items']:
-            top_artists.append(one_artist)
+        new_top_artists_info = Top_Artists_Info(user_id=cur_user_id)
+        new_top_artists_info.update(top_artists_raw)
+        db.session.add(new_top_artists_info)
+        # push the changes to database
+        db.session.commit()
 
-        # if there are less tracks then limit_count, then no need to do another search
-        if len(top_artists_raw['items']) < limit_count:
-            break
-
-    return {"top_artists": top_artists}
+        return {"top_artists": top_artists_raw['items']}
 
 
 @user_bp.route("/user/top_albums")
@@ -129,16 +122,25 @@ def top_albums():
 @token_checked
 def recently_played_tracks():
     sp = get_spotify_object()
+    cur_user_id = session['USER_ID']
 
-    recently_played_tracks = []
+    #database query
+    db_recent_tracks_info = Recent_Tracks_Info.query.filter(Recent_Tracks_Info.user_id == cur_user_id).first()
+    if db_recent_tracks_info:
+        #database will update the data according to the time interval set
+        return {'recent_tracks': [ one_track_raw['track'] for one_track_raw in db_recent_tracks_info.get_json()['items']]}
 
-    recentlY_played_raw = sp.current_user_recently_played()
+    else:
+        #if not exist in database, then add it
+        recent_tracks_raw = sp.current_user_recently_played(limit=50)
 
-    for one_record in recentlY_played_raw['items']:
-        one_track = one_record['track']
-        recently_played_tracks.append(one_track)
+        new_recent_tracks_info = Recent_Tracks_Info(user_id=cur_user_id)
+        new_recent_tracks_info.update(recent_tracks_raw)
+        db.session.add(new_recent_tracks_info)
+        # push the changes to database
+        db.session.commit()
 
-    return {"recent_tracks": recently_played_tracks}
+        return {"recent_tracks": [ one_track_raw['track'] for one_track_raw in recent_tracks_raw['items']]}
 
 
 @user_bp.route("/user/playlists", methods=['GET', 'POST'])
@@ -243,24 +245,20 @@ def recommended_tracks():
 
 
 # when you use method "GET" it will return the playlist detail, if "POST" you can set the values with the json
-@user_bp.route("/user/set_user_playlist/<playlist_id>", methods=['GET', 'POST'])
+@user_bp.route("/user/playlist/<playlist_id>", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 @login_required
 @token_checked
-def set_user_playlist(playlist_id):
+def playlist(playlist_id):
     sp = get_spotify_object()
     if request.method == "POST":
         # get necessary data from the json passed along with the post request
-        # FIXME: make sure none of they empty..
         data_json = request.get_json()
         name = data_json['name']
         public = data_json['public']
-        collaborative = data_json['collaborative']
-        description = data_json['description']
 
-        sp.playlist_change_details(playlist_id=playlist_id, name=name,
-                                   public=public, collaborative=collaborative, description=description)
-
+        sp.playlist_change_details(playlist_id=playlist_id, name=name, public=public)
+        #FIXME: since we have to return..
         return "updated your playlist details!!!"
 
     else:
@@ -308,7 +306,26 @@ def top_tracks_audio_features():
 def my_profile():
 
     sp = get_spotify_object()
+    cur_user_id = session['USER_ID']
 
-    user_profile_raw = sp.current_user()
 
-    return {"user": [user_profile_raw]}
+    #database query
+    db_user_info = User_Info.query.filter(User_Info.user_id == cur_user_id).first()
+    if db_user_info:
+        #database will update the data according to the time interval set
+        return {'user': [db_user_info.get_json()]}
+
+    else:
+        #if not exist in database, then add it
+        user_profile_raw = sp.current_user()
+        new_user_info = User_Info(user_id=cur_user_id)
+        new_user_info.update(user_profile_raw)
+        db.session.add(new_user_info)
+        # push the changes to database
+        db.session.commit()
+        result = {'user': [user_profile_raw]}
+
+        return result
+
+
+
