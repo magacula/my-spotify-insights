@@ -245,24 +245,20 @@ def recommended_tracks():
 
 
 # when you use method "GET" it will return the playlist detail, if "POST" you can set the values with the json
-@user_bp.route("/user/set_user_playlist/<playlist_id>", methods=['GET', 'POST'])
+@user_bp.route("/user/playlist/<playlist_id>", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 @login_required
 @token_checked
-def set_user_playlist(playlist_id):
+def playlist(playlist_id):
     sp = get_spotify_object()
     if request.method == "POST":
         # get necessary data from the json passed along with the post request
-        # FIXME: make sure none of they empty..
         data_json = request.get_json()
         name = data_json['name']
         public = data_json['public']
-        collaborative = data_json['collaborative']
-        description = data_json['description']
 
-        sp.playlist_change_details(playlist_id=playlist_id, name=name,
-                                   public=public, collaborative=collaborative, description=description)
-
+        sp.playlist_change_details(playlist_id=playlist_id, name=name, public=public)
+        #FIXME: since we have to return..
         return "updated your playlist details!!!"
 
     else:
