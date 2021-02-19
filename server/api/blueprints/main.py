@@ -29,9 +29,8 @@ def test_limit():
 
 @main_bp.route("/main/artist_details/<artist_id>", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
-#FIXME:
-#@login_required
-#@token_checked
+@login_required
+@token_checked
 def artist_details(artist_id):
     db_artist_info = Artist_Info.query.filter(Artist_Info.artist_id == artist_id).first()
 
@@ -75,9 +74,8 @@ def artist_details(artist_id):
 
 
 @main_bp.route("/main/track_details/<track_id>", methods=['GET', 'POST'])
-#FIXME
-#@login_required
-#@token_checked
+@login_required
+@token_checked
 @limiter.limit("2 per second")
 def track_details(track_id):
     db_track_info = Track_Info.query.filter(Track_Info.track_id == track_id).first()
@@ -161,9 +159,8 @@ def playback(track_id):
 
 @main_bp.route("/main/album_details/<album_id>", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
-#FIXME
-#@login_required
-#@token_checked
+@login_required
+@token_checked
 def album_details(album_id):
 
     db_album_info = Album_Info.query.filter(Album_Info.album_id ==album_id).first()
