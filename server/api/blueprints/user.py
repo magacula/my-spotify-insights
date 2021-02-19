@@ -158,6 +158,7 @@ def recently_played_tracks():
 
         return {'recent_tracks': [ one_track_raw['track'] for one_track_raw in new_recent_tracks_info.get_json()['items']]}
 
+#FIXME: need database support
 @user_bp.route("/user/playlists", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 @login_required
@@ -202,6 +203,42 @@ def playlists():
         # store the tracks
         return sp.user_playlist_add_tracks(
             user=user_id, playlist_id=playlist_id, tracks=tracks)
+
+#FIXME: need to verify if this works
+#user can save their downloaded tracks' path, so they can play through this website
+@user_bp.route("/user/local_tracks", methods=['GET', 'POST'])
+@limiter.limit("2 per second")
+@login_required
+@token_checked
+def local_tracks():
+
+    db_user = User.query.filter(User.user_id == current_user.user_id).first()
+
+    #FIXME
+    if not db_user:
+        return "user not found"
+
+    # if request is get
+    if request.method == 'GET':
+        #FIXME: {1:{'name':'path'}, 2:{'name':'path'), ....}
+        db_local_tracks_json = db_user.local_tracks_json
+        if db_local_tracks_json:
+            return db_local_tracks_json
+
+        #case: empty
+        return {}
+
+
+    # -----else if request is post
+    if request.method == "POST":
+        data_json = request.get_json()
+        db_user.local_tracks_json = data_json
+        db.session.commit()
+
+    return {}
+
+
+
 
 
 

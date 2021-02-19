@@ -22,6 +22,10 @@ class User(db.Model, UserMixin):
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
 
+    #local tracks
+    #{1:{'name':'path'}, 2:{'name':'path'), ....}
+    local_tracks_json = db.Column(JSON)
+
     #for login
     def get_id(self):
         return self.user_id
@@ -287,4 +291,5 @@ class Album_Info(db.Model):
         print("---in db, updating album info...")
 
         return self.info_json
+
 
