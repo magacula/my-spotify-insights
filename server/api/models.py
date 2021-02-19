@@ -1,12 +1,13 @@
 #import sqlalchemy_jsonfield as db_json_field
 from server.api.utils import get_spotify_object
+from server.api.extensions import db
+from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import JSON
-from server.api.extensions import db
-
-#---- This file store model/definitions for database tables
-from server.api.extensions import db
 from datetime import datetime
 from datetime import timedelta
+
+#---- This file store model/definitions for database tables
+
 
 class User(db.Model):
     __tablename__ = "user"
@@ -14,17 +15,23 @@ class User(db.Model):
     user_name = db.Column(db.String(30))
     user_email = db.Column(db.String(20))
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
+    level_progress = db.Column(db.Integer, default=0)
+
+    #so we will commit here, not by the caller
+    def increment_lv_with_commit(self, increment_amt):
+        self.level_progress += increment_amt
+        db.session.commit()
+
 
 
 #store user profile info json file
 class User_Info(db.Model):
     __tablename__ = "user_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
-    #info_json = db.Column(db_json_field.JSONField(enforce_string=True, enforce_unicode=False))
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime, nullable=False)
 
-    #valid for 1 hour
+    #valid for 5 min
     def is_new(self):
         if not self.update_datetime:
             return False
@@ -58,12 +65,6 @@ class User_Info(db.Model):
 class Top_Tracks_Info(db.Model):
     __tablename__ = "top_tracks_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
-    """
-    info_json = db.Column(db_json_field.JSONField(enforce_string=True,
-                                                  enforce_unicode=False
-                                                  )
-                          )
-    """
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime, nullable=False)
 
@@ -104,12 +105,6 @@ class Top_Tracks_Info(db.Model):
 class Top_Artists_Info(db.Model):
     __tablename = "top_artists_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
-    """
-    info_json = db.Column(db_json_field.JSONField(enforce_string=True,
-                                                  enforce_unicode=False
-                                                  )
-                          )
-    """
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime, nullable=False)
 
@@ -150,12 +145,6 @@ class Top_Artists_Info(db.Model):
 class Recent_Tracks_Info(db.Model):
     __table__name = "recent_tracks_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
-    """
-    info_json = db.Column(db_json_field.JSONField(enforce_string=True,
-                                                  enforce_unicode=False
-                                                  )
-                          )
-    """
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime, nullable=False)
 
@@ -200,13 +189,6 @@ class Track_Info(db.Model):
     lyrics = db.Column(db.Text)
     background_info = db.Column(db.Text)
 
-
-    """
-    info_json = db.Column(db_json_field.JSONField(enforce_string=True,
-                                                  enforce_unicode=False
-                                                  )
-                          )
-    """
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
 
@@ -279,12 +261,6 @@ class Artist_Info(db.Model):
     last_active = db.Column(db.DateTime)
     background_info = db.Column(db.Text)
 
-    """
-    info_json = db.Column(db_json_field.JSONField(enforce_string=True,
-                                                  enforce_unicode=False
-                                                  )
-                          )
-    """
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
 
@@ -352,12 +328,6 @@ class Album_Info(db.Model):
     last_active = db.Column(db.DateTime)
     background_info = db.Column(db.Text)
 
-    """
-    info_json = db.Column(db_json_field.JSONField(enforce_string=True,
-                                                  enforce_unicode=False
-                                                  )
-                          )
-    """
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
 
