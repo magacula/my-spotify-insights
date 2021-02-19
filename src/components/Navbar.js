@@ -33,12 +33,39 @@ const NavMenu = styled.ul`
 `;
 
 const NavMenuItem = styled.li`
-  &:hover,
-  &:focus {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-color: ${colors.sidePanelGray};
+    border-radius: 50%;
+
+    transition: transform 0.4s ease-in-out;
+    transform: scale(0);
+  }
+
+  &:hover::before,
+  &:focus::before {
+    transform: scale(1.5);
     color: ${colors.pink};
     background-color: ${colors.pink};
     cursor: pointer;
   }
+
+  /* &:hover,
+  &:focus {
+    color: ${colors.pink};
+    background-color: ${colors.pink};
+    cursor: pointer;
+  } */
 `;
 
 const Home = styled(HiHome)`
