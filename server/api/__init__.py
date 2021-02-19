@@ -79,9 +79,11 @@ def register_command(app):
             #db.reflect()
             #db.session.commit()
             db.drop_all()
+            print("---dropped all tables")
 
         #recreate all the tables (empty)
         db.create_all()
+        print("--created all tables")
 
 
 
