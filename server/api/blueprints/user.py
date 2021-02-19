@@ -1,6 +1,6 @@
 from flask import Blueprint, session, render_template, jsonify, make_response, request
 #from server.api.decorators import login_required, token_checked
-from flask_login import login_required
+from flask_login import login_required, current_user
 from server.api.decorators import token_checked
 from server.api.extensions import limiter, db
 from server.api.models import User_Info, Top_Tracks_Info, Top_Artists_Info, Recent_Tracks_Info
@@ -33,7 +33,8 @@ def test():
 @token_checked
 def top_tracks():
     sp = get_spotify_object()
-    cur_user_id = session['USER_ID']
+    #cur_user_id = session['USER_ID']
+    cur_user_id = current_user.user_id
 
     #database query
     db_top_tracks_info = Top_Tracks_Info.query.filter(Top_Tracks_Info.user_id == cur_user_id).first()
@@ -61,7 +62,8 @@ def top_tracks():
 @token_checked
 def top_artists():
     sp = get_spotify_object()
-    cur_user_id = session['USER_ID']
+    #cur_user_id = session['USER_ID']
+    cur_user_id = current_user.user_id
 
     #database query
     db_top_artists_info = Top_Artists_Info.query.filter(Top_Artists_Info.user_id == cur_user_id).first()
@@ -124,7 +126,8 @@ def top_albums():
 @token_checked
 def recently_played_tracks():
     sp = get_spotify_object()
-    cur_user_id = session['USER_ID']
+    #cur_user_id = session['USER_ID']
+    cur_user_id = current_user.user_id
 
     #database query
     db_recent_tracks_info = Recent_Tracks_Info.query.filter(Recent_Tracks_Info.user_id == cur_user_id).first()
@@ -175,7 +178,8 @@ def playlists():
     # -----else if request is post, create a new playlist
     if request.method == "POST":
         data_json = request.get_json()
-        user_id = session['USER_ID']
+        #user_id = session['USER_ID']
+        user_id = current_user.user_id
         playlist_name = data_json['name']
         public = data_json['public']
         # list of tracks' ids
@@ -308,7 +312,8 @@ def top_tracks_audio_features():
 def my_profile():
 
     sp = get_spotify_object()
-    cur_user_id = session['USER_ID']
+    #cur_user_id = session['USER_ID']
+    cur_user_id = current_user.user_id
 
 
     #database query

@@ -16,7 +16,7 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route("/auth/logout")
 @login_required
 def logout():
-    session['LOGGED_IN'] = False
+    #session['LOGGED_IN'] = False
     #FIXME:
     logout_user()
 
@@ -81,9 +81,9 @@ def redirect_page():
         #FIXME:
         login_user(temp_user)
 
-        session['LOGGED_IN'] = True
-        session['USER_NAME'] = cur_user_name
-        session['USER_ID'] = cur_user_id
+        #session['LOGGED_IN'] = True
+        #session['USER_NAME'] = cur_user_name
+        #session['USER_ID'] = cur_user_id
 
     except Exception as e:
         print(e)
@@ -97,7 +97,9 @@ def token_expired():
     return "Your access token is expired, please go to login page to refresh the access token"
 
 
-# FIXME: if you want to have a html page for this
+# FIXME: react will not redirect to the login page
 @ auth_bp.route("/auth/access_denied")
 def access_denied():
-    return "You don't have the permission for this operation"
+    #return "You don't have the permission for this operation" , 404
+    #supposedly, this should redirect to the login page
+    return redirect("/", 403)

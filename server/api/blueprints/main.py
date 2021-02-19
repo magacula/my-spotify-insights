@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, current_app, request
+from flask_login import login_required
 from server.api.extensions import limiter, db
-from server.api.decorators import login_required, token_checked
+#from server.api.decorators import login_required, token_checked
+from server.api.decorators import token_checked
 from server.api.utils import get_spotify_oauth, get_token_info, get_spotify_object, refresh_token_info
 from server.api.models import Track_Info, Album_Info, Artist_Info
 
