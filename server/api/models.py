@@ -1,5 +1,6 @@
-import sqlalchemy_jsonfield as db_json_field
+#import sqlalchemy_jsonfield as db_json_field
 from server.api.utils import get_spotify_object
+from sqlalchemy.dialects.postgresql import JSON
 from server.api.extensions import db
 
 #---- This file store model/definitions for database tables
@@ -9,8 +10,8 @@ from datetime import timedelta
 
 class User(db.Model):
     __tablename__ = "user"
-    user_id = db.Column(db.String(25), primary_key=True, nullable=False)
-    user_name = db.Column(db.String(20))
+    user_id = db.Column(db.String(30), primary_key=True, nullable=False)
+    user_name = db.Column(db.String(30))
     user_email = db.Column(db.String(20))
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -18,11 +19,9 @@ class User(db.Model):
 #store user profile info json file
 class User_Info(db.Model):
     __tablename__ = "user_info"
-    user_id = db.Column(db.String(25), primary_key=True, nullable=False)
-    info_json = db.Column(db_json_field.JSONField(enforce_string=True,
-                                                  enforce_unicode=False
-                                                  )
-                          )
+    user_id = db.Column(db.String(30), primary_key=True, nullable=False)
+    #info_json = db.Column(db_json_field.JSONField(enforce_string=True, enforce_unicode=False))
+    info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime, nullable=False)
 
     #valid for 1 hour
@@ -58,11 +57,14 @@ class User_Info(db.Model):
 
 class Top_Tracks_Info(db.Model):
     __tablename__ = "top_tracks_info"
-    user_id = db.Column(db.String(25), primary_key=True, nullable=False)
+    user_id = db.Column(db.String(30), primary_key=True, nullable=False)
+    """
     info_json = db.Column(db_json_field.JSONField(enforce_string=True,
                                                   enforce_unicode=False
                                                   )
                           )
+    """
+    info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime, nullable=False)
 
     #valid for 1 hour
@@ -101,11 +103,14 @@ class Top_Tracks_Info(db.Model):
 
 class Top_Artists_Info(db.Model):
     __tablename = "top_artists_info"
-    user_id = db.Column(db.String(25), primary_key=True, nullable=False)
+    user_id = db.Column(db.String(30), primary_key=True, nullable=False)
+    """
     info_json = db.Column(db_json_field.JSONField(enforce_string=True,
                                                   enforce_unicode=False
                                                   )
                           )
+    """
+    info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime, nullable=False)
 
     #valid for 1 hour
@@ -144,11 +149,14 @@ class Top_Artists_Info(db.Model):
 
 class Recent_Tracks_Info(db.Model):
     __table__name = "recent_tracks_info"
-    user_id = db.Column(db.String(25), primary_key=True, nullable=False)
+    user_id = db.Column(db.String(30), primary_key=True, nullable=False)
+    """
     info_json = db.Column(db_json_field.JSONField(enforce_string=True,
                                                   enforce_unicode=False
                                                   )
                           )
+    """
+    info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime, nullable=False)
 
     #valid for 5 min
@@ -185,18 +193,21 @@ class Recent_Tracks_Info(db.Model):
 
 class Track_Info(db.Model):
     __tablename__ = "track_info"
-    track_id = db.Column(db.String(25), primary_key=True, nullable=False)
-    track_name = db.Column(db.String(25))
+    track_id = db.Column(db.String(30), primary_key=True, nullable=False)
+    track_name = db.Column(db.String(30))
     #if not enough space, delete records according to last_active
     last_active = db.Column(db.DateTime)
     lyrics = db.Column(db.Text)
     background_info = db.Column(db.Text)
 
 
+    """
     info_json = db.Column(db_json_field.JSONField(enforce_string=True,
                                                   enforce_unicode=False
                                                   )
                           )
+    """
+    info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
 
 
@@ -262,17 +273,19 @@ class Track_Info(db.Model):
 
 class Artist_Info(db.Model):
     __tablename__ = "artist_info"
-    artist_id = db.Column(db.String(25), primary_key=True, nullable=False)
-    artist_name = db.Column(db.String(25))
+    artist_id = db.Column(db.String(30), primary_key=True, nullable=False)
+    artist_name = db.Column(db.String(30))
     #if not enough space, delete records according to last_active
     last_active = db.Column(db.DateTime)
     background_info = db.Column(db.Text)
 
-
+    """
     info_json = db.Column(db_json_field.JSONField(enforce_string=True,
                                                   enforce_unicode=False
                                                   )
                           )
+    """
+    info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
 
 
@@ -333,17 +346,19 @@ class Artist_Info(db.Model):
 
 class Album_Info(db.Model):
     __tablename__ = "album_info"
-    album_id = db.Column(db.String(25), primary_key=True, nullable=False)
-    album_name = db.Column(db.String(25))
+    album_id = db.Column(db.String(30), primary_key=True, nullable=False)
+    album_name = db.Column(db.String(30))
     #if not enough space, delete records according to last_active
     last_active = db.Column(db.DateTime)
     background_info = db.Column(db.Text)
 
-
+    """
     info_json = db.Column(db_json_field.JSONField(enforce_string=True,
                                                   enforce_unicode=False
                                                   )
                           )
+    """
+    info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
 
 

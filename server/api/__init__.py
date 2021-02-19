@@ -11,6 +11,7 @@ import os
 
 
 def create_app(config_name='production'):
+    print("------config name: ", config_name)
 
 
     #point static folder to the build folder
@@ -74,35 +75,14 @@ def register_command(app):
     def init_db(drop):
         if drop:
             click.confirm("this will drop all the tables, are you sure? ", abort=True)
+            #do not delete, if drop_all() failed, uncomment one of them to see if it works
+            #db.reflect()
+            #db.session.commit()
             db.drop_all()
-            click.echo("dropped all the tables...")
 
         #recreate all the tables (empty)
         db.create_all()
 
-    #show table: user
-    @app.cli.command()
-    def show_db():
-        from server.api.models import User, User_Info
-        print("-------show db-----------")
-        """
-        users = User.query.all()
-        for user in users:
-            print("user id: ", user.user_id)
-            print("user name: ", user.user_name)
-            print("join date: ", user.join_date)
-            print("info json: ", user.info_json)
-            print("**********")
-        """
-
-        user_infos = User_Info.query.all()
-        print("user infos: ", user_infos)
-        for user_info in user_infos:
-            print("user id: ", user_info.user_id)
-            print("info_json: ", user_info.info_json)
-            print("datetime: ", user_info.update_datetime)
-
-        print("=======END show db=======")
 
 
 if __name__ == "__main__":
