@@ -9,13 +9,17 @@ from datetime import timedelta
 #---- This file store model/definitions for database tables
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "user"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
     user_name = db.Column(db.String(30))
     user_email = db.Column(db.String(20))
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
     level_progress = db.Column(db.Integer, default=0)
+
+    #for login
+    def get_id(self):
+        return self.user_id
 
     #so we will commit here, not by the caller
     def increment_lv_with_commit(self, increment_amt):

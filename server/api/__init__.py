@@ -4,7 +4,7 @@ from server.api.blueprints.main import main_bp
 from server.api.blueprints.admin import admin_bp
 from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
-from server.api.extensions import limiter, db
+from server.api.extensions import limiter, db, login_manager
 from server.api.settings import website_config
 
 import os
@@ -61,6 +61,7 @@ def register_blueprints(app):
 def register_extensions(app):
     limiter.init_app(app)
     db.init_app(app)
+    login_manager.init_app(app)
 
 
 def register_command(app):

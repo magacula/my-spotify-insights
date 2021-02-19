@@ -1,5 +1,7 @@
 from flask import Blueprint, session, render_template, jsonify, make_response, request
-from server.api.decorators import login_required, token_checked
+#from server.api.decorators import login_required, token_checked
+from flask_login import login_required
+from server.api.decorators import token_checked
 from server.api.extensions import limiter, db
 from server.api.models import User_Info, Top_Tracks_Info, Top_Artists_Info, Recent_Tracks_Info
 from server.api.utils import get_spotify_object
@@ -12,7 +14,7 @@ user_bp = Blueprint('user', __name__)
 
 
 @user_bp.route("/user/test")
-# @login_required
+@login_required
 # @token_checked
 def test():
     response = make_response(
