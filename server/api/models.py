@@ -144,34 +144,27 @@ class Track_Info(db.Model):
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
 
-
-    #call this method to update in database
-    def update(self, name=None, lyrics="", bg_info=""):
-        #try not to update name unless it gives us
-        if name:
-            self.track_name = name
-        self.last_active = datetime.utcnow()
-        self.lyrics = lyrics
-        self.background_info = bg_info
-
     #call this method to get the data in json format
     def get_json(self):
         self.last_active = datetime.utcnow()
         db.session.commit()
 
-        return {'track_id': self.track_id,
-                'track_name': self.track_name,
-                'lyrics': self.lyrics,
-                'background_info': self.background_info,
-                #make sure info_json is updated, everytime "get"
-                'info_json': self.__get_json()
+        # don't change order
+        return {
+            'info_json': self.__get_json(),
+            'track_id': self.track_id,
+            'track_name': self.track_name,
+            'lyrics': self.lyrics,
+            'background_info': self.background_info
                 }
 
+    def update(self, lyrics, bg_info):
+        self.last_active = datetime.utcnow()
+        db.session.commit()
 
-    def __update_json(self, track_info_json):
-        print("---in db, updating track info...")
-        self.update_datetime = datetime.utcnow()
-        self.info_json = track_info_json
+        self.lyrics = lyrics
+        self.background_info = bg_info
+
 
     def __get_json(self):
         if is_new(self.update_datetime, timedelta(weeks=1)):
@@ -179,13 +172,17 @@ class Track_Info(db.Model):
 
         #else update by calling api
         sp = get_spotify_object()
-
-        #FIXME: make sure track_id is there
         new_info_json = sp.track(self.track_id)
-        self.__update_json(new_info_json)
+
+        #update info json
+        self.update_datetime = datetime.utcnow()
+        self.info_json = new_info_json
+        self.track_name = new_info_json['name']
 
         #since the caller is itself, do commit itself
         db.session.commit()
+
+        print("---in db, updating track info...")
 
         return self.info_json
 
@@ -205,29 +202,25 @@ class Artist_Info(db.Model):
     update_datetime = db.Column(db.DateTime)
 
 
-    #call this method to update in database
-    def update(self, name=None, bg_info=""):
-        if name:
-            self.artist_name = name
-        self.last_active = datetime.utcnow()
-        self.background_info = bg_info
 
     #call this method to get the data in json format
     def get_json(self):
         self.last_active = datetime.utcnow()
         db.session.commit()
 
-        return {'artist_id': self.artist_id,
-                'artist_name': self.artist_name,
-                'background_info': self.background_info,
-                #make sure info_json is updated, everytime "get"
-                'info_json': self.__get_json()
+        return {
+            #don't change order
+            'info_json': self.__get_json(),
+            'artist_id': self.artist_id,
+            'artist_name': self.artist_name,
+            'background_info': self.background_info
                 }
 
-    def __update_json(self, artist_info_json):
-        print("---in db, updating artist info...")
-        self.update_datetime = datetime.utcnow()
-        self.info_json = artist_info_json
+    def update(self, bg_info):
+        self.last_active = datetime.utcnow()
+        db.session.commit()
+
+        self.background_info = bg_info
 
     def __get_json(self):
         if is_new(self.update_datetime, timedelta(weeks=1)):
@@ -235,13 +228,17 @@ class Artist_Info(db.Model):
 
         #else update by calling api
         sp = get_spotify_object()
-
-        #FIXME: make sure track_id is there
         new_info_json = sp.artist(self.artist_id)
-        self.__update_json(new_info_json)
+
+        #update info_json in database
+        self.update_datetime = datetime.utcnow()
+        self.info_json = new_info_json
+        self.artist_name = new_info_json['name']
 
         #since the caller is itself, do commit itself
         db.session.commit()
+
+        print("---in db, updating artist info...")
 
         return self.info_json
 
@@ -260,9 +257,7 @@ class Album_Info(db.Model):
 
 
     #call this method to update in database
-    def update(self, name=None, bg_info=""):
-        if name:
-            self.album_name = name
+    def update(self, bg_info):
         self.last_active = datetime.utcnow()
         self.background_info = bg_info
 
@@ -271,18 +266,15 @@ class Album_Info(db.Model):
         self.last_active = datetime.utcnow()
         db.session.commit()
 
-        return {'album_id': self.album_id,
-                'album_name': self.album_name,
-                'background_info': self.background_info,
-                #make sure info_json is updated, everytime "get"
-                'info_json': self.__get_json()
+        return {
+            #don't change order
+            'info_json': self.__get_json(),
+            'album_id': self.album_id,
+            'album_name': self.album_name,
+            'background_info': self.background_info
                 }
 
 
-    def __update_json(self, album_info_json):
-        print("---in db, updating album info...")
-        self.update_datetime = datetime.utcnow()
-        self.info_json = album_info_json
 
     def __get_json(self):
         if is_new(self.update_datetime, timedelta(weeks=1)):
@@ -290,13 +282,16 @@ class Album_Info(db.Model):
 
         #else update by calling api
         sp = get_spotify_object()
-
-        #FIXME: make sure track_id is there
         new_info_json = sp.album(self.album_id)
-        self.__update_json(new_info_json)
+
+        self.update_datetime = datetime.utcnow()
+        self.info_json = new_info_json
+        self.album_name = new_info_json['name']
 
         #since the caller is itself, do commit itself
         db.session.commit()
+
+        print("---in db, updating album info...")
 
         return self.info_json
 
