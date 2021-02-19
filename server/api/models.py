@@ -8,6 +8,7 @@ from datetime import datetime
 from datetime import timedelta
 
 class User(db.Model):
+    __tablename__ = "user"
     user_id = db.Column(db.String(25), primary_key=True, nullable=False)
     user_name = db.Column(db.String(20))
     user_email = db.Column(db.String(20))
@@ -16,6 +17,7 @@ class User(db.Model):
 
 #store user profile info json file
 class User_Info(db.Model):
+    __tablename__ = "user_info"
     user_id = db.Column(db.String(25), primary_key=True, nullable=False)
     info_json = db.Column(db_json_field.JSONField(enforce_string=True,
                                                   enforce_unicode=False
@@ -55,6 +57,7 @@ class User_Info(db.Model):
 
 
 class Top_Tracks_Info(db.Model):
+    __tablename__ = "top_tracks_info"
     user_id = db.Column(db.String(25), primary_key=True, nullable=False)
     info_json = db.Column(db_json_field.JSONField(enforce_string=True,
                                                   enforce_unicode=False
@@ -97,6 +100,7 @@ class Top_Tracks_Info(db.Model):
 
 
 class Top_Artists_Info(db.Model):
+    __tablename = "top_artists_info"
     user_id = db.Column(db.String(25), primary_key=True, nullable=False)
     info_json = db.Column(db_json_field.JSONField(enforce_string=True,
                                                   enforce_unicode=False
@@ -139,6 +143,7 @@ class Top_Artists_Info(db.Model):
 
 
 class Recent_Tracks_Info(db.Model):
+    __table__name = "recent_tracks_info"
     user_id = db.Column(db.String(25), primary_key=True, nullable=False)
     info_json = db.Column(db_json_field.JSONField(enforce_string=True,
                                                   enforce_unicode=False
@@ -179,6 +184,7 @@ class Recent_Tracks_Info(db.Model):
 
 
 class Track_Info(db.Model):
+    __tablename__ = "track_info"
     track_id = db.Column(db.String(25), primary_key=True, nullable=False)
     track_name = db.Column(db.String(25))
     #if not enough space, delete records according to last_active
@@ -255,6 +261,7 @@ class Track_Info(db.Model):
 
 
 class Artist_Info(db.Model):
+    __tablename__ = "artist_info"
     artist_id = db.Column(db.String(25), primary_key=True, nullable=False)
     artist_name = db.Column(db.String(25))
     #if not enough space, delete records according to last_active
@@ -325,6 +332,7 @@ class Artist_Info(db.Model):
 
 
 class Album_Info(db.Model):
+    __tablename__ = "album_info"
     album_id = db.Column(db.String(25), primary_key=True, nullable=False)
     album_name = db.Column(db.String(25))
     #if not enough space, delete records according to last_active
