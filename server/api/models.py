@@ -1,5 +1,5 @@
 #import sqlalchemy_jsonfield as db_json_field
-from server.api.utils import get_spotify_object
+from server.api.utils import get_spotify_object, is_new
 from server.api.extensions import db
 from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import JSON
@@ -8,6 +8,8 @@ from datetime import timedelta
 
 #---- This file store model/definitions for database tables
 
+# valid for a week
+
 
 class User(db.Model, UserMixin):
     __tablename__ = "user"
@@ -15,75 +17,42 @@ class User(db.Model, UserMixin):
     user_name = db.Column(db.String(30))
     user_email = db.Column(db.String(20))
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
-    level_progress = db.Column(db.Integer, default=0)
+    rank_progress = db.Column(db.Integer, default=0)
+
+    info_json = db.Column(JSON)
+    update_datetime = db.Column(db.DateTime)
 
     #for login
     def get_id(self):
         return self.user_id
 
     #so we will commit here, not by the caller
-    def increment_lv_with_commit(self, increment_amt):
-        self.level_progress += increment_amt
+    def increment_rank_progress_c(self, increment_amt):
+        self.rank_progress += increment_amt
         db.session.commit()
-
-
-
-#store user profile info json file
-class User_Info(db.Model):
-    __tablename__ = "user_info"
-    user_id = db.Column(db.String(30), primary_key=True, nullable=False)
-    info_json = db.Column(JSON)
-    update_datetime = db.Column(db.DateTime, nullable=False)
-
-    #valid for 5 min
-    def is_new(self):
-        if not self.update_datetime:
-            return False
-
-        current_time = datetime.utcnow()
-        diff = current_time - self.update_datetime
-
-        if diff > timedelta(minutes=5):
-            return False
-
-        return True
 
     def update(self, user_info_json):
         self.info_json = user_info_json
         self.update_datetime = datetime.utcnow()
 
     def get_json(self):
-        if self.is_new():
+        if is_new(self.update_datetime, timedelta(minutes=5)):
             return self.info_json
 
         #else update by calling api
         sp = get_spotify_object()
         self.update(sp.current_user())
 
+        db.session.commit()
+
         return self.info_json
-
-
-
 
 
 class Top_Tracks_Info(db.Model):
     __tablename__ = "top_tracks_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
     info_json = db.Column(JSON)
-    update_datetime = db.Column(db.DateTime, nullable=False)
-
-    #valid for 1 hour
-    def is_new(self):
-        if not self.update_datetime:
-            return False
-
-        current_time = datetime.utcnow()
-        diff = current_time - self.update_datetime
-
-        if diff > timedelta(hours=1):
-            return False
-
-        return True
+    update_datetime = db.Column(db.DateTime)
 
     def update(self, top_tracks_info_json):
         print("---in db, updating user top tracks info...")
@@ -91,7 +60,7 @@ class Top_Tracks_Info(db.Model):
         self.update_datetime = datetime.utcnow()
 
     def get_json(self):
-        if self.is_new():
+        if is_new(self.update_datetime, timedelta(hours=1)):
             return self.info_json
 
         #else update by calling api
@@ -100,6 +69,7 @@ class Top_Tracks_Info(db.Model):
         new_json_info = sp.current_user_top_tracks(limit=50, time_range='long_term')
 
         self.update(new_json_info)
+        db.session.commit()
 
         return self.info_json
 
@@ -110,20 +80,8 @@ class Top_Artists_Info(db.Model):
     __tablename = "top_artists_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
     info_json = db.Column(JSON)
-    update_datetime = db.Column(db.DateTime, nullable=False)
+    update_datetime = db.Column(db.DateTime)
 
-    #valid for 1 hour
-    def is_new(self):
-        if not self.update_datetime:
-            return False
-
-        current_time = datetime.utcnow()
-        diff = current_time - self.update_datetime
-
-        if diff > timedelta(hours=1):
-            return False
-
-        return True
 
     def update(self, top_artists_info_json):
         print("---in db, updating user top artists info...")
@@ -131,7 +89,7 @@ class Top_Artists_Info(db.Model):
         self.update_datetime = datetime.utcnow()
 
     def get_json(self):
-        if self.is_new():
+        if is_new(self.update_datetime, timedelta(hours=1)):
             return self.info_json
 
         #else update by calling api
@@ -139,7 +97,7 @@ class Top_Artists_Info(db.Model):
 
         new_json_info = sp.current_user_top_artists(limit=50, time_range='long_term')
         self.update(new_json_info)
-
+        db.session.commit()
 
         return self.info_json
 
@@ -150,20 +108,8 @@ class Recent_Tracks_Info(db.Model):
     __table__name = "recent_tracks_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
     info_json = db.Column(JSON)
-    update_datetime = db.Column(db.DateTime, nullable=False)
+    update_datetime = db.Column(db.DateTime)
 
-    #valid for 5 min
-    def is_new(self):
-        if not self.update_datetime:
-            return False
-
-        current_time = datetime.utcnow()
-        diff = current_time - self.update_datetime
-
-        if diff > timedelta(minutes=5):
-            return False
-
-        return True
 
     def update(self, recent_tracks_info_json):
         print("---in db, updating user recent tracks info...")
@@ -171,7 +117,7 @@ class Recent_Tracks_Info(db.Model):
         self.update_datetime = datetime.utcnow()
 
     def get_json(self):
-        if self.is_new():
+        if is_new(self.update_datetime, timedelta(minutes=5)):
             return self.info_json
 
         #else update by calling api
@@ -179,6 +125,8 @@ class Recent_Tracks_Info(db.Model):
 
         new_json_info = sp.current_user_recently_played(limit=50)
         self.update(new_json_info)
+
+        db.session.commit()
 
         return self.info_json
 
@@ -219,18 +167,6 @@ class Track_Info(db.Model):
                 'info_json': self.__get_json()
                 }
 
-    #valid for a week
-    def __is_new(self):
-        if not self.update_datetime:
-            return False
-
-        current_time = datetime.utcnow()
-        diff = current_time - self.update_datetime
-
-        if diff > timedelta(weeks=1):
-            return False
-
-        return True
 
     def __update_json(self, track_info_json):
         print("---in db, updating track info...")
@@ -238,7 +174,7 @@ class Track_Info(db.Model):
         self.info_json = track_info_json
 
     def __get_json(self):
-        if self.__is_new():
+        if is_new(self.update_datetime, timedelta(weeks=1)):
             return self.info_json
 
         #else update by calling api
@@ -288,26 +224,13 @@ class Artist_Info(db.Model):
                 'info_json': self.__get_json()
                 }
 
-    #valid for a week
-    def __is_new(self):
-        if not self.update_datetime:
-            return False
-
-        current_time = datetime.utcnow()
-        diff = current_time - self.update_datetime
-
-        if diff > timedelta(weeks=1):
-            return False
-
-        return True
-
     def __update_json(self, artist_info_json):
         print("---in db, updating artist info...")
         self.update_datetime = datetime.utcnow()
         self.info_json = artist_info_json
 
     def __get_json(self):
-        if self.__is_new():
+        if is_new(self.update_datetime, timedelta(weeks=1)):
             return self.info_json
 
         #else update by calling api
@@ -355,18 +278,6 @@ class Album_Info(db.Model):
                 'info_json': self.__get_json()
                 }
 
-    #valid for a week
-    def __is_new(self):
-        if not self.update_datetime:
-            return False
-
-        current_time = datetime.utcnow()
-        diff = current_time - self.update_datetime
-
-        if diff > timedelta(weeks=1):
-            return False
-
-        return True
 
     def __update_json(self, album_info_json):
         print("---in db, updating album info...")
@@ -374,7 +285,7 @@ class Album_Info(db.Model):
         self.info_json = album_info_json
 
     def __get_json(self):
-        if self.__is_new():
+        if is_new(self.update_datetime, timedelta(weeks=1)):
             return self.info_json
 
         #else update by calling api
@@ -388,3 +299,4 @@ class Album_Info(db.Model):
         db.session.commit()
 
         return self.info_json
+
