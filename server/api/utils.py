@@ -3,6 +3,8 @@ from spotipy.oauth2 import SpotifyOAuth
 from flask import url_for, session
 import spotipy
 from server.api.decorators import token_checked
+from datetime import datetime
+from datetime import timedelta
 
 # this file contains functions that are useful and used in many different places
 
@@ -57,3 +59,14 @@ def get_token_info():
     return session['TOKEN_INFO']
 
 
+def is_new(db_datetime, expire_after_time_delta):
+    if not db_datetime:
+        return False
+
+    current_time = datetime.utcnow()
+    diff = current_time - db_datetime
+
+    if diff > expire_after_time_delta:
+        return False
+
+    return True

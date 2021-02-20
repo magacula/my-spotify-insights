@@ -1,5 +1,7 @@
 from flask import Blueprint
-from server.api.decorators import permission_required, login_required
+from flask_login import login_required
+#from server.api.decorators import permission_required, login_required
+from server.api.decorators import permission_required
 from server.api.extensions import limiter
 #from server.api.utils import connect_to_database, init_db
 #routes for admin related works

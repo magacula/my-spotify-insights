@@ -1,6 +1,8 @@
 from flask import Blueprint, url_for, session, redirect, request, jsonify
 import spotipy
-from server.api.decorators import login_required
+from flask_login import login_user, login_required, current_user, logout_user
+#FIXME:
+#from server.api.decorators import login_required
 # from server.api.decorators import db, db_cursor
 from server.api.utils import get_spotify_oauth, get_token_info, get_spotify_object, refresh_token_info
 from server.api.extensions import limiter, db
@@ -14,8 +16,9 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route("/auth/logout")
 @login_required
 def logout():
-    session['LOGGED_IN'] = False
-
+    #session['LOGGED_IN'] = False
+    #FIXME:
+    logout_user()
 
     #refer to index
     return redirect("/")
@@ -71,14 +74,16 @@ def redirect_page():
         # FIXME: may need more info later
         temp_user = User.query.filter(User.user_id == cur_user_id).first()
         if not temp_user:
-            cur_user = User(user_name=cur_user_name, user_id=cur_user_id)
-            db.session.add(cur_user)
+            temp_user = User(user_name=cur_user_name, user_id=cur_user_id)
+            db.session.add(temp_user)
             db.session.commit()
 
+        #FIXME:
+        login_user(temp_user)
 
-        session['LOGGED_IN'] = True
-        session['USER_NAME'] = cur_user_name
-        session['USER_ID'] = cur_user_id
+        #session['LOGGED_IN'] = True
+        #session['USER_NAME'] = cur_user_name
+        #session['USER_ID'] = cur_user_id
 
     except Exception as e:
         print(e)
@@ -92,7 +97,9 @@ def token_expired():
     return "Your access token is expired, please go to login page to refresh the access token"
 
 
-# FIXME: if you want to have a html page for this
+# FIXME: react will not redirect to the login page
 @ auth_bp.route("/auth/access_denied")
 def access_denied():
-    return "You don't have the permission for this operation"
+    #return "You don't have the permission for this operation" , 404
+    #supposedly, this should redirect to the login page
+    return redirect("/", 403)

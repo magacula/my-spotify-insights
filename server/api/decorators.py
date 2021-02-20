@@ -8,6 +8,8 @@ import spotipy
 # used as a decorator, under the route decorator, check if user is logged in
 
 
+#backup if flask_login failed for some case
+"""
 def login_required(func):
 
     @wraps(func)
@@ -26,7 +28,7 @@ def login_required(func):
         return func(*args, **kwargs)
 
     return decorated_function
-
+"""
 
 # check if token still valid or exist
 def token_checked(func):
