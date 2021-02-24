@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import themes from "../styles/themes";
-import { NavLink } from "react-router-dom";
-import { HiHome, HiUserCircle } from "react-icons/hi";
-import { FiStar } from "react-icons/fi";
-import { AiFillFire } from "react-icons/ai";
-import { IoIosFilm } from "react-icons/io";
-import { FaCrown } from "react-icons/fa";
-import { HiClock } from "react-icons/hi";
-import { BsGraphUp } from "react-icons/bs";
-import { SiAudioboom } from "react-icons/si";
-import { MdQueueMusic } from "react-icons/md";
+import {NavLink} from "react-router-dom";
+import {HiHome, HiUserCircle} from "react-icons/hi";
+import {FiStar} from "react-icons/fi";
+import {AiFillFire} from "react-icons/ai";
+import {IoIosFilm} from "react-icons/io";
+import {FaCrown} from "react-icons/fa";
+import {HiClock} from "react-icons/hi";
+import {BsGraphUp} from "react-icons/bs";
+import {SiAudioboom} from "react-icons/si";
+import {MdBugReport, MdQueueMusic} from "react-icons/md";
+import {AiFillBug} from "react-icons/ai";
 import "../styles/App.css";
 
-const { colors } = themes;
+const {colors} = themes;
 
 const NavContainer = styled.div`
   display: flex;
@@ -44,13 +45,6 @@ const NavMenuItem = styled.li`
     transition: all 0.3s linear;
     cursor: pointer;
   }
-`;
-
-const Home = styled(HiHome)`
-  color: white;
-  font-size: 3rem;
-  margin: 1rem 0rem;
-  width: 100%;
 `;
 
 const Star = styled(FiStar)`
@@ -117,14 +111,29 @@ const Playlists = styled(MdQueueMusic)`
   width: 100%;
 `;
 
+const Bug = styled(AiFillBug)`
+  color: white;
+  font-size: 3rem;
+  margin: 1rem 0rem;
+  width: 100%;
+`;
+
+const Home = styled(HiHome)`
+  color: white;
+  font-size: 3rem;
+  margin: 1rem 0rem;
+  width: 100%;
+`;
+
 const Link = styled(NavLink)`
   color: ${colors.white};
 `;
 
 const Navbar = () => {
   return (
-    <NavContainer>
-      <NavMenu>
+      <NavContainer>
+        <NavMenu>
+
         <NavMenuItem>
           <Link to="/home" title="Home" activeClassName="active-navlink">
             <Home />
@@ -132,29 +141,20 @@ const Navbar = () => {
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link
-            to="/discover"
-            title="Discover"
-            activeClassName="active-navlink">
-            <Star />
+          <Link to="/discover" title="Discover" activeClassName="active-navlink">
+            <Star/>
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link
-            to="/popular_artists"
-            title="Most Popular Artists"
-            activeClassName="active-navlink">
-            <Fire />
+          <Link to="/popular_artists" title="Most Popular Artists" activeClassName="active-navlink">
+            <Fire/>
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link
-            to="/film_maker"
-            title="Film Maker"
-            activeClassName="active-navlink">
-            <Film />
+          <Link to="/film_maker" title="Film Maker" activeClassName="active-navlink">
+            <Film/>
           </Link>
         </NavMenuItem>
 
@@ -178,16 +178,23 @@ const Navbar = () => {
 
         <NavMenuItem>
           <Link to="/TopTracksGraph" activeClassName="active-navlink">
-            <AudioFeatures />
+            <AudioFeatures/>
           </Link>
         </NavMenuItem>
 
-        <NavMenuItem>
-          <Link to="/Playlists" activeClassName="active-navlink">
-            <Playlists />
-          </Link>
-        </NavMenuItem>
-      </NavMenu>
+          <NavMenuItem>
+            <Link to="/Playlists" activeClassName="active-navlink">
+              <Playlists/>
+            </Link>
+          </NavMenuItem>
+
+          <NavMenuItem>
+            <Link to="/BugReport" title="Bug Report" activeClassName="active-navlink">
+              <Bug/>
+            </Link>
+          </NavMenuItem>
+
+        </NavMenu>
     </NavContainer>
   );
 };
