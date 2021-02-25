@@ -137,25 +137,6 @@ def track_preview_url(track_id):
     return track_preview_link
 
 
-@main_bp.route("/main/start_playback/<track_id>")
-@limiter.limit("2 per second")
-@login_required
-@token_checked
-def playback(track_id):
-    sp = get_spotify_object
-    track_details = sp.track(track_id)
-    track_preview_link = track_details['preview_url']
-
-    sp.start_playback(uris=[f'spotify:track:{track_id}'])
-
-
-    # if unable to play track
-    if not track_preview_link:
-
-        return False
-
-    return True
-
 
 @main_bp.route("/main/album_details/<album_id>", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
