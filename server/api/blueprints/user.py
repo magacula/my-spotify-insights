@@ -338,7 +338,6 @@ def top_tracks_audio_features():
 @token_checked
 def my_profile():
 
-    sp = get_spotify_object()
     #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
@@ -361,3 +360,22 @@ def my_profile():
 
 
 
+#NOTE: pause/resume playback requires premium account
+#track what track current user is playing...
+@user_bp.route("/user/current_playback")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def playback_current():
+    sp = get_spotify_object()
+    raw_data_json = sp.current_playback()
+
+    #FIXME: change this if return null json data is not valid
+    if not raw_data_json:
+        return {}
+
+    return {"progress": raw_data_json['progress_ms'],
+            "total_length": raw_data_json['item']['duration_ms'],
+            "is_playing": raw_data_json['is_playing'],
+            "playback_json": raw_data_json
+            }
