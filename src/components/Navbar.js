@@ -189,9 +189,10 @@ const Navbar = () => {
           </NavMenuItem>
 
           <NavMenuItem>
-            <Link to="/BugReport" title="Bug Report" activeClassName="active-navlink">
-              <Bug/>
-            </Link>
+              <a href="mailto:myspotifyinsights@gmail.com?&subject=Spotify%20Insights%20Bug%20Report&body=Hello,%20I%20was%20using%20your%20site%20when%20I%20encountered%20a%20bug.%0D%0A%0AHere%20is%20what%20happened%3A%0D%0A"
+                 target="_top">
+                  <Bug/>
+              </a>
           </NavMenuItem>
 
         </NavMenu>
