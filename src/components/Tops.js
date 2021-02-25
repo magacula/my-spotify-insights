@@ -3,6 +3,9 @@ import Tabs from "./Tabs";
 import Loader from "./Loader";
 import "../styles/App.css";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import themes from "../styles/themes";
+const { colors } = themes;
 
 const TracksContainer = styled.div`
   margin-top: 2rem;
@@ -14,8 +17,9 @@ const TracksContainer = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 `;
 
-const TrackWrapper = styled.div`
+const TrackWrapper = styled(Link)`
   width: 100%;
+  color: ${colors.white};
 `;
 
 const Track = styled.div`
@@ -64,8 +68,9 @@ const Artist = styled.div`
   }
 `;
 
-const ArtistWrapper = styled.div`
+const ArtistWrapper = styled(Link)`
   width: 100%;
+  color: ${colors.white};
 `;
 
 const ArtistInfo = styled.div`
@@ -107,10 +112,11 @@ const Album = styled.div`
   }
 `;
 
-const AlbumWrapper = styled.div`
+const AlbumWrapper = styled(Link)`
   width: 100%;
   display: flex;
   justify-content: center;
+  color: ${colors.white};
 `;
 
 const AlbumInfo = styled.div`
@@ -192,8 +198,19 @@ const Tops = () => {
           <TracksContainer>
             {topTracks.map((track, index) => {
               return (
-                <Track key={index} style={{ marginLeft: "25px" }}>
-                  <TrackWrapper>
+                <Track key={index} track={track} style={{ marginLeft: "25px" }}>
+                  <TrackWrapper
+                    to={{
+                      pathname: `/track/${track.id}`,
+                      state: {
+                        id: `${track.id}`,
+                        name: `${track.name}`,
+                        artist: `${track.artists[0]["name"]}`,
+                        cover: `${track.album.images[1].url}`,
+                        duration_ms: `${track.duration_ms}`,
+                        popularity: `${track.popularity}`,
+                      },
+                    }}>
                     <TrackInfo>
                       <TrackName>
                         {index + 1}) {track.name}
@@ -212,7 +229,7 @@ const Tops = () => {
             {topArtists.map((artist, index) => {
               return (
                 <Artist key={index}>
-                  <ArtistWrapper>
+                  <ArtistWrapper to={`/artist/${artist.id}`}>
                     <ArtistInfo>
                       <ArtistPic src={artist.images[1].url} />
                       <ArtistName>{artist.name}</ArtistName>
@@ -228,7 +245,7 @@ const Tops = () => {
             {topAlbums.map((album, index) => {
               return (
                 <Album key={index}>
-                  <AlbumWrapper>
+                  <AlbumWrapper to={`/album/${album.id}`}>
                     <AlbumInfo>
                       <AlbumName>{album.name}</AlbumName>
                       <ArtistTitle>{album.artists[0].name}</ArtistTitle>

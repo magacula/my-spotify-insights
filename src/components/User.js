@@ -11,6 +11,7 @@ import Tops from "./Tops";
 import RecentlyPlayed from "./RecentlyPlayed";
 import TopTracksGraph from "./TopTracksGraph";
 import Playlists from "./Playlists";
+import TrackItem from "./TrackItem";
 
 // For LOGGING OUT OUT User, just route to path="/" after clicking button
 
@@ -51,6 +52,7 @@ const User = () => {
           <Route path="/Playlists">
             <Playlists />
           </Route>
+          <Route path="/track/:trackId" component={TrackItem} />
         </div>
       </Switch>
     </Router>
