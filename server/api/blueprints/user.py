@@ -371,6 +371,7 @@ def playback_current():
     raw_data_json = sp.current_playback()
 
     #FIXME: change this if return null json data is not valid
+    #only get return value when user is playing or just paused
     if not raw_data_json:
         return {}
 
