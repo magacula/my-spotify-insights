@@ -1,0 +1,618 @@
+{
+  "href": "https://api.spotify.com/v1/me/top/artists?limit=50&offset=0", 
+  "items": [
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/0aqrM7Fo3Ml66Kc5JAzmjt"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 324660
+      }, 
+      "genres": [
+        "contemporary country", 
+        "country", 
+        "country dawn"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/0aqrM7Fo3Ml66Kc5JAzmjt", 
+      "id": "0aqrM7Fo3Ml66Kc5JAzmjt", 
+      "images": [
+        {
+          "height": 750, 
+          "url": "https://i.scdn.co/image/9685faa9fee837fba654a4a8980cffc000005b41", 
+          "width": 1000
+        }, 
+        {
+          "height": 480, 
+          "url": "https://i.scdn.co/image/5415456791546354d20d817dce31f4585b7eea4f", 
+          "width": 640
+        }, 
+        {
+          "height": 150, 
+          "url": "https://i.scdn.co/image/c8c613bc94a39af51fd0e780a9566344395c8e46", 
+          "width": 200
+        }, 
+        {
+          "height": 48, 
+          "url": "https://i.scdn.co/image/b36d5a848717857e2830dca6c5b5b2e3c6da07d9", 
+          "width": 64
+        }
+      ], 
+      "name": "Deana Carter", 
+      "popularity": 54, 
+      "type": "artist", 
+      "uri": "spotify:artist:0aqrM7Fo3Ml66Kc5JAzmjt"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/3WrFJ7ztbogyGnTHbHJFl2"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 18494606
+      }, 
+      "genres": [
+        "beatlesque", 
+        "british invasion", 
+        "classic rock", 
+        "merseybeat", 
+        "psychedelic rock", 
+        "rock"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2", 
+      "id": "3WrFJ7ztbogyGnTHbHJFl2", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/6b2a709752ef9c7aaf0d270344157f6cd2e0f1a7", 
+          "width": 640
+        }, 
+        {
+          "height": 320, 
+          "url": "https://i.scdn.co/image/1047bf172446f2a815a99ab0a0395099d621be51", 
+          "width": 320
+        }, 
+        {
+          "height": 160, 
+          "url": "https://i.scdn.co/image/0561b59a91a5e904ad2d192747715688d5f05012", 
+          "width": 160
+        }
+      ], 
+      "name": "The Beatles", 
+      "popularity": 88, 
+      "type": "artist", 
+      "uri": "spotify:artist:3WrFJ7ztbogyGnTHbHJFl2"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/25s9H1JQmTu3iuFzpXWUIg"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 13792
+      }, 
+      "genres": [
+        "background piano", 
+        "calming instrumental", 
+        "christmas instrumental", 
+        "neo-classical"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/25s9H1JQmTu3iuFzpXWUIg", 
+      "id": "25s9H1JQmTu3iuFzpXWUIg", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/d56ca30d530a0e93737bdd450dcdaff9fa2316d5", 
+          "width": 640
+        }, 
+        {
+          "height": 320, 
+          "url": "https://i.scdn.co/image/5ca82ce4120320b7b61dec7490b88c3ff9ce55a1", 
+          "width": 320
+        }, 
+        {
+          "height": 160, 
+          "url": "https://i.scdn.co/image/d9189134494519e14abd738ca427b231d524e6f5", 
+          "width": 160
+        }
+      ], 
+      "name": "Stephan Moccio", 
+      "popularity": 67, 
+      "type": "artist", 
+      "uri": "spotify:artist:25s9H1JQmTu3iuFzpXWUIg"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/7t8PD6GvlbqByM0g7ysSHH"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 5599
+      }, 
+      "genres": [
+        "calming instrumental", 
+        "neo-classical"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/7t8PD6GvlbqByM0g7ysSHH", 
+      "id": "7t8PD6GvlbqByM0g7ysSHH", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/fc3498fa1b29efb6ab5bfecf229af5f4781bcb2d", 
+          "width": 640
+        }, 
+        {
+          "height": 320, 
+          "url": "https://i.scdn.co/image/5ef1dcf7e389394b88d88d693a2f865963dddf3e", 
+          "width": 320
+        }, 
+        {
+          "height": 160, 
+          "url": "https://i.scdn.co/image/07ec14fe2c035dc1dd11fabeb175754d62fa21ca", 
+          "width": 160
+        }
+      ], 
+      "name": "Jef Martens", 
+      "popularity": 67, 
+      "type": "artist", 
+      "uri": "spotify:artist:7t8PD6GvlbqByM0g7ysSHH"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/25IG9fa7cbdmCIy3OnuH57"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 1097926
+      }, 
+      "genres": [
+        "contemporary country", 
+        "country", 
+        "country dawn"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/25IG9fa7cbdmCIy3OnuH57", 
+      "id": "25IG9fa7cbdmCIy3OnuH57", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/a58534a83bbcbc14cfc8b29ecd1fbec039a54b05", 
+          "width": 640
+        }, 
+        {
+          "height": 320, 
+          "url": "https://i.scdn.co/image/0cf7d973d66ad803bc95c804e13138991d842a44", 
+          "width": 320
+        }, 
+        {
+          "height": 160, 
+          "url": "https://i.scdn.co/image/73e68139e591b1aba50eb48fe8faa47cabc2d687", 
+          "width": 160
+        }
+      ], 
+      "name": "The Chicks", 
+      "popularity": 71, 
+      "type": "artist", 
+      "uri": "spotify:artist:25IG9fa7cbdmCIy3OnuH57"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/02rd0anEWfMtF7iMku9uor"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 1304757
+      }, 
+      "genres": [
+        "contemporary country", 
+        "country", 
+        "country dawn", 
+        "oklahoma country"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/02rd0anEWfMtF7iMku9uor", 
+      "id": "02rd0anEWfMtF7iMku9uor", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/f6bffefb7b166686f5f3e1a351c3f9cf917b3789", 
+          "width": 640
+        }, 
+        {
+          "height": 320, 
+          "url": "https://i.scdn.co/image/26e2ff855d65a2d35b087acbffdd3434fb3fe430", 
+          "width": 320
+        }, 
+        {
+          "height": 160, 
+          "url": "https://i.scdn.co/image/afa6853d934e122b553e514a60515fc4dd268b0b", 
+          "width": 160
+        }
+      ], 
+      "name": "Reba McEntire", 
+      "popularity": 67, 
+      "type": "artist", 
+      "uri": "spotify:artist:02rd0anEWfMtF7iMku9uor"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/0PmeWY74IzTbfmYPC3Fsq6"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 1677
+      }, 
+      "genres": [
+        "background piano", 
+        "focus"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/0PmeWY74IzTbfmYPC3Fsq6", 
+      "id": "0PmeWY74IzTbfmYPC3Fsq6", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/ab67616d0000b273fead11034b8f79218ef1ec6e", 
+          "width": 640
+        }, 
+        {
+          "height": 300, 
+          "url": "https://i.scdn.co/image/ab67616d00001e02fead11034b8f79218ef1ec6e", 
+          "width": 300
+        }, 
+        {
+          "height": 64, 
+          "url": "https://i.scdn.co/image/ab67616d00004851fead11034b8f79218ef1ec6e", 
+          "width": 64
+        }
+      ], 
+      "name": "Adam Fincher", 
+      "popularity": 51, 
+      "type": "artist", 
+      "uri": "spotify:artist:0PmeWY74IzTbfmYPC3Fsq6"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/0mWi0Jr9Ir8GPGVBpQqI1W"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 6750
+      }, 
+      "genres": [
+        "background piano"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/0mWi0Jr9Ir8GPGVBpQqI1W", 
+      "id": "0mWi0Jr9Ir8GPGVBpQqI1W", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/22b9fc35deb8aa910c38d3455b912ee660cb31d5", 
+          "width": 640
+        }, 
+        {
+          "height": 320, 
+          "url": "https://i.scdn.co/image/f394fa24ec86ac4b5d10becaea181a9404fca199", 
+          "width": 320
+        }, 
+        {
+          "height": 160, 
+          "url": "https://i.scdn.co/image/ce46c6cc93a1a12e56253c8454bc507c1952c4fe", 
+          "width": 160
+        }
+      ], 
+      "name": "Karin Borg", 
+      "popularity": 54, 
+      "type": "artist", 
+      "uri": "spotify:artist:0mWi0Jr9Ir8GPGVBpQqI1W"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/2CUZliHXKYjXEV2BOZqMvi"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 1563
+      }, 
+      "genres": [
+        "background piano"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/2CUZliHXKYjXEV2BOZqMvi", 
+      "id": "2CUZliHXKYjXEV2BOZqMvi", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/ab67616d0000b2738aac0d0c263549c191fbe582", 
+          "width": 640
+        }, 
+        {
+          "height": 300, 
+          "url": "https://i.scdn.co/image/ab67616d00001e028aac0d0c263549c191fbe582", 
+          "width": 300
+        }, 
+        {
+          "height": 64, 
+          "url": "https://i.scdn.co/image/ab67616d000048518aac0d0c263549c191fbe582", 
+          "width": 64
+        }
+      ], 
+      "name": "Tosh M\u00f8ller", 
+      "popularity": 56, 
+      "type": "artist", 
+      "uri": "spotify:artist:2CUZliHXKYjXEV2BOZqMvi"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/39u6Bl8CfMjzqKVaM3JsTJ"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 1799
+      }, 
+      "genres": [
+        "background piano", 
+        "neo-classical"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/39u6Bl8CfMjzqKVaM3JsTJ", 
+      "id": "39u6Bl8CfMjzqKVaM3JsTJ", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/44f627f6a83eceb982cd34349bddd1c420db19fb", 
+          "width": 640
+        }, 
+        {
+          "height": 320, 
+          "url": "https://i.scdn.co/image/1da5b2f4415e8d61cb2c650fea6f7ea1857f73ad", 
+          "width": 320
+        }, 
+        {
+          "height": 160, 
+          "url": "https://i.scdn.co/image/b54280c73a5f769b07f6d1e87fbe03150d447f0c", 
+          "width": 160
+        }
+      ], 
+      "name": "Niall Byrne", 
+      "popularity": 55, 
+      "type": "artist", 
+      "uri": "spotify:artist:39u6Bl8CfMjzqKVaM3JsTJ"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/3LtlJprzuq0Ii8p8YFZXai"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 36875
+      }, 
+      "genres": [
+        "background music", 
+        "background piano", 
+        "compositional ambient", 
+        "focus", 
+        "neo-classical"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/3LtlJprzuq0Ii8p8YFZXai", 
+      "id": "3LtlJprzuq0Ii8p8YFZXai", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/6c6072cbda06bdaa5a7b519cc0034b4436e09e98", 
+          "width": 640
+        }, 
+        {
+          "height": 320, 
+          "url": "https://i.scdn.co/image/d1ce4d7836087f463f8ecbdda3a0dd1f1235a1a2", 
+          "width": 320
+        }, 
+        {
+          "height": 160, 
+          "url": "https://i.scdn.co/image/1b3b43ff96fe75c2ffe30face4a619928685ba40", 
+          "width": 160
+        }
+      ], 
+      "name": "Peter Sandberg", 
+      "popularity": 64, 
+      "type": "artist", 
+      "uri": "spotify:artist:3LtlJprzuq0Ii8p8YFZXai"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/4mxWe1mtYIYfP040G38yvS"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 1443549
+      }, 
+      "genres": [
+        "contemporary country", 
+        "country", 
+        "country road"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/4mxWe1mtYIYfP040G38yvS", 
+      "id": "4mxWe1mtYIYfP040G38yvS", 
+      "images": [
+        {
+          "height": 1333, 
+          "url": "https://i.scdn.co/image/43fdc2605725f488299398758ffb2c46e6ee7d38", 
+          "width": 1000
+        }, 
+        {
+          "height": 853, 
+          "url": "https://i.scdn.co/image/ce3925ef836dc9977b9100013777b70bc159ab02", 
+          "width": 640
+        }, 
+        {
+          "height": 267, 
+          "url": "https://i.scdn.co/image/75dfc9856729232143ce6edcb7920381db30399f", 
+          "width": 200
+        }, 
+        {
+          "height": 85, 
+          "url": "https://i.scdn.co/image/2dad4aff9650aa11ec16841171c2fcdc49cd1700", 
+          "width": 64
+        }
+      ], 
+      "name": "Alan Jackson", 
+      "popularity": 75, 
+      "type": "artist", 
+      "uri": "spotify:artist:4mxWe1mtYIYfP040G38yvS"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/4n1lW38WKgyPEIZowQ3AND"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 50276
+      }, 
+      "genres": [
+        "compositional ambient", 
+        "j-ambient", 
+        "japanese classical", 
+        "japanese piano", 
+        "neo-classical"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/4n1lW38WKgyPEIZowQ3AND", 
+      "id": "4n1lW38WKgyPEIZowQ3AND", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/d3f42be7f50cb55ab18e3286e05bcf15878643e3", 
+          "width": 640
+        }, 
+        {
+          "height": 320, 
+          "url": "https://i.scdn.co/image/fbe62b2d069adb932ca8a7a698a71e2b54612ac5", 
+          "width": 320
+        }, 
+        {
+          "height": 160, 
+          "url": "https://i.scdn.co/image/2f8482bc755125ba5dc21ee576a683ed7fbda3f5", 
+          "width": 160
+        }
+      ], 
+      "name": "Akira Kosemura", 
+      "popularity": 63, 
+      "type": "artist", 
+      "uri": "spotify:artist:4n1lW38WKgyPEIZowQ3AND"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/6GETMwt7rbOZRXFnivRObG"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 721
+      }, 
+      "genres": [
+        "background piano"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/6GETMwt7rbOZRXFnivRObG", 
+      "id": "6GETMwt7rbOZRXFnivRObG", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/4f13c392e2dd06f510666816f4c2e2c640628d1c", 
+          "width": 640
+        }, 
+        {
+          "height": 320, 
+          "url": "https://i.scdn.co/image/10f0461f38e362d4bb7bb4866494b457e1a4cce3", 
+          "width": 320
+        }, 
+        {
+          "height": 160, 
+          "url": "https://i.scdn.co/image/60287f6bfd9960cbea7e8b02a5f21c98ebf88d82", 
+          "width": 160
+        }
+      ], 
+      "name": "Ragnar Seaholm", 
+      "popularity": 56, 
+      "type": "artist", 
+      "uri": "spotify:artist:6GETMwt7rbOZRXFnivRObG"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/6LwcYWG1molG0KW2xwnPd2"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 4769
+      }, 
+      "genres": [
+        "background piano", 
+        "calming instrumental", 
+        "focus"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/6LwcYWG1molG0KW2xwnPd2", 
+      "id": "6LwcYWG1molG0KW2xwnPd2", 
+      "images": [
+        {
+          "height": 640, 
+          "url": "https://i.scdn.co/image/2ffe47829f12fa0bc5f3075a4302664196e0ea2c", 
+          "width": 640
+        }, 
+        {
+          "height": 320, 
+          "url": "https://i.scdn.co/image/f339b70d289e7644802aaf8ff8b8698e3a644c6f", 
+          "width": 320
+        }, 
+        {
+          "height": 160, 
+          "url": "https://i.scdn.co/image/c976f331e4157fe2555ac488d740d3708a2cedc7", 
+          "width": 160
+        }
+      ], 
+      "name": "Ever So Blue", 
+      "popularity": 66, 
+      "type": "artist", 
+      "uri": "spotify:artist:6LwcYWG1molG0KW2xwnPd2"
+    }, 
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/7mPcfx7PhnBh6n4HMCd61A"
+      }, 
+      "followers": {
+        "href": null, 
+        "total": 660010
+      }, 
+      "genres": [
+        "contemporary country", 
+        "country", 
+        "country road", 
+        "country rock"
+      ], 
+      "href": "https://api.spotify.com/v1/artists/7mPcfx7PhnBh6n4HMCd61A", 
+      "id": "7mPcfx7PhnBh6n4HMCd61A", 
+      "images": [
+        {
+          "height": 675, 
+          "url": "https://i.scdn.co/image/7c95c04b391ea7eae48c29f095335803136203c1", 
+          "width": 1000
+        }, 
+        {
+          "height": 432, 
+          "url": "https://i.scdn.co/image/9818f2aece77c2b1d36bb969d0fd17c1d959a151", 
+          "width": 640
+        }, 
+        {
+          "height": 135, 
+          "url": "https://i.scdn.co/image/ee5201eda65654a1fef17b0d00242fda39bfc399", 
+          "width": 200
+        }, 
+        {
+          "height": 43, 
+          "url": "https://i.scdn.co/image/a3463963a84b01eecaf4ae94c19c7462a62c2ea3", 
+          "width": 64
+        }
+      ], 
+      "name": "John Michael Montgomery", 
+      "popularity": 63, 
+      "type": "artist", 
+      "uri": "spotify:artist:7mPcfx7PhnBh6n4HMCd61A"
+    }
+  ], 
+  "limit": 50, 
+  "next": null, 
+  "offset": 0, 
+  "previous": null, 
+  "total": 16
+}
