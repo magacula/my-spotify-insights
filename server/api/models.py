@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     user_email = db.Column(db.String(20))
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
     rank_progress = db.Column(db.Integer, default=0)
+    login_timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
@@ -30,6 +31,11 @@ class User(db.Model, UserMixin):
 
     #for login
     def get_id(self):
+        #award rank progress if login in different date
+        if not (self.login_timestamp.date() == datetime.utcnow().date()):
+            print("-----add 10 to rank progress")
+            self.increment_rank_progress_c(10)
+
         return self.user_id
 
     #so we will commit here, not by the caller
