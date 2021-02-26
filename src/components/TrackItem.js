@@ -1,5 +1,30 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import themes from "../styles/themes";
+import { NavLink } from "react-router-dom";
+const { colors } = themes;
+
+const Button = styled(NavLink)`
+  display: inline-block;
+  background: ${colors.lightBlue};
+  color: ${colors.white};
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  border-color: transparent;
+  text-transform: capitalize;
+  font-size: 1rem;
+  letter-spacing: 0.1rem;
+  margin-top: 2rem;
+  margin-left: 120px;
+  margin-right: 0.5rem;
+  transition: all 0.3s linear;
+  cursor: pointer;
+
+  &:hover {
+    transition: 0.35s;
+    background: ${colors.pink};
+  }
+`;
 
 const TrackContainer = styled.div`
   width: 100%;
@@ -17,7 +42,7 @@ const TrackTitle = styled.div`
 `;
 
 const TrackCover = styled.img`
-  width: 500px;
+  width: 400px;
   margin-left: 8rem;
 `;
 
@@ -53,12 +78,14 @@ const Popularity = styled.p`
 `;
 
 const TrackItem = (props) => {
-  const trackId = props.location.state["id"];
-  const name = props.location.state["name"];
-  const artist = props.location.state["artist"];
-  const imageUrl = props.location.state["cover"];
-  const duration_ms = props.location.state["duration_ms"];
-  const popularity = props.location.state["popularity"];
+  const {
+    id,
+    name,
+    artist,
+    cover,
+    duration_ms,
+    popularity,
+  } = props.location.state;
 
   console.log(props);
 
@@ -70,9 +97,10 @@ const TrackItem = (props) => {
 
   return (
     <React.Fragment>
+      <Button to="/Tops">Go Back</Button>
       <div style={{ marginLeft: "100px", marginTop: "100px" }}>
         <TrackContainer>
-          <TrackCover src={imageUrl} alt="" />
+          <TrackCover src={cover} alt="" />
           <TrackTitle>
             <Track style={{ marginLeft: "2rem" }}>{name}</Track>
             <Artist>{artist}</Artist>
