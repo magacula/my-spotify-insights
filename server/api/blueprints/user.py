@@ -3,7 +3,7 @@ from flask import Blueprint, session, render_template, jsonify, make_response, r
 from flask_login import login_required, current_user
 from server.api.decorators import token_checked
 from server.api.extensions import limiter, db
-from server.api.models import Top_Tracks_Info, Top_Artists_Info, Recent_Tracks_Info, User
+from server.api.models import Top_Tracks_Info, Top_Artists_Info, Recent_Tracks_Info, User, Bug_Report
 from server.api.utils import get_spotify_object
 import sys
 from datetime import datetime
@@ -380,3 +380,25 @@ def playback_current():
             "is_playing": raw_data_json['is_playing'],
             "playback_json": raw_data_json
             }
+
+
+
+#post bug report
+@user_bp.route("/user/report_bugs", methods=['POST'])
+@limiter.limit("2 per second")
+@login_required
+@token_checked
+def report_bugs():
+    data_json = request.get_json()
+    author_id = current_user.user_id
+
+    report = data_json['report']
+
+    db.session.add(Bug_Report(report=report, author_id=author_id))
+    db.session.commit()
+
+    return {}
+
+
+
+
