@@ -1,7 +1,8 @@
 from flask import Blueprint, session, render_template, jsonify, make_response, request
 #from server.api.decorators import login_required, token_checked
 from flask_login import login_required, current_user
-from server.api.decorators import token_checked
+from server.api.decorators import token_checked, rank_progress_above
+from server.api.constants import LV_ZERO, LV_ONE, LV_TWO, LV_THREE
 from server.api.extensions import limiter, db
 from server.api.models import Top_Tracks_Info, Top_Artists_Info, Recent_Tracks_Info, User, Bug_Report
 from server.api.utils import get_spotify_object
@@ -401,4 +402,19 @@ def report_bugs():
 
 
 
+#FIXME: demo can pass with low rank
+@user_bp.route("/user/test_rank_low")
+@limiter.limit("2 per second")
+@login_required
+@rank_progress_above(LV_ZERO)
+def test_rank_low():
+    return "pass lv zero"
 
+
+#FIXME: demo can pass with high rank
+@user_bp.route("/user/test_rank_high")
+@limiter.limit("2 per second")
+@login_required
+@rank_progress_above(LV_THREE)
+def test_rank_high():
+    return "pass lv 3"
