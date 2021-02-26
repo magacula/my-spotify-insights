@@ -6,7 +6,7 @@ from flask_login import login_user, login_required, current_user, logout_user
 # from server.api.decorators import db, db_cursor
 from server.api.utils import get_spotify_oauth, get_token_info, get_spotify_object, refresh_token_info
 from server.api.extensions import limiter, db
-from server.api.models import User
+from server.api.models import User, Bug_Report
 
 # routes relate to authentication
 
@@ -103,3 +103,10 @@ def access_denied():
     #return "You don't have the permission for this operation" , 404
     #supposedly, this should redirect to the login page
     return redirect("/", 403)
+
+
+
+
+
+
+

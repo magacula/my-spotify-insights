@@ -24,7 +24,9 @@ def get_spotify_oauth():
               "playlist-modify-public,"
               "playlist-modify-private,"
               "user-read-recently-played,"
-              "user-top-read"
+              "user-top-read,"
+              "user-read-currently-playing," 
+              "user-read-playback-state",
     )
 
     return sp_oauth

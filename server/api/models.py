@@ -26,6 +26,8 @@ class User(db.Model, UserMixin):
     #{1:{'name':'path'}, 2:{'name':'path'), ....}
     local_tracks_json = db.Column(JSON)
 
+    bug_reports = db.relationship('Bug_Report', back_populates='author', cascade='all, delete-orphan')
+
     #for login
     def get_id(self):
         return self.user_id
@@ -291,5 +293,28 @@ class Album_Info(db.Model):
         print("---in db, updating album info...")
 
         return self.info_json
+
+
+class Bug_Report(db.Model):
+    __tablename__ = "bug_report"
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    report = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+
+    #refer back to author
+    author_id = db.Column(db.String(30), db.ForeignKey('user.user_id'))
+    author = db.relationship('User', back_populates='bug_reports')
+
+    #FIXME: return as json may only return the text, form will keep formats
+    def get_json(self):
+        return {
+            "report": self.report,
+            "timestamp": self.timestamp,
+            "author_id": self.author_id,
+            "author_name": self.author.user_name
+        }
+
+
+
 
 

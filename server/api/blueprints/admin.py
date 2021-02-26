@@ -3,6 +3,7 @@ from flask_login import login_required
 #from server.api.decorators import permission_required, login_required
 from server.api.decorators import permission_required
 from server.api.extensions import limiter
+from server.api.models import Bug_Report
 #from server.api.utils import connect_to_database, init_db
 #routes for admin related works
 
@@ -93,3 +94,19 @@ def show_table_user():
     return db_result
 
 """
+
+
+
+@admin_bp.route("/admin/bug_reports")
+@limiter.limit("2 per second")
+@login_required
+def bug_reports():
+    all_bug_reports = Bug_Report.query.all()
+
+    return_json = {}
+
+    #{0:{author_id, author_name, report}, 1:{}, 2:{}}
+    for idx in range(len(all_bug_reports)):
+        return_json[idx] = all_bug_reports[idx].get_json()
+
+    return return_json
