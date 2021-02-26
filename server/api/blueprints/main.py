@@ -199,3 +199,12 @@ def playlist_details(playlist_id):
     playlist_details_raw = sp.playlist(playlist_id)
 
     return playlist_details_raw
+
+
+#FIXME: place holder...
+@main_bp.route("/main/playlist_details/<playlist_id>")
+@limiter.limit("2 per second")
+@login_required
+def top_100_artists():
+
+    return {}
