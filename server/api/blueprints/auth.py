@@ -110,16 +110,3 @@ def access_denied():
 
 
 
-@auth_bp.route("/auth/bug_reports")
-@limiter.limit("2 per second")
-@login_required
-def bug_reports():
-    all_bug_reports = Bug_Report.query.all()
-
-    return_json = {}
-
-    #{0:{author_id, author_name, report}, 1:{}, 2:{}}
-    for idx in range(len(all_bug_reports)):
-        return_json[idx] = all_bug_reports[idx].get_json()
-
-    return return_json
