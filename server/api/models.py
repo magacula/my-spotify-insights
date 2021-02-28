@@ -3,6 +3,7 @@ from server.api.utils import get_spotify_object, is_new
 from server.api.extensions import db
 from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy.ext.mutable import MutableDict
 from datetime import datetime
 from datetime import timedelta
 
@@ -24,8 +25,8 @@ class User(db.Model, UserMixin):
     update_datetime = db.Column(db.DateTime)
 
     #local tracks
-    #{1:{'name':'path'}, 2:{'name':'path'), ....}
-    local_tracks_json = db.Column(JSON)
+    #{'name_timestamp':'path', 'name_timestamp':'path', ....}
+    local_tracks_json = db.Column(MutableDict.as_mutable(JSON), default={})
 
     bug_reports = db.relationship('Bug_Report', back_populates='author', cascade='all, delete-orphan')
 
