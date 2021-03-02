@@ -93,7 +93,7 @@ const AlbumItem = (props) => {
 
   return (
     <React.Fragment>
-      <Button to="/Tops">Go Back</Button>
+      <Button to="/Tops/Albums">Go Back</Button>
       <div style={{ marginLeft: "100px", marginTop: "100px" }}>
         <AlbumContainer>
           <AlbumCover src={image} alt="" />

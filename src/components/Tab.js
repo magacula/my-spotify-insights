@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 class Tab extends Component {
   static propTypes = {
@@ -11,30 +12,26 @@ class Tab extends Component {
   onClick = () => {
     const { label, onClick } = this.props;
     onClick(label);
-  }
+  };
 
   render() {
     const {
       onClick,
-      props: {
-        activeTab,
-        label,
-      },
+      props: { activeTab, label },
     } = this;
+    console.log(this.onCLick);
+    console.log(this.props);
 
-    let className = 'tab-list-item';
+    let className = "tab-list-item";
 
     if (activeTab === label) {
-      className += ' tab-list-active';
+      className += " tab-list-active";
     }
 
     return (
-      <li
-        className={className}
-        onClick={onClick}
-      >
+      <Link className={className} onClick={onClick} style={{ color: "#fff" }}>
         {label}
-      </li>
+      </Link>
     );
   }
 }

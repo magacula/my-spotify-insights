@@ -97,7 +97,7 @@ const TrackItem = (props) => {
 
   return (
     <React.Fragment>
-      <Button to="/Tops">Go Back</Button>
+      <Button to="/Tops/Tracks">Go Back</Button>
       <div style={{ marginLeft: "100px", marginTop: "100px" }}>
         <TrackContainer>
           <TrackCover src={cover} alt="" />

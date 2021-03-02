@@ -35,7 +35,6 @@ const ArtistContainer = styled.div`
 `;
 
 const ArtistImg = styled.img`
-  /* width: ; */
   border-radius: 70%;
 `;
 
@@ -95,7 +94,7 @@ const ArtistItem = (props) => {
 
   return (
     <React.Fragment>
-      <Button to="/Tops">Go Back</Button>
+      <Button to="/Tops/Artists">Go Back</Button>
       <div style={{ marginLeft: "100px", marginTop: "75px" }}>
         <ArtistContainer>
           <ArtistImg src={image} alt="" />
