@@ -3,6 +3,7 @@ from server.api.utils import get_spotify_object, is_new
 from server.api.extensions import db
 from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy.ext.mutable import MutableDict
 from datetime import datetime
 from datetime import timedelta
 
@@ -18,18 +19,24 @@ class User(db.Model, UserMixin):
     user_email = db.Column(db.String(20))
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
     rank_progress = db.Column(db.Integer, default=0)
+    login_timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
 
     #local tracks
-    #{1:{'name':'path'}, 2:{'name':'path'), ....}
-    local_tracks_json = db.Column(JSON)
+    #{'name_timestamp':'path', 'name_timestamp':'path', ....}
+    local_tracks_json = db.Column(MutableDict.as_mutable(JSON), default={})
 
     bug_reports = db.relationship('Bug_Report', back_populates='author', cascade='all, delete-orphan')
 
     #for login
     def get_id(self):
+        #award rank progress if login in different date
+        if not (self.login_timestamp.date() == datetime.utcnow().date()):
+            print("-----add 10 to rank progress")
+            self.increment_rank_progress_c(10)
+
         return self.user_id
 
     #so we will commit here, not by the caller

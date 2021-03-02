@@ -1,5 +1,6 @@
 from functools import wraps
 from flask import session, redirect, url_for, abort
+from flask_login import current_user
 import time
 import spotipy
 
@@ -65,6 +66,18 @@ def permission_required(permission_name):
         return decorated_function
     return decorator
 
+
+def rank_progress_above(rank_progress):
+    def decorator(func):
+        @wraps(func)
+        def decorated_function(*args, **kwargs):
+
+            #will not pass if rank progress lower than stated
+            if current_user.rank_progress < rank_progress:
+                abort(403)
+            return func(*args, **kwargs)
+        return decorated_function
+    return decorator
 
 """
 # template for decorators
