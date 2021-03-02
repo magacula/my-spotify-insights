@@ -258,7 +258,18 @@ const Tops = () => {
             {topAlbums.map((album, index) => {
               return (
                 <Album key={index}>
-                  <AlbumWrapper to={`/album/${album.id}`}>
+                  <AlbumWrapper
+                    to={{
+                      pathname: `/album/${album.id}`,
+                      state: {
+                        id: `${album.id}`,
+                        image: `${album.images[1].url}`,
+                        name: `${album.name}`,
+                        artist: `${album.artists[0].name}`,
+                        releaseDate: `${album.release_date}`,
+                        totalTracks: `${album.total_tracks}`,
+                      },
+                    }}>
                     <AlbumInfo>
                       <AlbumName>{album.name}</AlbumName>
                       <ArtistTitle>{album.artists[0].name}</ArtistTitle>
