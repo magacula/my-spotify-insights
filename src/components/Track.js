@@ -31,6 +31,12 @@ const TrackContainer = styled(Link)`
   align-items: center;
   display: flex;
   grid-template-columns: 1fr 1fr;
+
+  &:hover {
+    transition: 0.2s ease-in;
+    cursor: pointer;
+    background-color: rgba(23, 23, 23, 0.8);
+  }
 `;
 
 const TrackItem = styled.li`
@@ -40,7 +46,6 @@ const TrackItem = styled.li`
 
 const TrackImage = styled.img`
   width: 25%;
-  margin-left: 4rem;
 `;
 
 const TrackInfo = styled.div`
