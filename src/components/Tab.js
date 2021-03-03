@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 class Tab extends Component {
@@ -27,13 +26,9 @@ class Tab extends Component {
     }
 
     return (
-      <Link
-        to={`/Tops/${activeTab}`}
-        className={className}
-        onClick={onClick}
-        style={{ color: "#fff" }}>
+      <li className={className} onClick={onClick}>
         {label}
-      </Link>
+      </li>
     );
   }
 }

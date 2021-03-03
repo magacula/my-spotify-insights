@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import Tab from "./Tab";
 
 class Tabs extends Component {
@@ -28,7 +29,7 @@ class Tabs extends Component {
 
     return (
       <div className="tabs">
-        <div className="tab-list">
+        <ol className="tab-list">
           {children.map((child) => {
             const { label } = child.props;
 
@@ -41,7 +42,7 @@ class Tabs extends Component {
               />
             );
           })}
-        </div>
+        </ol>
         <div className="tab-content">
           {children.map((child) => {
             if (child.props.label !== activeTab) return undefined;
