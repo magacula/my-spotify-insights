@@ -19,8 +19,6 @@ class Tab extends Component {
       onClick,
       props: { activeTab, label },
     } = this;
-    console.log(this.onCLick);
-    console.log(this.props);
 
     let className = "tab-list-item";
 
@@ -29,7 +27,11 @@ class Tab extends Component {
     }
 
     return (
-      <Link className={className} onClick={onClick} style={{ color: "#fff" }}>
+      <Link
+        to={`/Tops/${activeTab}`}
+        className={className}
+        onClick={onClick}
+        style={{ color: "#fff" }}>
         {label}
       </Link>
     );

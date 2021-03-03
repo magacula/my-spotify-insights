@@ -37,7 +37,7 @@ def get_rank_progress():
     return {'rank_progress': db_user.rank_progress}
 
 
-#FIXME: testing only, will delete later
+# FIXME: testing only, will delete later
 @user_bp.route("/user/increment_rank_progress")
 @limiter.limit("5 per second")
 @login_required
@@ -49,6 +49,7 @@ def increment_rank_progress():
 
     return {}
 
+
 # Returns dictionary of user's top tracks
 @user_bp.route("/user/top_tracks")
 @limiter.limit("5 per second")
@@ -59,14 +60,15 @@ def top_tracks():
     #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
-    #database query
-    db_top_tracks_info = Top_Tracks_Info.query.filter(Top_Tracks_Info.user_id == cur_user_id).first()
+    # database query
+    db_top_tracks_info = Top_Tracks_Info.query.filter(
+        Top_Tracks_Info.user_id == cur_user_id).first()
     if db_top_tracks_info:
-        #database will update the data according to the time interval set
+        # database will update the data according to the time interval set
         return {'top_tracks': db_top_tracks_info.get_json()['items']}
 
     else:
-        #if not exist in database, then add it
+        # if not exist in database, then add it
         new_top_tracks_info = Top_Tracks_Info(user_id=cur_user_id)
         db.session.add(new_top_tracks_info)
         # push the changes to database
@@ -84,14 +86,15 @@ def top_artists():
     #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
-    #database query
-    db_top_artists_info = Top_Artists_Info.query.filter(Top_Artists_Info.user_id == cur_user_id).first()
+    # database query
+    db_top_artists_info = Top_Artists_Info.query.filter(
+        Top_Artists_Info.user_id == cur_user_id).first()
     if db_top_artists_info:
-        #database will update the data according to the time interval set
+        # database will update the data according to the time interval set
         return {'top_artists': db_top_artists_info.get_json()['items']}
 
     else:
-        #if not exist in database, then add it
+        # if not exist in database, then add it
         new_top_artists_info = Top_Artists_Info(user_id=cur_user_id)
         db.session.add(new_top_artists_info)
         # push the changes to database
@@ -144,22 +147,25 @@ def recently_played_tracks():
     #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
-    #database query
-    db_recent_tracks_info = Recent_Tracks_Info.query.filter(Recent_Tracks_Info.user_id == cur_user_id).first()
+    # database query
+    db_recent_tracks_info = Recent_Tracks_Info.query.filter(
+        Recent_Tracks_Info.user_id == cur_user_id).first()
     if db_recent_tracks_info:
-        #database will update the data according to the time interval set
-        return {'recent_tracks': [ one_track_raw['track'] for one_track_raw in db_recent_tracks_info.get_json()['items']]}
+        # database will update the data according to the time interval set
+        return {'recent_tracks': [one_track_raw['track'] for one_track_raw in db_recent_tracks_info.get_json()['items']]}
 
     else:
-        #if not exist in database, then add it
+        # if not exist in database, then add it
         new_recent_tracks_info = Recent_Tracks_Info(user_id=cur_user_id)
         db.session.add(new_recent_tracks_info)
         # push the changes to database
         db.session.commit()
 
-        return {'recent_tracks': [ one_track_raw['track'] for one_track_raw in new_recent_tracks_info.get_json()['items']]}
+        return {'recent_tracks': [one_track_raw['track'] for one_track_raw in new_recent_tracks_info.get_json()['items']]}
 
-#FIXME: need database support
+# FIXME: need database support
+
+
 @user_bp.route("/user/playlists", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 @login_required
@@ -205,26 +211,28 @@ def playlists():
         return sp.user_playlist_add_tracks(
             user=user_id, playlist_id=playlist_id, tracks=tracks)
 
-#FIXME: need to verify if this works
-#user can save their downloaded tracks' path, so they can play through this website
+# FIXME: need to verify if this works
+# user can save their downloaded tracks' path, so they can play through this website
+
+
 @user_bp.route("/user/local_tracks", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
-#@login_required
-#@token_checked
+# @login_required
+# @token_checked
 def local_tracks():
 
     #db_user = User.query.filter(User.user_id == current_user.user_id).first()
     user_id = "31t5sil2muy6y4hktuaca3qmlrke"
     db_user = User.query.filter(User.user_id == user_id).first()
 
-    #FIXME
+    # FIXME
     if not db_user:
         return "user not found"
 
     # if request is get
     if request.method == 'GET':
-        #make sure name is unique
-        #FIXME: {'name_timestamp':'path','name_timestamp':'path', ....}
+        # make sure name is unique
+        # FIXME: {'name_timestamp':'path','name_timestamp':'path', ....}
         db_local_tracks_json = db_user.local_tracks_json
         print("----local_tracks.json: ", db_local_tracks_json)
         if db_local_tracks_json:
@@ -232,7 +240,6 @@ def local_tracks():
 
         #case: empty
         return {}
-
 
     # -----else if request is post
     if request.method == "POST":
@@ -243,12 +250,8 @@ def local_tracks():
     return {}
 
 
-
-
-
-
-#FIXME: I don't think there is a way to get recently played playlist, may delete this part later
-#FIXME: check if spotify api gives indicators of recently played / created playlists
+# FIXME: I don't think there is a way to get recently played playlist, may delete this part later
+# FIXME: check if spotify api gives indicators of recently played / created playlists
 @user_bp.route("/user/playlists", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 @login_required
@@ -303,7 +306,6 @@ def recommended_tracks():
     return {"recommended_tracks": result, "uris": track_uris}
 
 
-
 # Takes an array of a user's top tracks and returns an array of common seperated strings of track ID(s)
 @login_required
 @token_checked
@@ -336,6 +338,21 @@ def top_tracks_audio_features():
 
     return {'top_tracks_audio_features': audio_features}
 
+# Get audio analysis for a track based upon its Spotify ID
+
+
+@user_bp.route("/user/track_audio_analysis/<track_id>", methods=['GET'])
+@login_required
+@token_checked
+@limiter.limit("5 per second")
+def track_audio_analysis(track_id):
+
+    sp = get_spotify_object()
+
+    audio_analysis = sp.audio_analysis(track_id)
+
+    return {'track_audio_analysis': audio_analysis}
+
 
 @user_bp.route("/user/my_profile")
 @limiter.limit("5 per second")
@@ -346,16 +363,15 @@ def my_profile():
     #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
-
-    #database query
+    # database query
     #db_user_info = User_Info.query.filter(User_Info.user_id == cur_user_id).first()
     db_user_info = User.query.filter(User.user_id == cur_user_id).first()
     if db_user_info:
-        #database will update the data according to the time interval set
+        # database will update the data according to the time interval set
         return {'user': [db_user_info.get_json()]}
 
     else:
-        #if not exist in database, then add it
+        # if not exist in database, then add it
         new_user_info = User(user_id=cur_user_id)
         db.session.add(new_user_info)
         # push the changes to database
@@ -364,9 +380,8 @@ def my_profile():
         return {'user': [new_user_info.get_json()]}
 
 
-
-#NOTE: pause/resume playback requires premium account
-#track what track current user is playing...
+# NOTE: pause/resume playback requires premium account
+# track what track current user is playing...
 @user_bp.route("/user/current_playback")
 @limiter.limit("5 per second")
 @login_required
@@ -375,8 +390,8 @@ def playback_current():
     sp = get_spotify_object()
     raw_data_json = sp.current_playback()
 
-    #FIXME: change this if return null json data is not valid
-    #only get return value when user is playing or just paused
+    # FIXME: change this if return null json data is not valid
+    # only get return value when user is playing or just paused
     if not raw_data_json:
         return {}
 
@@ -387,8 +402,7 @@ def playback_current():
             }
 
 
-
-#post bug report
+# post bug report
 @user_bp.route("/user/report_bugs", methods=['POST'])
 @limiter.limit("2 per second")
 @login_required
@@ -405,8 +419,7 @@ def report_bugs():
     return {}
 
 
-
-#FIXME: demo can pass with low rank
+# FIXME: demo can pass with low rank
 @user_bp.route("/user/test_rank_low")
 @limiter.limit("2 per second")
 @login_required
@@ -415,7 +428,7 @@ def test_rank_low():
     return "pass lv zero"
 
 
-#FIXME: demo can pass with high rank
+# FIXME: demo can pass with high rank
 @user_bp.route("/user/test_rank_high")
 @limiter.limit("2 per second")
 @login_required

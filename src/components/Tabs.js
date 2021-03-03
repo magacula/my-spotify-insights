@@ -34,7 +34,6 @@ class Tabs extends Component {
 
             return (
               <Tab
-                to={`/Tops/${activeTab}`}
                 activeTab={activeTab}
                 key={label}
                 label={label}

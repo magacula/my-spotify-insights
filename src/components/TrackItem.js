@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import themes from "../styles/themes";
+import Loader from "./Loader";
 import { NavLink } from "react-router-dom";
 const { colors } = themes;
 
@@ -77,6 +78,21 @@ const Popularity = styled.p`
   font-weight: 600;
 `;
 
+const Tempo = styled.p`
+  font-size: 2rem;
+  font-weight: 600;
+`;
+
+const Beats = styled.p`
+  font-size: 2rem;
+  font-weight: 600;
+`;
+
+const Bars = styled.p`
+  font-size: 2rem;
+  font-weight: 600;
+`;
+
 const TrackItem = (props) => {
   const {
     id,
@@ -86,8 +102,30 @@ const TrackItem = (props) => {
     duration_ms,
     popularity,
   } = props.location.state;
-
   console.log(props);
+
+  const [beats, setBeats] = useState("");
+  const [bars, setBars] = useState("");
+  const [tempo, setTempo] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`/user/track_audio_analysis/${id}`, {
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.track_audio_analysis);
+        setBeats(data.track_audio_analysis.beats.length);
+        setBars(data.track_audio_analysis.bars.length);
+        setTempo(data.track_audio_analysis.track.tempo);
+        setLoading(false);
+      });
+  }, []);
 
   function convertMillisecs(duration_ms) {
     let minutes = Math.floor(duration_ms / 60000);
@@ -98,20 +136,26 @@ const TrackItem = (props) => {
   return (
     <React.Fragment>
       <Button to="/Tops/Tracks">Go Back</Button>
-      <div style={{ marginLeft: "100px", marginTop: "100px" }}>
-        <TrackContainer>
-          <TrackCover src={cover} alt="" />
-          <TrackTitle>
-            <Track style={{ marginLeft: "2rem" }}>{name}</Track>
-            <Artist>{artist}</Artist>
-          </TrackTitle>
-        </TrackContainer>
-
-        <TrackInfo>
-          <Duration>{`Duration: ${convertMillisecs(duration_ms)}`}</Duration>
-          <Popularity>{`Popularity: ${popularity} / 100`}</Popularity>
-        </TrackInfo>
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div style={{ marginLeft: "100px", marginTop: "100px" }}>
+          <TrackContainer>
+            <TrackCover src={cover} alt="" />
+            <TrackTitle>
+              <Track style={{ marginLeft: "2rem" }}>{name}</Track>
+              <Artist>{artist}</Artist>
+            </TrackTitle>
+          </TrackContainer>
+          <TrackInfo>
+            <Duration>{`Duration: ${convertMillisecs(duration_ms)}`}</Duration>
+            <Popularity>{`Popularity: ${popularity} / 100`}</Popularity>
+            <Beats>{`Beats: ${beats}`}</Beats>
+            <Bars>{`Bars: ${bars}`}</Bars>
+            <Tempo>{`Tempo: ${Math.round(tempo)} BPM`}</Tempo>
+          </TrackInfo>
+        </div>
+      )}
     </React.Fragment>
   );
 };
