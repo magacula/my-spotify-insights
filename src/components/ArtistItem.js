@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import themes from "../styles/themes";
 import { NavLink } from "react-router-dom";
@@ -117,6 +118,16 @@ const ArtistItem = (props) => {
       </div>
     </React.Fragment>
   );
+};
+
+// Used for typechecking props of TrackItem. Ensures the data received is valid
+ArtistItem.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  popularity: PropTypes.string,
+  image: PropTypes.string,
+  followers: PropTypes.string,
+  genres: PropTypes.string,
 };
 
 export default ArtistItem;

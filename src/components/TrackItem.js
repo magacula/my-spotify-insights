@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import themes from "../styles/themes";
 import Loader from "./Loader";
@@ -158,6 +159,16 @@ const TrackItem = (props) => {
       )}
     </React.Fragment>
   );
+};
+
+// Used for typechecking props of TrackItem. Ensures the data received is valid
+TrackItem.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  artist: PropTypes.string,
+  cover: PropTypes.string,
+  duration_ms: PropTypes.string,
+  popularity: PropTypes.string,
 };
 
 export default TrackItem;
