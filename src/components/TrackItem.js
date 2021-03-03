@@ -102,6 +102,7 @@ const TrackItem = (props) => {
     cover,
     duration_ms,
     popularity,
+    fromRecentlyPlayed,
   } = props.location.state;
   console.log(props);
 
@@ -136,7 +137,12 @@ const TrackItem = (props) => {
 
   return (
     <React.Fragment>
-      <Button to="/Tops/Tracks">Go Back</Button>
+      {fromRecentlyPlayed ? (
+        <Button to="/RecentlyPlayed">Go Back</Button>
+      ) : (
+        <Button to="/Tops">Go Back</Button>
+      )}
+
       {loading ? (
         <Loader />
       ) : (
