@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, current_app, request
+from flask import Blueprint, render_template, current_app, request, session
+import requests
 from flask_login import login_required
 from server.api.extensions import limiter, db
 #from server.api.decorators import login_required, token_checked
@@ -202,9 +203,20 @@ def playlist_details(playlist_id):
 
 
 #FIXME: place holder...
-@main_bp.route("/main/playlist_details/<playlist_id>")
+@main_bp.route("/main/top_100_artists")
 @limiter.limit("2 per second")
 @login_required
 def top_100_artists():
+    #url = "https://api.chartmetric.com/api/artist/anr/by/social-index"
+    url = "https://api.spotify.com/v1/me/playlists"
+    access_token = session['TOKEN_INFO']['access_token']
+    print("--token: ", access_token)
+    headers = {"Authorization": "Bearer " + access_token,
+               "Accept": "application/json",
+               "Content-Type": "application/json"
+               }
+    resp = requests.get(url=url, headers=headers)
+    print("---resp: ", resp)
 
-    return {}
+    return resp.json()
+
