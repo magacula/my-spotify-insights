@@ -58,7 +58,7 @@ const ArtistContainer = styled.div`
 `;
 
 const Artist = styled.div`
-  filter: brightness(80%);
+  filter: brightness(70%);
 
   &:hover {
     transform: scale(1.1);
@@ -85,7 +85,7 @@ const ArtistName = styled.p`
 `;
 
 const ArtistPic = styled.img`
-  border-radius: 70%;
+  border-radius: 50%;
   text-align: center;
   display: inline-flex;
   justify-content: center;
@@ -229,9 +229,22 @@ const Tops = () => {
             {topArtists.map((artist, index) => {
               return (
                 <Artist key={index}>
-                  <ArtistWrapper to={`/artist/${artist.id}`}>
+                  <ArtistWrapper
+                    to={{
+                      pathname: `/artist/${artist.id}`,
+                      state: {
+                        id: `${artist.id}`,
+                        image: `${artist.images[1].url}`,
+                        name: `${artist.name}`,
+                        followers: `${artist.followers.total}`,
+                        popularity: `${artist.popularity}`,
+                        genres: `${artist.genres}`,
+                      },
+                    }}>
                     <ArtistInfo>
-                      <ArtistPic src={artist.images[1].url} />
+                      <ArtistPic
+                        src={artist.images[artist.images.length - 2].url}
+                      />
                       <ArtistName>{artist.name}</ArtistName>
                     </ArtistInfo>
                   </ArtistWrapper>
@@ -245,7 +258,18 @@ const Tops = () => {
             {topAlbums.map((album, index) => {
               return (
                 <Album key={index}>
-                  <AlbumWrapper to={`/album/${album.id}`}>
+                  <AlbumWrapper
+                    to={{
+                      pathname: `/album/${album.id}`,
+                      state: {
+                        id: `${album.id}`,
+                        image: `${album.images[1].url}`,
+                        name: `${album.name}`,
+                        artist: `${album.artists[0].name}`,
+                        releaseDate: `${album.release_date}`,
+                        totalTracks: `${album.total_tracks}`,
+                      },
+                    }}>
                     <AlbumInfo>
                       <AlbumName>{album.name}</AlbumName>
                       <ArtistTitle>{album.artists[0].name}</ArtistTitle>

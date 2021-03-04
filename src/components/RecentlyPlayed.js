@@ -33,11 +33,20 @@ const RecentlyPlayed = () => {
       });
   }, []);
 
+  // Retrieves ids from each object in the recentPlayed array and saves the value to the ids array
+  const ids = recentlyPlayed.map((item) => item.id);
+
+  // Filters through the recentlyPlayed array removing duplicates with the same id by comparing items with the destructed id from each object with the ids from the id array.
+  let filtered = recentlyPlayed.filter(
+    ({ id }, index) => !ids.includes(id, index + 1)
+  );
+  console.log(filtered);
+
   return (
     <React.Fragment>
       <h1>Your Recently Played Tracks</h1>
-      <ul style={{ marginLeft: "160px" }}>
-        {recentlyPlayed.map((track, index) => {
+      <ul style={{ marginLeft: "220px" }}>
+        {filtered.map((track, index) => {
           return (
             <Track key={index} track={track} style={{ marginLeft: "150px" }} />
           );

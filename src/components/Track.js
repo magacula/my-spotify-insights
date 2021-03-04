@@ -31,6 +31,12 @@ const TrackContainer = styled(Link)`
   align-items: center;
   display: flex;
   grid-template-columns: 1fr 1fr;
+
+  &:hover {
+    transition: 0.2s ease-in;
+    cursor: pointer;
+    background-color: rgba(23, 23, 23, 0.8);
+  }
 `;
 
 const TrackItem = styled.li`
@@ -40,7 +46,6 @@ const TrackItem = styled.li`
 
 const TrackImage = styled.img`
   width: 25%;
-  margin-left: 4rem;
 `;
 
 const TrackInfo = styled.div`
@@ -66,7 +71,19 @@ let soundPlay = (src) => {
 const Track = ({ track }) => {
   return (
     <TrackItem>
-      <TrackContainer to={`/track/${track.id}`}>
+      <TrackContainer
+        to={{
+          pathname: `/track/${track.id}`,
+          state: {
+            fromRecentlyPlayed: true,
+            id: `${track.id}`,
+            name: `${track.name}`,
+            artist: `${track.artists[0].name}`,
+            cover: `${track.album.images[1].url}`,
+            duration_ms: `${track.duration_ms}`,
+            popularity: `${track.popularity}`,
+          },
+        }}>
         <TrackImage src={track.album.images[0].url} />
         <TrackInfo>
           <TrackName>{track.name}</TrackName>

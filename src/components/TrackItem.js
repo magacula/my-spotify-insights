@@ -1,5 +1,32 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import themes from "../styles/themes";
+import Loader from "./Loader";
+import { NavLink } from "react-router-dom";
+const { colors } = themes;
+
+const Button = styled(NavLink)`
+  display: inline-block;
+  background: ${colors.lightBlue};
+  color: ${colors.white};
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  border-color: transparent;
+  text-transform: capitalize;
+  font-size: 1rem;
+  letter-spacing: 0.1rem;
+  margin-top: 2rem;
+  margin-left: 120px;
+  margin-right: 0.5rem;
+  transition: all 0.3s linear;
+  cursor: pointer;
+
+  &:hover {
+    transition: 0.35s;
+    background: ${colors.pink};
+  }
+`;
 
 const TrackContainer = styled.div`
   width: 100%;
@@ -17,7 +44,7 @@ const TrackTitle = styled.div`
 `;
 
 const TrackCover = styled.img`
-  width: 500px;
+  width: 400px;
   margin-left: 8rem;
 `;
 
@@ -52,15 +79,55 @@ const Popularity = styled.p`
   font-weight: 600;
 `;
 
-const TrackItem = (props) => {
-  const trackId = props.location.state["id"];
-  const name = props.location.state["name"];
-  const artist = props.location.state["artist"];
-  const imageUrl = props.location.state["cover"];
-  const duration_ms = props.location.state["duration_ms"];
-  const popularity = props.location.state["popularity"];
+const Tempo = styled.p`
+  font-size: 2rem;
+  font-weight: 600;
+`;
 
+const Beats = styled.p`
+  font-size: 2rem;
+  font-weight: 600;
+`;
+
+const Bars = styled.p`
+  font-size: 2rem;
+  font-weight: 600;
+`;
+
+const TrackItem = (props) => {
+  const {
+    id,
+    name,
+    artist,
+    cover,
+    duration_ms,
+    popularity,
+    fromRecentlyPlayed,
+  } = props.location.state;
   console.log(props);
+
+  const [beats, setBeats] = useState("");
+  const [bars, setBars] = useState("");
+  const [tempo, setTempo] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`/user/track_audio_analysis/${id}`, {
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.track_audio_analysis);
+        setBeats(data.track_audio_analysis.beats.length);
+        setBars(data.track_audio_analysis.bars.length);
+        setTempo(data.track_audio_analysis.track.tempo);
+        setLoading(false);
+      });
+  }, []);
 
   function convertMillisecs(duration_ms) {
     let minutes = Math.floor(duration_ms / 60000);
@@ -70,22 +137,44 @@ const TrackItem = (props) => {
 
   return (
     <React.Fragment>
-      <div style={{ marginLeft: "100px", marginTop: "100px" }}>
-        <TrackContainer>
-          <TrackCover src={imageUrl} alt="" />
-          <TrackTitle>
-            <Track style={{ marginLeft: "2rem" }}>{name}</Track>
-            <Artist>{artist}</Artist>
-          </TrackTitle>
-        </TrackContainer>
+      {fromRecentlyPlayed ? (
+        <Button to="/RecentlyPlayed">Go Back</Button>
+      ) : (
+        <Button to="/Tops">Go Back</Button>
+      )}
 
-        <TrackInfo>
-          <Duration>{`Duration: ${convertMillisecs(duration_ms)}`}</Duration>
-          <Popularity>{`Popularity: ${popularity} / 100`}</Popularity>
-        </TrackInfo>
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div style={{ marginLeft: "100px", marginTop: "100px" }}>
+          <TrackContainer>
+            <TrackCover src={cover} alt="" />
+            <TrackTitle>
+              <Track style={{ marginLeft: "2rem" }}>{name}</Track>
+              <Artist>{artist}</Artist>
+            </TrackTitle>
+          </TrackContainer>
+          <TrackInfo>
+            <Duration>{`Duration: ${convertMillisecs(duration_ms)}`}</Duration>
+            <Popularity>{`Popularity: ${popularity} / 100`}</Popularity>
+            <Beats>{`Beats: ${beats}`}</Beats>
+            <Bars>{`Bars: ${bars}`}</Bars>
+            <Tempo>{`Tempo: ${Math.round(tempo)} BPM`}</Tempo>
+          </TrackInfo>
+        </div>
+      )}
     </React.Fragment>
   );
+};
+
+// Used for typechecking props of TrackItem. Ensures the data received is valid
+TrackItem.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  artist: PropTypes.string,
+  cover: PropTypes.string,
+  duration_ms: PropTypes.string,
+  popularity: PropTypes.string,
 };
 
 export default TrackItem;
