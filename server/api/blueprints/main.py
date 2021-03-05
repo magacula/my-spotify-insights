@@ -75,8 +75,8 @@ def artist_details(artist_id):
 
 
 @main_bp.route("/main/track_details/<track_id>", methods=['GET', 'POST'])
-@login_required
-@token_checked
+#@login_required
+#@token_checked
 @limiter.limit("2 per second")
 def track_details(track_id):
     db_track_info = Track_Info.query.filter(Track_Info.track_id == track_id).first()
@@ -104,15 +104,22 @@ def track_details(track_id):
 
     if request.method == 'POST':
         #FIXME: need {lyrics, bg_info} as input, so far
-        data_json = request.get_json()
-        lyrics = data_json['lyrics']
-        bg_info = data_json['bg_info']
 
         # if track exists in db, do update
+        data_json = request.get_json()
         if db_track_info:
-            db_track_info.update(lyrics=lyrics, bg_info=bg_info)
-            #push changes to db
-            db.session.commit()
+            #can only update one at a time
+            try:
+                lyrics = data_json['lyrics']
+                db_track_info.update_lyrics(lyrics)
+                #push changes to db
+                db.session.commit()
+
+            except Exception as e:
+                bg_info = data_json['bg_info']
+                db_track_info.update_background_information(bg_info)
+                #push changes to db
+                db.session.commit()
 
 
     #if post, nothing to return
