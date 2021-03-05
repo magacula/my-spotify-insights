@@ -1,4 +1,5 @@
 from flask import Flask, session
+from flask_login import current_user
 import click
 from server.api.blueprints.main import main_bp
 from server.api.blueprints.admin import admin_bp
@@ -28,7 +29,19 @@ def create_app(config_name='production'):
     register_error_handler(app)
     register_command(app)
 
+    #functions that will be called before any other request
+    register_before_request(app)
+
     return app
+
+def register_before_request(app):
+    @app.before_request
+    def user_is_active():
+        #if no user is loaded, it will be the anonymous user, is_active = is_authenticated = False
+        #is_anonymouse = True, get_id() returns None
+        if current_user.is_active:
+            pass
+            #print("user: ", current_user)
 
 
 def register_error_handler(app):

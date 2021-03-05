@@ -164,12 +164,17 @@ class Track_Info(db.Model):
             'background_info': self.background_info
                 }
 
-    def update(self, lyrics, bg_info):
+    def update_lyrics(self, lyrics):
         self.last_active = datetime.utcnow()
         db.session.commit()
-
         self.lyrics = lyrics
+
+
+    def update_background_information(self, bg_info):
+        self.last_active = datetime.utcnow()
+        db.session.commit()
         self.background_info = bg_info
+
 
 
     def __get_json(self):

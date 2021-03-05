@@ -96,7 +96,7 @@ def show_table_user():
 """
 
 
-
+#FIXME: may not need it
 @admin_bp.route("/admin/bug_reports")
 @limiter.limit("2 per second")
 @login_required
@@ -110,3 +110,4 @@ def bug_reports():
         return_json[idx] = all_bug_reports[idx].get_json()
 
     return return_json
+

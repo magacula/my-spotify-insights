@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, current_app, request
+from flask import Blueprint, render_template, current_app, request, session
+import requests
 from flask_login import login_required
 from server.api.extensions import limiter, db
 #from server.api.decorators import login_required, token_checked
@@ -74,8 +75,8 @@ def artist_details(artist_id):
 
 
 @main_bp.route("/main/track_details/<track_id>", methods=['GET', 'POST'])
-@login_required
-@token_checked
+#@login_required
+#@token_checked
 @limiter.limit("2 per second")
 def track_details(track_id):
     db_track_info = Track_Info.query.filter(Track_Info.track_id == track_id).first()
@@ -103,15 +104,22 @@ def track_details(track_id):
 
     if request.method == 'POST':
         #FIXME: need {lyrics, bg_info} as input, so far
-        data_json = request.get_json()
-        lyrics = data_json['lyrics']
-        bg_info = data_json['bg_info']
 
         # if track exists in db, do update
+        data_json = request.get_json()
         if db_track_info:
-            db_track_info.update(lyrics=lyrics, bg_info=bg_info)
-            #push changes to db
-            db.session.commit()
+            #can only update one at a time
+            try:
+                lyrics = data_json['lyrics']
+                db_track_info.update_lyrics(lyrics)
+                #push changes to db
+                db.session.commit()
+
+            except Exception as e:
+                bg_info = data_json['bg_info']
+                db_track_info.update_background_information(bg_info)
+                #push changes to db
+                db.session.commit()
 
 
     #if post, nothing to return
@@ -202,9 +210,20 @@ def playlist_details(playlist_id):
 
 
 #FIXME: place holder...
-@main_bp.route("/main/playlist_details/<playlist_id>")
+@main_bp.route("/main/top_100_artists")
 @limiter.limit("2 per second")
 @login_required
 def top_100_artists():
+    #url = "https://api.chartmetric.com/api/artist/anr/by/social-index"
+    url = "https://api.spotify.com/v1/me/playlists"
+    access_token = session['TOKEN_INFO']['access_token']
+    print("--token: ", access_token)
+    headers = {"Authorization": "Bearer " + access_token,
+               "Accept": "application/json",
+               "Content-Type": "application/json"
+               }
+    resp = requests.get(url=url, headers=headers)
+    print("---resp: ", resp)
 
-    return {}
+    return resp.json()
+
