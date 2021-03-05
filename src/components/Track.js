@@ -93,7 +93,7 @@ let soundPlay = (src) => {
 const Track = ({ track }) => {
   return (
     <TrackItem>
-      <EditButton></EditButton>
+      <EditButton> Edit </EditButton>
       <TrackContainer
         to={{
           pathname: `/track/${track.id}`,
