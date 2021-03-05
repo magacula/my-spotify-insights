@@ -39,6 +39,28 @@ const TrackContainer = styled(Link)`
   }
 `;
 
+const EditButton = styled.button`
+  display: inline-block;
+  background: ${colors.lightBlue};
+  color: ${colors.white};
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  border-color: transparent;
+  text-transform: capitalize;
+  font-size: 1rem;
+  letter-spacing: 0.1rem;
+  margin-top: 2rem;
+  margin-left: 120px;
+  margin-right: 0.5rem;
+  transition: all 0.3s linear;
+  cursor: pointer;
+
+  &:hover {
+    transition: 0.35s;
+    background: ${colors.pink};
+  }
+`;
+
 const TrackItem = styled.li`
   margin-top: 2rem;
   margin-bottom: 1rem;
@@ -71,6 +93,7 @@ let soundPlay = (src) => {
 const Track = ({ track }) => {
   return (
     <TrackItem>
+      <EditButton></EditButton>
       <TrackContainer
         to={{
           pathname: `/track/${track.id}`,
