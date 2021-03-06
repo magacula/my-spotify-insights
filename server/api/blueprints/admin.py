@@ -115,3 +115,15 @@ def bug_reports():
 
     return return_json
 
+
+@admin_bp.route("/admin/manage_website")
+@limiter.limit("2 per second")
+@login_required
+def manage_website():
+    return render_template("manage_website.html")
+
+@admin_bp.route("/admin/manage_users")
+@limiter.limit("2 per second")
+@login_required
+def manage_users():
+    return render_template("manage_users.html")
