@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 from flask_login import login_required
 #from server.api.decorators import permission_required, login_required
 from server.api.decorators import permission_required
@@ -22,6 +22,10 @@ def admin():
 @permission_required("no")
 def admin_test():
     return "this is admin test..."
+
+@admin_bp.route("/admin/home")
+def home():
+    return render_template("base.html")
 
 
 

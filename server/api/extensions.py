@@ -5,6 +5,7 @@ from flask_limiter.util import get_remote_address
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask import redirect, url_for
+from flask_bootstrap import Bootstrap
 
 #extensions for the backend part
 #postgresql in heroku has restrctions on the numbers or rows, so if we have more than 10000 rows, use sqlalchemy
@@ -28,3 +29,6 @@ def load_user(user_id):
 @login_manager.unauthorized_handler
 def unauthorized():
     return redirect(url_for('auth.access_denied'))
+
+
+bootstrap = Bootstrap()
