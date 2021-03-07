@@ -6,13 +6,16 @@
 {% block content %}
 {% from 'bootstrap/form.html' import render_form %}
 this link will manage users
-    <p>
-        {% for one_user in users_status %}
-        {{one_user}}
+    <h3>Top Active Users</h3>
+    <ul>
+
+        {% for one_user in top_active_users %}
+            <li>
+                {{top_active_users[one_user]['user_name']}}
+                ##{{top_active_users[one_user]['last_ip']}}
+                ##{{top_active_users[one_user]['last_active']}}
+            </li>
         {% endfor %}
-    </p>
-    <p>
-        {{users_status}}
-    </p>
+    </ul>
 
 {% endblock %}

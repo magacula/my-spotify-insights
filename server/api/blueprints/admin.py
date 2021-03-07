@@ -177,14 +177,18 @@ def database_status():
 @limiter.limit("2 per second")
 @login_required
 def manage_users():
-    return render_template("manage_users.html", users_status=users_status())
+    return render_template("manage_users.html",
+                           top_active_users=top_active_users(100))
+
+
 
 @login_required
-def users_status():
+def top_active_users(count=100):
     #{'user_id':{'user_name':name, 'user_email':email, 'last_active':time, 'last_ip':ip} }
     status = {}
 
-    db_users = User.query.all()
+    db_users = User.query.order_by(User.last_active_timestamp.desc()).limit(count).all()
+    #db_users = User.query.limit(count).all()
 
     for one_user in db_users:
         temp_dict = {}
