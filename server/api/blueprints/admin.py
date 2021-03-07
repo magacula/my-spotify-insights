@@ -2,8 +2,8 @@ from flask import Blueprint, render_template
 from flask_login import login_required
 #from server.api.decorators import permission_required, login_required
 from server.api.decorators import permission_required
-from server.api.extensions import limiter
-from server.api.models import Bug_Report
+from server.api.extensions import limiter, db
+from server.api.models import *
 #from server.api.utils import connect_to_database, init_db
 #routes for admin related works
 
@@ -120,10 +120,76 @@ def bug_reports():
 @limiter.limit("2 per second")
 @login_required
 def manage_website():
-    return render_template("manage_website.html")
+    return render_template("manage_website.html", database_status=database_status())
+
+
+# database status
+@login_required
+def database_status():
+
+    #{'count':num, 'total_rows':num,tables:{'one_table':row_num} }
+    status = {}
+
+    all_table_names = db.engine.table_names()
+    total_rows = 0
+    tables_info = {}
+
+    status['count'] = len(all_table_names)
+
+    #FIXME: not done
+
+    return status
+
+
 
 @admin_bp.route("/admin/manage_users")
 @limiter.limit("2 per second")
 @login_required
 def manage_users():
-    return render_template("manage_users.html")
+    return render_template("manage_users.html", users_status=users_status())
+
+@login_required
+def users_status():
+    #{'user_id':{'user_name':name, 'user_email':email, 'last_active':time, 'last_ip':ip} }
+    status = {}
+
+    db_users = User.query.all()
+
+    for one_user in db_users:
+        temp_dict = {}
+        temp_dict['user_name'] = one_user.user_name
+        temp_dict['user_email'] = one_user.user_email
+        temp_dict['last_active'] = one_user.last_active_timestamp
+        temp_dict['last_ip'] = one_user.ip_addr
+
+        status[one_user.user_id] = temp_dict
+
+    return status
+
+
+@admin_bp.route("/admin/manage_users/ban/<user_id>")
+@limiter.limit("1 per second")
+@login_required
+def ban_user(user_id):
+    db_user = User.query.filter(User.user_id == user_id).first()
+    if not db_user:
+        return "",404
+
+    db_user.banned = True
+    db.session.commit()
+
+    return ""
+
+
+@admin_bp.route("/admin/manage_users/unban/<user_id>")
+@limiter.limit("1 per second")
+@login_required
+def unban_user(user_id):
+    db_user = User.query.filter(User.user_id == user_id).first()
+    if not db_user:
+        return "",404
+
+    db_user.banned = False
+    db.session.commit()
+
+    return ""

@@ -78,7 +78,7 @@ def redirect_page():
             db.session.add(db_user)
             db.session.commit()
 
-        #FIXME: not checked
+        #FIXME: may need more details later
         elif db_user.banned:
             return "You are banned",403
 

@@ -6,5 +6,13 @@
 {% block content %}
 {% from 'bootstrap/form.html' import render_form %}
 this link will manage users
+    <p>
+        {% for one_user in users_status %}
+        {{one_user}}
+        {% endfor %}
+    </p>
+    <p>
+        {{users_status}}
+    </p>
 
 {% endblock %}

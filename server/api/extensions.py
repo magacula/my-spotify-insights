@@ -25,6 +25,10 @@ def load_user(user_id):
     from server.api.models import User
     user = User.query.get_or_404(user_id)
 
+    # FIXME: works, but not able to redirect frontend page to 403, only output 403 in console
+    if user.banned:
+        return None
+
     #update last active timestamp
     user.last_active_timestamp = datetime.utcnow()
     #update ip address
@@ -37,6 +41,7 @@ def load_user(user_id):
 #work with login_required
 @login_manager.unauthorized_handler
 def unauthorized():
+    print("----failed login_required decorator...")
     return redirect(url_for('auth.access_denied'))
 
 
