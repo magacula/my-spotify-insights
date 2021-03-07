@@ -105,6 +105,9 @@ const Track = ({ track }) => {
             cover: `${track.album.images[1].url}`,
             duration_ms: `${track.duration_ms}`,
             popularity: `${track.popularity}`,
+            release_date: `${track.release_date}`,
+            genre: `${track.genre}`
+
           },
         }}>
         <TrackImage src={track.album.images[0].url} />
