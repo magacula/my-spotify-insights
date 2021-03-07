@@ -30,12 +30,19 @@ def create_app(config_name='production'):
     register_error_handler(app)
     register_command(app)
 
+    #FIXME: I don't want to take care of all requests (static files) right now,
     #functions that will be called before any other request
-    register_before_request(app)
+    #register_before_request(app)
+
+    #functions called after request, for status report
+    #FIXME: a bit different from before request, will work on this later
+    #register_after_request(app)
 
     return app
 
 def register_before_request(app):
+    #FIXME: add: check baned_ips list before proceed
+
     @app.before_request
     def user_is_active():
         #if no user is loaded, it will be the anonymous user, is_active = is_authenticated = False
@@ -43,6 +50,19 @@ def register_before_request(app):
         if current_user.is_active:
             pass
             #print("user: ", current_user)
+
+    @app.before_request
+    def connections_count():
+        from flask_limiter.util import get_remote_address
+        print("----remote address: ", get_remote_address())
+        pass
+
+
+def register_after_request(app):
+    @app.after_request
+    def connections_count():
+        #update connection count
+        pass
 
 
 def register_error_handler(app):
