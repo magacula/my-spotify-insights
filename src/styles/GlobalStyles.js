@@ -20,7 +20,7 @@ a {
 }
 
 h1, h2 {
-  margin-top: 1rem;
+  margin-top: 2rem;
   margin-left:110px;
 }
 
