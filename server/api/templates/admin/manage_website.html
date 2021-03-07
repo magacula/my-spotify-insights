@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block header %}Manage Website{% endblock %}
+
+{% block content %}
+{% from 'bootstrap/form.html' import render_form %}
+    <p>Total Number of tables: {{database_status['count']}} </p>
+    <p>Total Number of rows: {{database_status['total_rows']}} </p>
+    <ol>
+        {% for one_table_name in database_status['tables_details'] %}
+            <li>{{one_table_name}} : {{database_status['tables_details'][one_table_name] }}</li>
+        {%endfor%}
+
+    </ol>
+
+{% endblock %}

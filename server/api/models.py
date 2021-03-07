@@ -20,6 +20,8 @@ class User(db.Model, UserMixin):
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
     rank_progress = db.Column(db.Integer, default=0)
     login_timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    last_active_timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    ip_addr = db.Column(db.String(20))
 
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
@@ -29,6 +31,9 @@ class User(db.Model, UserMixin):
     local_tracks_json = db.Column(MutableDict.as_mutable(JSON), default={})
 
     bug_reports = db.relationship('Bug_Report', back_populates='author', cascade='all, delete-orphan')
+
+    banned = db.Column(db.Boolean, default=False)
+    banned_reason = db.Column(db.Text)
 
     #for login
     def get_id(self):
@@ -334,6 +339,14 @@ class Bug_Report(db.Model):
         }
 
 
+#ips that go banned
+class Banned_IP(db.Model):
+    __tablename__ = "banned_ip"
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    ip_addr = db.Column(db.String(20))
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    time_length = db.Column(db.DateTime, default=timedelta(hours=1))
+    reason = db.Column(db.Text)
 
 
 

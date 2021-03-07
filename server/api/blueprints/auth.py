@@ -72,14 +72,18 @@ def redirect_page():
         cur_user_id = cur_user['id']
 
         # FIXME: may need more info later
-        temp_user = User.query.filter(User.user_id == cur_user_id).first()
-        if not temp_user:
-            temp_user = User(user_name=cur_user_name, user_id=cur_user_id)
-            db.session.add(temp_user)
+        db_user = User.query.filter(User.user_id == cur_user_id).first()
+        if not db_user:
+            db_user = User(user_name=cur_user_name, user_id=cur_user_id)
+            db.session.add(db_user)
             db.session.commit()
 
+        #FIXME: may need more details later
+        elif db_user.banned:
+            return "You are banned",403
+
         #FIXME:
-        login_user(temp_user)
+        login_user(db_user)
 
         #session['LOGGED_IN'] = True
         #session['USER_NAME'] = cur_user_name

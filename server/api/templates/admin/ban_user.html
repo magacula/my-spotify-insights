@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block header %}Ban User{% endblock %}
+
+{% block content %}
+{% from 'bootstrap/form.html' import render_form %}
+Reason:
+{{render_form(form) }}
+
+
+{% endblock %}

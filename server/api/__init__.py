@@ -5,7 +5,7 @@ from server.api.blueprints.main import main_bp
 from server.api.blueprints.admin import admin_bp
 from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
-from server.api.extensions import limiter, db, login_manager
+from server.api.extensions import limiter, db, login_manager, bootstrap
 from server.api.settings import website_config
 
 import os
@@ -16,7 +16,8 @@ def create_app(config_name='production'):
 
 
     #point static folder to the build folder
-    app = Flask('api', static_folder='build', static_url_path='/')
+    #app = Flask('api', static_folder='build', static_url_path='/', template_folder='server/api/templates')
+    app = Flask('api', static_folder='build', static_url_path='/', template_folder='server/api/templates/admin')
 
     #load configurations
     app.config.from_object(website_config[config_name])
@@ -29,19 +30,9 @@ def create_app(config_name='production'):
     register_error_handler(app)
     register_command(app)
 
-    #functions that will be called before any other request
-    register_before_request(app)
 
     return app
 
-def register_before_request(app):
-    @app.before_request
-    def user_is_active():
-        #if no user is loaded, it will be the anonymous user, is_active = is_authenticated = False
-        #is_anonymouse = True, get_id() returns None
-        if current_user.is_active:
-            pass
-            #print("user: ", current_user)
 
 
 def register_error_handler(app):
@@ -75,6 +66,7 @@ def register_extensions(app):
     limiter.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
+    bootstrap.init_app(app)
 
 
 def register_command(app):
