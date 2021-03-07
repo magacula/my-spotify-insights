@@ -20,6 +20,8 @@ class User(db.Model, UserMixin):
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
     rank_progress = db.Column(db.Integer, default=0)
     login_timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    last_active_timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    ip_addr = db.Column(db.String(20))
 
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
