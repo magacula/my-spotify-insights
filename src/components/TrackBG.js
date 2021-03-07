@@ -11,7 +11,7 @@ const noteStyle = {
     padding: '15em'
 };
 
-const TrackNotes = () => {
+const TrackBG = () => {
 
     const [task, setTask] = useState("");
 
@@ -20,10 +20,10 @@ const TrackNotes = () => {
 
             <div style= {noteStyle}>
 
-                <h1> Track Notes </h1>
+                <h1> Track Background Information </h1>
                 <Editable
                     text={task}
-                    placeholder=" - User Notes -"
+                    placeholder="No background information for track provided by user."
                     type="input"
                 >
                     <input
@@ -40,4 +40,4 @@ const TrackNotes = () => {
     );
 };
 
-export default TrackNotes;
+export default TrackBG;

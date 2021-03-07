@@ -24,13 +24,13 @@ const Lyrics = () => {
                 <h1> Track Lyrics </h1>
                 <Editable
                     text={task}
-                    placeholder=" - Track Lyrics -"
+                    placeholder="No lyrics for track provided by user."
                     type="input"
                 >
                     <input
                         type="text"
                         name="task"
-                        placeholder="Update lyrics"
+                        placeholder="Update lyrics for track."
                         value={task}
                         onChange={e => setTask(e.target.value)}
                     />
