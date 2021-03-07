@@ -146,6 +146,8 @@ class Track_Info(db.Model):
     last_active = db.Column(db.DateTime)
     lyrics = db.Column(db.Text)
     background_info = db.Column(db.Text)
+    release_date = db.Column(db.text)
+    genre = db.Column(db.text)
 
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
@@ -161,7 +163,10 @@ class Track_Info(db.Model):
             'track_id': self.track_id,
             'track_name': self.track_name,
             'lyrics': self.lyrics,
-            'background_info': self.background_info
+            'background_info': self.background_info,
+            'release_date': self.release_date,
+            'genre': self.genre
+
                 }
 
     def update_lyrics(self, lyrics):
@@ -189,6 +194,8 @@ class Track_Info(db.Model):
         self.update_datetime = datetime.utcnow()
         self.info_json = new_info_json
         self.track_name = new_info_json['name']
+        self.release_date = new_info_json['name']
+        self.genre = new_info_json['name']
 
         #since the caller is itself, do commit itself
         db.session.commit()
