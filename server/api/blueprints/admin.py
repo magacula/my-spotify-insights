@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from flask_login import login_required
+from flask_login import login_required, current_user
 #from server.api.decorators import permission_required, login_required
 from server.api.decorators import permission_required
 from server.api.extensions import limiter, db
@@ -131,14 +131,45 @@ def database_status():
     status = {}
 
     all_table_names = db.engine.table_names()
-    total_rows = 0
-    tables_info = {}
-
     status['count'] = len(all_table_names)
+
+    total_rows = 0
+    tables_details = {}
+
+
+    #get all the models (tables) in the database
+    #https://stackoverflow.com/questions/26514823/get-all-models-from-flask-sqlalchemy-db
+    all_models = []
+    for clazz in db.Model._decl_class_registry.values():
+        try:
+            all_models.append(clazz)
+        except:
+            pass
+
+
+    for one_model in all_models:
+        #will include a class with no tablename, so need to use try
+        try:
+            model_name = one_model.__tablename__
+            model_row_cnt = one_model.query.count()
+
+            total_rows += model_row_cnt
+            tables_details[model_name] = model_row_cnt
+        except:
+            pass
+
+
+
+
+    status['total_rows'] = total_rows
+    status['tables_details'] = tables_details
+
 
     #FIXME: not done
 
     return status
+
+
 
 
 
@@ -171,6 +202,9 @@ def users_status():
 @limiter.limit("1 per second")
 @login_required
 def ban_user(user_id):
+    if current_user.id == user_id:
+        return "You can not ban youself"
+
     db_user = User.query.filter(User.user_id == user_id).first()
     if not db_user:
         return "",404
@@ -183,7 +217,7 @@ def ban_user(user_id):
 
 @admin_bp.route("/admin/manage_users/unban/<user_id>")
 @limiter.limit("1 per second")
-@login_required
+#@login_required
 def unban_user(user_id):
     db_user = User.query.filter(User.user_id == user_id).first()
     if not db_user:
@@ -193,3 +227,6 @@ def unban_user(user_id):
     db.session.commit()
 
     return ""
+
+
+
