@@ -339,8 +339,5 @@ class Banned_IP(db.Model):
     time_length = db.Column(db.DateTime, default=timedelta(hours=1))
     reason = db.Column(db.Text)
 
-    #refer back to admin
-    admin_id = db.Column(db.String(30), db.ForeignKey('user.user_id'))
-    admin = db.relationship('User', back_populates='bug_reports')
 
 
