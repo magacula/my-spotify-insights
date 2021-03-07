@@ -33,31 +33,29 @@ def test_limit():
 @login_required
 @token_checked
 def artist_details(artist_id):
-    db_artist_info = Artist_Info.query.filter(Artist_Info.artist_id == artist_id).first()
+    db_artist_info = Artist_Info.query.filter(
+        Artist_Info.artist_id == artist_id).first()
 
-    #return information for an artist
+    # return information for an artist
     if request.method == 'GET':
 
-        #if artist exists in database
+        # if artist exists in database
         if db_artist_info:
             stored_data = db_artist_info.get_json()
             return stored_data
 
         else:
-            #else if album not exist in database, add new row with id, database will take care the rest
+            # else if album not exist in database, add new row with id, database will take care the rest
             new_db_artist_info = Artist_Info(artist_id=artist_id)
             db.session.add(new_db_artist_info)
 
-            #push changes to db
+            # push changes to db
             db.session.commit()
 
             return new_db_artist_info.get_json()
 
-
-
-
     if request.method == 'POST':
-        #FIXME: need {bg_info} as input, so far
+        # FIXME: need {bg_info} as input, so far
         data_json = request.get_json()
         bg_info = data_json['bg_info']
 
@@ -65,67 +63,60 @@ def artist_details(artist_id):
         if db_artist_info:
             print("----post, updating artist info...")
             db_artist_info.update(bg_info=bg_info)
-            #push changes to db
+            # push changes to db
             db.session.commit()
 
-    #if post, nothing to return
+    # if post, nothing to return
     return {}
 
 
-
-
 @main_bp.route("/main/track_details/<track_id>", methods=['GET', 'POST'])
-#@login_required
-#@token_checked
+# @login_required
+# @token_checked
 @limiter.limit("2 per second")
 def track_details(track_id):
-    db_track_info = Track_Info.query.filter(Track_Info.track_id == track_id).first()
+    db_track_info = Track_Info.query.filter(
+        Track_Info.track_id == track_id).first()
 
-    #return information for a track
+    # return information for a track
     if request.method == 'GET':
 
-        #if track exists in database
+        # if track exists in database
         if db_track_info:
             stored_data = db_track_info.get_json()
             return stored_data
 
         else:
-            #else if track not exist in database
+            # else if track not exist in database
             new_db_track_info = Track_Info(track_id=track_id)
             db.session.add(new_db_track_info)
 
-            #push changes to db
+            # push changes to db
             db.session.commit()
 
             return new_db_track_info.get_json()
 
-
-
-
     if request.method == 'POST':
-        #FIXME: need {lyrics, bg_info} as input, so far
+        # FIXME: need {lyrics, bg_info} as input, so far
 
         # if track exists in db, do update
         data_json = request.get_json()
         if db_track_info:
-            #can only update one at a time
+            # can only update one at a time
             try:
                 lyrics = data_json['lyrics']
                 db_track_info.update_lyrics(lyrics)
-                #push changes to db
+                # push changes to db
                 db.session.commit()
 
             except Exception as e:
                 bg_info = data_json['bg_info']
                 db_track_info.update_background_information(bg_info)
-                #push changes to db
+                # push changes to db
                 db.session.commit()
 
-
-    #if post, nothing to return
+    # if post, nothing to return
     return {}
-
-
 
 
 @main_bp.route("/main/track_preview_url/<track_id>")
@@ -145,38 +136,35 @@ def track_preview_url(track_id):
     return track_preview_link
 
 
-
 @main_bp.route("/main/album_details/<album_id>", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 @login_required
 @token_checked
 def album_details(album_id):
 
-    db_album_info = Album_Info.query.filter(Album_Info.album_id ==album_id).first()
+    db_album_info = Album_Info.query.filter(
+        Album_Info.album_id == album_id).first()
 
-    #return information for an album
+    # return information for an album
     if request.method == 'GET':
 
-        #if album exists in database
+        # if album exists in database
         if db_album_info:
             stored_data = db_album_info.get_json()
             return stored_data
 
         else:
-            #else if album not exist in database
+            # else if album not exist in database
             new_db_album_info = Album_Info(album_id=album_id)
             db.session.add(new_db_album_info)
 
-            #push changes to db
+            # push changes to db
             db.session.commit()
 
             return new_db_album_info.get_json()
 
-
-
-
     if request.method == 'POST':
-        #FIXME: need {bg_info} as input, so far
+        # FIXME: need {bg_info} as input, so far
         data_json = request.get_json()
         bg_info = data_json['bg_info']
 
@@ -184,17 +172,11 @@ def album_details(album_id):
         if db_album_info:
             print("----post, updating album info...")
             db_album_info.update(bg_info=bg_info)
-            #push changes to db
+            # push changes to db
             db.session.commit()
 
-    #if post, nothing to return
+    # if post, nothing to return
     return {}
-
-
-
-
-
-
 
 
 @main_bp.route("/main/playlist_details/<playlist_id>")
@@ -209,7 +191,7 @@ def playlist_details(playlist_id):
     return playlist_details_raw
 
 
-#FIXME: place holder...
+# FIXME: place holder...
 @main_bp.route("/main/top_100_artists")
 @limiter.limit("2 per second")
 @login_required
@@ -226,4 +208,3 @@ def top_100_artists():
     print("---resp: ", resp)
 
     return resp.json()
-

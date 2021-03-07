@@ -45,7 +45,7 @@ const RecentlyPlayed = () => {
   return (
     <React.Fragment>
       <h1>Your Recently Played Tracks</h1>
-      <ul style={{ marginLeft: "220px" }}>
+      <ul style={{ marginLeft: "200px" }}>
         {filtered.map((track, index) => {
           return (
             <Track key={index} track={track} style={{ marginLeft: "150px" }} />
