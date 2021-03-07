@@ -6,16 +6,34 @@
 {% block content %}
 {% from 'bootstrap/form.html' import render_form %}
 this link will manage users
+    <h3>Banned Users</h3>
+    <ul>
+        {% for one_user_id in banned_users %}
+        <li>
+            {{banned_users[one_user_id]['user_name']}}
+            ##{{banned_users[one_user_id]['last_ip']}}
+            ##{{banned_users[one_user_id]['reason']}}
+            ##{{banned_users[one_user_id]['last_active']}}
+        </li>
+        <a href="{{url_for('admin.unban_user', user_id=one_user_id) }}">Unban User</a>
+        {% endfor %}
+
+    </ul>
+
+
     <h3>Top Active Users</h3>
     <ul>
 
-        {% for one_user in top_active_users %}
+        {% for one_user_id in top_active_users %}
             <li>
-                {{top_active_users[one_user]['user_name']}}
-                ##{{top_active_users[one_user]['last_ip']}}
-                ##{{top_active_users[one_user]['last_active']}}
+                {{top_active_users[one_user_id]['user_name']}}
+                ##{{top_active_users[one_user_id]['last_ip']}}
+                ##{{top_active_users[one_user_id]['last_active']}}
             </li>
+            <a href="{{url_for('admin.ban_user', user_id=one_user_id) }}">Ban User</a>
         {% endfor %}
+
+
     </ul>
 
 {% endblock %}

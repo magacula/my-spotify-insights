@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
 #from server.api.decorators import permission_required, login_required
 from server.api.decorators import permission_required
 from server.api.extensions import limiter, db
 from server.api.models import *
+from server.api.forms.admin import Ban_Reason_Form
 #from server.api.utils import connect_to_database, init_db
 #routes for admin related works
 
@@ -178,7 +179,10 @@ def database_status():
 @login_required
 def manage_users():
     return render_template("manage_users.html",
-                           top_active_users=top_active_users(100))
+                           top_active_users=top_active_users(100),
+                           banned_users=banned_users(100)
+                           )
+
 
 
 
@@ -187,50 +191,83 @@ def top_active_users(count=100):
     #{'user_id':{'user_name':name, 'user_email':email, 'last_active':time, 'last_ip':ip} }
     status = {}
 
-    db_users = User.query.order_by(User.last_active_timestamp.desc()).limit(count).all()
+    db_users = User.query.filter(User.banned == False).order_by(User.last_active_timestamp.desc()).limit(count).all()
     #db_users = User.query.limit(count).all()
 
     for one_user in db_users:
         temp_dict = {}
         temp_dict['user_name'] = one_user.user_name
         temp_dict['user_email'] = one_user.user_email
-        temp_dict['last_active'] = one_user.last_active_timestamp
         temp_dict['last_ip'] = one_user.ip_addr
+        temp_dict['last_active'] = one_user.last_active_timestamp
+
+        status[one_user.user_id] = temp_dict
+
+    return status
+
+@login_required
+def banned_users(count=100):
+    status = {}
+
+    db_users = User.query.filter(User.banned == True).order_by(User.last_active_timestamp.desc()).limit(count).all()
+    for one_user in db_users:
+        temp_dict = {}
+        temp_dict['user_name'] = one_user.user_name
+        temp_dict['user_email'] = one_user.user_email
+        temp_dict['last_ip'] = one_user.ip_addr
+        temp_dict['last_active'] = one_user.last_active_timestamp
+        temp_dict['reason'] = one_user.banned_reason
 
         status[one_user.user_id] = temp_dict
 
     return status
 
 
-@admin_bp.route("/admin/manage_users/ban/<user_id>")
+#FIXME: change to post request
+@admin_bp.route("/admin/manage_users/ban/<user_id>", methods=['GET','POST'])
 @limiter.limit("1 per second")
 @login_required
 def ban_user(user_id):
-    if current_user.id == user_id:
-        return "You can not ban youself"
+    form = Ban_Reason_Form()
 
-    db_user = User.query.filter(User.user_id == user_id).first()
-    if not db_user:
-        return "",404
+    #post, and pass validation
+    if form.validate_on_submit():
+        if current_user.user_id == user_id:
+            flash("You can not ban yourself...")
+            return redirect(url_for('admin.manage_users'))
 
-    db_user.banned = True
-    db.session.commit()
+        db_user = User.query.filter(User.user_id == user_id).first()
+        if not db_user:
+            flash("User not found...")
+            return redirect(url_for('admin.manage_users')), 404
 
-    return ""
+        db_user.banned = True
+        db_user.banned_reason=form.reason.data
+        db.session.commit()
+        flash("Banned user...")
+        return redirect(url_for('admin.manage_users'))
+
+    #else, return the form to fill out
+    return render_template('ban_user.html', form=form)
+
+
 
 
 @admin_bp.route("/admin/manage_users/unban/<user_id>")
 @limiter.limit("1 per second")
-#@login_required
+@login_required
 def unban_user(user_id):
     db_user = User.query.filter(User.user_id == user_id).first()
     if not db_user:
-        return "",404
+        flash("User not exist...")
 
-    db_user.banned = False
-    db.session.commit()
+    else:
+        db_user.banned = False
+        db.session.commit()
+        flash("Unbanned user...")
 
-    return ""
+
+    return redirect(url_for('admin.manage_users'))
 
 
 
