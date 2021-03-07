@@ -30,6 +30,9 @@ class User(db.Model, UserMixin):
 
     bug_reports = db.relationship('Bug_Report', back_populates='author', cascade='all, delete-orphan')
 
+    banned = db.Column(db.Boolean, default=False)
+    banned_reason = db.Column(db.Text)
+
     #for login
     def get_id(self):
         #award rank progress if login in different date
@@ -327,6 +330,17 @@ class Bug_Report(db.Model):
         }
 
 
+#ips that go banned
+class Banned_IP(db.Model):
+    __tablename__ = "banned_ip"
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    ip_addr = db.Column(db.String(20))
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    time_length = db.Column(db.DateTime, default=timedelta(hours=1))
+    reason = db.Column(db.Text)
 
+    #refer back to admin
+    admin_id = db.Column(db.String(30), db.ForeignKey('user.user_id'))
+    admin = db.relationship('User', back_populates='bug_reports')
 
 
