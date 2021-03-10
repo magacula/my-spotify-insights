@@ -5,6 +5,7 @@ from server.api.decorators import permission_required
 from server.api.extensions import limiter, db
 from server.api.models import *
 from server.api.forms.admin import Ban_Reason_Form
+from server.api.utils import get_all_models
 #from server.api.utils import connect_to_database, init_db
 #routes for admin related works
 
@@ -135,14 +136,7 @@ def database_status():
 
 
     #get all the models (tables) in the database
-    #https://stackoverflow.com/questions/26514823/get-all-models-from-flask-sqlalchemy-db
-    all_models = []
-    for clazz in db.Model._decl_class_registry.values():
-        try:
-            all_models.append(clazz)
-        except:
-            pass
-
+    all_models = get_all_models()
 
     for one_model in all_models:
         #will include a class with no tablename, so need to use try
