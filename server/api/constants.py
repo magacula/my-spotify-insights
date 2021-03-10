@@ -6,7 +6,7 @@ LV_THREE = 250
 
 
 #for other less important tables in database
-MAX_ROWS=50
+MAX_ROWS=300
 
 #no limit in # of rows the tables can have
-NO_MAX_TABLES=['user', 'track_info', 'artist_info', 'album_info']
+NO_MAX_TABLES=['user', 'track_info', 'artist_info', 'album_info', 'no_max']

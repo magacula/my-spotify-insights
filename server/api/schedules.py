@@ -1,7 +1,9 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import current_app
 from server.api.extensions import db
-from server.api.constants import MAX_USER_ROWS, MAX_ROWS
+from server.api.utils import get_all_models
+from server.api.constants import MAX_ROWS
+from server.api.models import No_Max
 import os
 import flask
 
@@ -21,45 +23,48 @@ def watch_database():
     my_app.app_context().push()
     #----------------------
 
-
-    #{'count':num, 'total_rows':num,tables:{'one_table':row_num} }
-    status = {}
-
-    all_table_names = db.engine.table_names()
-    status['count'] = len(all_table_names)
-
     total_rows = 0
-    tables_details = {}
-
 
     #get all the models (tables) in the database
-    #https://stackoverflow.com/questions/26514823/get-all-models-from-flask-sqlalchemy-db
-    all_models = []
-    for clazz in db.Model._decl_class_registry.values():
-        try:
-            all_models.append(clazz)
-        except:
-            pass
+    all_models = get_all_models()
 
+    #get the table names of all tables that can have unlimited rows
+    no_limit_tables_raw = No_Max.query.all()
+    no_limit_tables = []
+    for one_no_limit in no_limit_tables_raw:
+        no_limit_tables.append(one_no_limit.tablename)
 
     for one_model in all_models:
         #will include a class with no tablename, so need to use try
         try:
             model_name = one_model.__tablename__
             model_row_cnt = one_model.query.count()
+            #if the talbe is part of unlimited table and skip
+            if model_name in no_limit_tables:
+                continue
 
-            total_rows += model_row_cnt
-            tables_details[model_name] = model_row_cnt
-        except:
-            pass
+            if model_row_cnt < MAX_ROWS:
+                continue
+
+            #else, if row count exceed, do clean up, remove exceed amt + 1/4 of the MAX allowed
+            remove_amt = (model_row_cnt - MAX_ROWS) + (MAX_ROWS//4)
+            print("-----REACH ROW LIMIT :: try to remove from ", model_name, " : ",remove_amt)
+
+            rows_to_delete = one_model.query.order_by(one_model.timestamp).limit(remove_amt)
+
+            for one_row in rows_to_delete:
+                db.session.delete(one_row)
+
+            db.session.commit()
+            print("----REACH ROW LIMIT ::a remove success from: ", model_name)
+
+        except Exception as e:
+            print("---failed try: ", e)
 
 
 
 
-    status['total_rows'] = total_rows
-    status['tables_details'] = tables_details
 
-    print("---db status: ", status)
 
 
 

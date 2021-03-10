@@ -106,10 +106,10 @@ def register_command(app):
         all_models = get_all_models()
         for one_model in all_models:
             cur_tablename = one_model.__tablename__
-            print("---added no max table name: ", cur_tablename)
             if cur_tablename in NO_MAX_TABLES:
                 db_new_row = No_Max(tablename=cur_tablename)
                 db.session.add(db_new_row)
+                print("---added no max table name: ", cur_tablename)
 
         db.session.commit()
 
