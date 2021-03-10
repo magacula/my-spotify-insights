@@ -7,6 +7,7 @@ from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
 from server.api.extensions import limiter, db, login_manager, bootstrap
 from server.api.settings import website_config
+from server.api.schedules import bg_scheduler
 
 import os
 
@@ -23,6 +24,7 @@ def create_app(config_name='production'):
     app.config.from_object(website_config[config_name])
 
 
+
     # FIXME: for now, more to add later
 
     register_blueprints(app)
@@ -30,6 +32,8 @@ def create_app(config_name='production'):
     register_error_handler(app)
     register_command(app)
 
+    #start background schedules
+    bg_scheduler.start()
 
     return app
 
