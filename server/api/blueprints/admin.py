@@ -187,7 +187,7 @@ def top_active_users(count=100):
     #{'user_id':{'user_name':name, 'user_email':email, 'last_active':time, 'last_ip':ip} }
     status = {}
 
-    db_users = User.query.filter(User.banned == False).order_by(User.last_active_timestamp.desc()).limit(count).all()
+    db_users = User.query.filter(User.banned == False).order_by(User.timestamp.desc()).limit(count).all()
     #db_users = User.query.limit(count).all()
 
     for one_user in db_users:
@@ -195,7 +195,7 @@ def top_active_users(count=100):
         temp_dict['user_name'] = one_user.user_name
         temp_dict['user_email'] = one_user.user_email
         temp_dict['last_ip'] = one_user.ip_addr
-        temp_dict['last_active'] = one_user.last_active_timestamp
+        temp_dict['last_active'] = one_user.timestamp
 
         status[one_user.user_id] = temp_dict
 
@@ -205,13 +205,13 @@ def top_active_users(count=100):
 def banned_users(count=100):
     status = {}
 
-    db_users = User.query.filter(User.banned == True).order_by(User.last_active_timestamp.desc()).limit(count).all()
+    db_users = User.query.filter(User.banned == True).order_by(User.timestamp.desc()).limit(count).all()
     for one_user in db_users:
         temp_dict = {}
         temp_dict['user_name'] = one_user.user_name
         temp_dict['user_email'] = one_user.user_email
         temp_dict['last_ip'] = one_user.ip_addr
-        temp_dict['last_active'] = one_user.last_active_timestamp
+        temp_dict['last_active'] = one_user.timestamp
         temp_dict['reason'] = one_user.banned_reason
 
         status[one_user.user_id] = temp_dict
