@@ -10,12 +10,6 @@ from server.api.forms.admin import Ban_Reason_Form
 
 admin_bp = Blueprint('admin', __name__)
 
-@admin_bp.route("/admin")
-@limiter.limit("2 per second")
-@login_required
-def admin():
-    #FIXME: need the acutal url
-    return "this is admin page..."
 
 
 #FIXME: test if permission decorator works
@@ -25,6 +19,8 @@ def admin_test():
     return "this is admin test..."
 
 @admin_bp.route("/admin/home")
+@admin_bp.route("/admin")
+@admin_bp.route("/admin/")
 def home():
     return render_template("base.html")
 
