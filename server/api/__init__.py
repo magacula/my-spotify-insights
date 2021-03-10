@@ -7,7 +7,9 @@ from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
 from server.api.extensions import limiter, db, login_manager, bootstrap
 from server.api.settings import website_config
-from server.api.schedules import bg_scheduler
+
+#import the file, so the bg_scheduler.start() will run automatically
+import server.api.schedules
 
 import os
 
@@ -33,7 +35,9 @@ def create_app(config_name='production'):
     register_command(app)
 
     #start background schedules
-    bg_scheduler.start()
+    #bg_scheduler.start()
+
+
 
     return app
 
