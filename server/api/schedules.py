@@ -84,10 +84,11 @@ def watch_database():
 
 bg_scheduler = BackgroundScheduler()
 
-bg_scheduler.add_job(test_job, 'interval', minutes=1)
+#example
+#bg_scheduler.add_job(test_job, 'interval', minutes=1)
 
 #watch database
-bg_scheduler.add_job(watch_database, 'interval', minutes=1)
+bg_scheduler.add_job(watch_database, 'interval', minutes=3)
 
 #put it here, so when imported by __init__, it will run automatically
 bg_scheduler.start()
