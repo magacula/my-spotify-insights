@@ -402,7 +402,7 @@ def playback_current():
             }
 
 
-#FIXME: may not need it
+# FIXME: may not need it
 # post bug report
 @user_bp.route("/user/report_bugs", methods=['POST'])
 @limiter.limit("2 per second")
