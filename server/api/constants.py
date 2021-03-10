@@ -5,6 +5,8 @@ LV_TWO = 150
 LV_THREE = 250
 
 
-#for database
-MAX_USER_ROWS=300
+#for other less important tables in database
 MAX_ROWS=50
+
+#no limit in # of rows the tables can have
+NO_MAX_TABLES=['user', 'track_info', 'artist_info', 'album_info']

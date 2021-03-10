@@ -316,6 +316,12 @@ class Banned_IP(db.Model):
     time_length = db.Column(db.DateTime, default=timedelta(hours=1))
     reason = db.Column(db.Text)
 
+#store table names for tables that doesn't have restriction on the # of rows
+class No_Max(db.Model):
+    __tablename__ = "no_max"
+    id = db.Column(db.Integer, primary_key=True)
+    tablename = db.Column(db.String(20))
+
 #test on after_insert
 def after_insert_listener(mapper, connection, target):
     #'target' is the inserted object
