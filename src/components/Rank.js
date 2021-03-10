@@ -3,6 +3,8 @@ import styled from "styled-components";
 import ChangeBackground from "./ChangeBackground";
 import Loader from "./Loader";
 import themes from "../styles/themes";
+import { BiCrown } from "react-icons/bi";
+import { RiPaintFill } from "react-icons/ri";
 const { colors } = themes;
 
 const PageTitle = styled.h1`
@@ -15,6 +17,7 @@ const SubHeading = styled.h2`
 
 const RankContainer = styled.div`
   display: flex;
+  justify-content: center;
 `;
 
 const ProfileSection = styled.div`
@@ -23,11 +26,13 @@ const ProfileSection = styled.div`
 `;
 
 const ProfilePic = styled.img`
-  width: 220px;
-  height: 220px;
+  width: 250px;
+  height: 250px;
   aspect-ratio: 1;
   border-radius: 50%;
   margin-top: 1.5rem;
+  margin-left: 2rem;
+  margin-right: 2.5rem;
 `;
 
 const UserName = styled.p`
@@ -37,28 +42,54 @@ const UserName = styled.p`
 `;
 
 const RankStatus = styled.div`
-  margin-left: 2rem;
+  margin-right: 2rem;
+  margin-left: 3.5rem;
+  margin-top: auto;
+  margin-bottom: auto;
 `;
 
-const RankTitle = styled.div``;
+const RankTitle = styled.div`
+  display: flex;
+`;
 
 const Icon = styled.div``;
 
 const RankNumber = styled.p`
-  font-size: 2.25rem;
+  font-size: 2.5rem;
   font-weight: 600;
-`;
-
-const PointsContainer = styled.div`
-  display: flex;
+  text-align: center;
 `;
 
 const TotalPoints = styled.p`
-  font-size: 1.85rem;
+  font-size: 1.75rem;
   font-weight: 600;
+  margin-top: 0.5rem;
 `;
 
-const Description = styled.p``;
+const Description = styled.p`
+  margin-top: 1.5rem;
+  max-width: 385px;
+  font-size: 1.15rem;
+  line-height: 1.3;
+`;
+
+const ChangeBackgroundContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  justify-items: center;
+  margin-top: 4rem;
+`;
+
+const Paint = styled(RiPaintFill)`
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-left: 1rem;
+`;
+
+const HeadingWrapper = styled.div`
+  display: flex;
+`;
 
 const Rank = () => {
   const [rankProgress, setRankProgress] = useState(0);
@@ -70,6 +101,7 @@ const Rank = () => {
     fetch("/user/rank_progress")
       .then((res) => res.json())
       .then((data) => {
+        console.log(data.rank_progress);
         setRankProgress(data.rank_progress.toString());
         setLoading(false);
       })
@@ -87,33 +119,33 @@ const Rank = () => {
 
   // Determining Rank Level
   let RankLevel;
-  if (rankProgress < 50) {
+  if (rankProgress <= 50) {
     RankLevel = (
-      <div>
+      <RankTitle>
         <RankNumber>Level 0</RankNumber>
-        <Icon></Icon>
-      </div>
+        <BiCrown style={{ fill: "#b08d57", fontSize: "1.25rem" }} />
+      </RankTitle>
     );
-  } else if (rankProgress > 50 && rankProgress < 150) {
+  } else if (rankProgress > 50 && rankProgress <= 150) {
     RankLevel = (
-      <div>
+      <RankTitle>
         <RankNumber>Level 1</RankNumber>
-        <Icon></Icon>
-      </div>
+        <BiCrown style={{ fill: "#c0c0c0", fontSize: "1.25rem" }} />
+      </RankTitle>
     );
-  } else if (rankProgress > 150 && rankProgress < 250) {
+  } else if (rankProgress > 150 && rankProgress <= 250) {
     RankLevel = (
-      <div>
+      <RankTitle>
         <RankNumber>Level 2</RankNumber>
-        <Icon></Icon>
-      </div>
+        <BiCrown style={{ fill: "#FFD700", fontSize: "1.25rem" }} />
+      </RankTitle>
     );
   } else if (rankProgress > 250) {
     RankLevel = (
-      <div>
+      <RankTitle>
         <RankNumber>Level 3</RankNumber>
-        <Icon></Icon>
-      </div>
+        <BiCrown style={{ fill: "#e5e4e2", fontSize: "1.25rem" }} />
+      </RankTitle>
     );
   }
 
@@ -134,17 +166,21 @@ const Rank = () => {
               );
             })}
             <RankStatus>
-              <RankTitle>
-                {RankLevel}
-                <TotalPoints>{`Total Points: ${rankProgress.toString()} pts`}</TotalPoints>
-              </RankTitle>
-              <Description></Description>
+              {RankLevel}
+              <TotalPoints>{`Total Points: ${rankProgress.toString()}/250 pts`}</TotalPoints>
+              <Description>
+                Get 50+ pts by logging into your account daily and interacting
+                with our application by sharing our features to social media!
+              </Description>
             </RankStatus>
           </RankContainer>
-          <div>
-            <SubHeading>Change Background</SubHeading>
-          </div>
-          <ChangeBackground />
+          <ChangeBackgroundContainer>
+            <HeadingWrapper>
+              <SubHeading>Change Background Color</SubHeading>
+              <Paint />
+            </HeadingWrapper>
+            <ChangeBackground />
+          </ChangeBackgroundContainer>
         </div>
       )}
     </React.Fragment>
