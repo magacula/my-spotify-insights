@@ -1,4 +1,4 @@
-#import sqlalchemy_jsonfield as db_json_field
+from flask_sqlalchemy import event
 from server.api.utils import get_spotify_object, is_new
 from server.api.extensions import db
 from flask_login import UserMixin
@@ -19,9 +19,7 @@ class User(db.Model, UserMixin):
     user_email = db.Column(db.String(20))
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
     rank_progress = db.Column(db.Integer, default=0)
-    login_timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    last_active_timestamp = db.Column(
-        db.DateTime, default=datetime.utcnow, index=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     ip_addr = db.Column(db.String(20))
 
     info_json = db.Column(JSON)
@@ -40,7 +38,7 @@ class User(db.Model, UserMixin):
     # for login
     def get_id(self):
         # award rank progress if login in different date
-        if not (self.login_timestamp.date() == datetime.utcnow().date()):
+        if not (self.timestamp.date() == datetime.utcnow().date()):
             print("-----add 10 to rank progress")
             self.increment_rank_progress_c(10)
 
@@ -71,10 +69,10 @@ class Top_Tracks_Info(db.Model):
     __tablename__ = "top_tracks_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
     info_json = db.Column(JSON)
-    update_datetime = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime)
 
     def get_json(self):
-        if is_new(self.update_datetime, timedelta(hours=1)):
+        if is_new(self.timestamp, timedelta(hours=1)):
             return self.info_json
 
         # else update by calling api
@@ -83,7 +81,7 @@ class Top_Tracks_Info(db.Model):
             limit=50, time_range='long_term')
 
         self.info_json = new_json_info
-        self.update_datetime = datetime.utcnow()
+        self.timestamp = datetime.utcnow()
         db.session.commit()
 
         print("---in db, updating user top tracks info...")
@@ -95,10 +93,10 @@ class Top_Artists_Info(db.Model):
     __tablename = "top_artists_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
     info_json = db.Column(JSON)
-    update_datetime = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime)
 
     def get_json(self):
-        if is_new(self.update_datetime, timedelta(hours=1)):
+        if is_new(self.timestamp, timedelta(hours=1)):
             return self.info_json
 
         # else update by calling api
@@ -107,7 +105,7 @@ class Top_Artists_Info(db.Model):
             limit=50, time_range='long_term')
 
         self.info_json = new_json_info
-        self.update_datetime = datetime.utcnow()
+        self.timestamp = datetime.utcnow()
         db.session.commit()
 
         print("---in db, updating user top artists info...")
@@ -119,10 +117,10 @@ class Recent_Tracks_Info(db.Model):
     __table__name = "recent_tracks_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
     info_json = db.Column(JSON)
-    update_datetime = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime)
 
     def get_json(self):
-        if is_new(self.update_datetime, timedelta(minutes=5)):
+        if is_new(self.timestamp, timedelta(minutes=5)):
             return self.info_json
 
         # else update by calling api
@@ -130,7 +128,7 @@ class Recent_Tracks_Info(db.Model):
         new_json_info = sp.current_user_recently_played(limit=50)
 
         self.info_json = new_json_info
-        self.update_datetime = datetime.utcnow()
+        self.timestamp = datetime.utcnow()
 
         db.session.commit()
 
@@ -144,19 +142,17 @@ class Track_Info(db.Model):
     track_id = db.Column(db.String(30), primary_key=True, nullable=False)
     track_name = db.Column(db.String(30))
     # if not enough space, delete records according to last_active
-    last_active = db.Column(db.DateTime)
+    #last_active = db.Column(db.DateTime)
     lyrics = db.Column(db.Text)
     background_info = db.Column(db.Text)
     release_date = db.Column(db.Text)
     genre = db.Column(db.Text)
 
     info_json = db.Column(JSON)
-    update_datetime = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime)
 
     # call this method to get the data in json format
     def get_json(self):
-        self.last_active = datetime.utcnow()
-        db.session.commit()
 
         # don't change order
         return {
@@ -171,17 +167,13 @@ class Track_Info(db.Model):
         }
 
     def update_lyrics(self, lyrics):
-        self.last_active = datetime.utcnow()
-        db.session.commit()
         self.lyrics = lyrics
 
     def update_background_information(self, bg_info):
-        self.last_active = datetime.utcnow()
-        db.session.commit()
         self.background_info = bg_info
 
     def __get_json(self):
-        if is_new(self.update_datetime, timedelta(weeks=1)):
+        if is_new(self.timestamp, timedelta(weeks=1)):
             return self.info_json
 
         # else update by calling api
@@ -189,7 +181,7 @@ class Track_Info(db.Model):
         new_info_json = sp.track(self.track_id)
 
         # update info json
-        self.update_datetime = datetime.utcnow()
+        self.timestamp= datetime.utcnow()
         self.info_json = new_info_json
         self.track_name = new_info_json['name']
         self.release_date = new_info_json['name']
@@ -208,17 +200,14 @@ class Artist_Info(db.Model):
     artist_id = db.Column(db.String(30), primary_key=True, nullable=False)
     artist_name = db.Column(db.String(30))
     # if not enough space, delete records according to last_active
-    last_active = db.Column(db.DateTime)
     background_info = db.Column(db.Text)
 
     info_json = db.Column(JSON)
-    update_datetime = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime)
 
     # call this method to get the data in json format
 
     def get_json(self):
-        self.last_active = datetime.utcnow()
-        db.session.commit()
 
         return {
             # don't change order
@@ -229,13 +218,10 @@ class Artist_Info(db.Model):
         }
 
     def update(self, bg_info):
-        self.last_active = datetime.utcnow()
-        db.session.commit()
-
         self.background_info = bg_info
 
     def __get_json(self):
-        if is_new(self.update_datetime, timedelta(weeks=1)):
+        if is_new(self.timestamp, timedelta(weeks=1)):
             return self.info_json
 
         # else update by calling api
@@ -243,7 +229,7 @@ class Artist_Info(db.Model):
         new_info_json = sp.artist(self.artist_id)
 
         # update info_json in database
-        self.update_datetime = datetime.utcnow()
+        self.timestamp = datetime.utcnow()
         self.info_json = new_info_json
         self.artist_name = new_info_json['name']
 
@@ -260,7 +246,7 @@ class Album_Info(db.Model):
     album_id = db.Column(db.String(30), primary_key=True, nullable=False)
     album_name = db.Column(db.String(30))
     # if not enough space, delete records according to last_active
-    last_active = db.Column(db.DateTime)
+    #last_active = db.Column(db.DateTime)
     background_info = db.Column(db.Text)
 
     info_json = db.Column(JSON)
@@ -269,14 +255,10 @@ class Album_Info(db.Model):
     # call this method to update in database
 
     def update(self, bg_info):
-        self.last_active = datetime.utcnow()
         self.background_info = bg_info
 
     # call this method to get the data in json format
     def get_json(self):
-        self.last_active = datetime.utcnow()
-        db.session.commit()
-
         return {
             # don't change order
             'info_json': self.__get_json(),
@@ -333,3 +315,10 @@ class Banned_IP(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     time_length = db.Column(db.DateTime, default=timedelta(hours=1))
     reason = db.Column(db.Text)
+
+#test on after_insert
+def after_insert_listener(mapper, connection, target):
+    #'target' is the inserted object
+    print("-------database insert event...")
+
+event.listen(Top_Tracks_Info, 'after_insert', after_insert_listener)
