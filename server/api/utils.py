@@ -3,6 +3,7 @@ from spotipy.oauth2 import SpotifyOAuth
 from flask import url_for, session
 import spotipy
 from server.api.decorators import token_checked
+from server.api.extensions import db
 from datetime import datetime
 from datetime import timedelta
 
@@ -72,3 +73,18 @@ def is_new(db_datetime, expire_after_time_delta):
         return False
 
     return True
+
+
+#https://stackoverflow.com/questions/26514823/get-all-models-from-flask-sqlalchemy-db
+def get_all_models():
+    all_models = []
+    for clazz in db.Model._decl_class_registry.values():
+        try:
+            #this is needed to filter out one element that does not have a table name
+            #DO NOT CHANGE THE ORDER
+            model_name = clazz.__tablename__
+            all_models.append(clazz)
+        except:
+            pass
+
+    return all_models

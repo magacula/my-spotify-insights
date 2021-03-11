@@ -7,6 +7,11 @@ from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
 from server.api.extensions import limiter, db, login_manager, bootstrap
 from server.api.settings import website_config
+from server.api.utils import get_all_models
+from server.api.constants import NO_MAX_TABLES
+
+#import the file, so the bg_scheduler.start() will run automatically
+import server.api.schedules
 
 import os
 
@@ -23,12 +28,17 @@ def create_app(config_name='production'):
     app.config.from_object(website_config[config_name])
 
 
+
     # FIXME: for now, more to add later
 
     register_blueprints(app)
     register_extensions(app)
     register_error_handler(app)
     register_command(app)
+
+    #start background schedules
+    #bg_scheduler.start()
+
 
 
     return app
@@ -85,11 +95,36 @@ def register_command(app):
             #db.reflect()
             #db.session.commit()
             db.drop_all()
-            print("---dropped all tables")
+            print("---dropped all tables...")
 
         #recreate all the tables (empty)
         db.create_all()
-        print("--created all tables")
+        print("--created all tables...")
+
+        #put certain tables in the list of no max limit, where rows are not limited
+        from server.api.models import No_Max
+        all_models = get_all_models()
+        for one_model in all_models:
+            cur_tablename = one_model.__tablename__
+            if cur_tablename in NO_MAX_TABLES:
+                db_new_row = No_Max(tablename=cur_tablename)
+                db.session.add(db_new_row)
+                print("---added no max table name: ", cur_tablename)
+
+        db.session.commit()
+
+        print("--inserted default rows...")
+        print("---Done Init Database---")
+
+    @app.cli.command()
+    def no_row_max_tables():
+        from server.api.models import No_Max
+        results = No_Max.query.all()
+        print("---all tables that has no max rows limit: ")
+        for one_table in results:
+            print("--tablename: ", one_table.tablename)
+
+
 
 
 

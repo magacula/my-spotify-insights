@@ -5,17 +5,12 @@ from server.api.decorators import permission_required
 from server.api.extensions import limiter, db
 from server.api.models import *
 from server.api.forms.admin import Ban_Reason_Form
+from server.api.utils import get_all_models
 #from server.api.utils import connect_to_database, init_db
 #routes for admin related works
 
 admin_bp = Blueprint('admin', __name__)
 
-@admin_bp.route("/admin")
-@limiter.limit("2 per second")
-@login_required
-def admin():
-    #FIXME: need the acutal url
-    return "this is admin page..."
 
 
 #FIXME: test if permission decorator works
@@ -25,6 +20,8 @@ def admin_test():
     return "this is admin test..."
 
 @admin_bp.route("/admin/home")
+@admin_bp.route("/admin")
+@admin_bp.route("/admin/")
 def home():
     return render_template("base.html")
 
@@ -139,14 +136,7 @@ def database_status():
 
 
     #get all the models (tables) in the database
-    #https://stackoverflow.com/questions/26514823/get-all-models-from-flask-sqlalchemy-db
-    all_models = []
-    for clazz in db.Model._decl_class_registry.values():
-        try:
-            all_models.append(clazz)
-        except:
-            pass
-
+    all_models = get_all_models()
 
     for one_model in all_models:
         #will include a class with no tablename, so need to use try
@@ -191,7 +181,7 @@ def top_active_users(count=100):
     #{'user_id':{'user_name':name, 'user_email':email, 'last_active':time, 'last_ip':ip} }
     status = {}
 
-    db_users = User.query.filter(User.banned == False).order_by(User.last_active_timestamp.desc()).limit(count).all()
+    db_users = User.query.filter(User.banned == False).order_by(User.timestamp.desc()).limit(count).all()
     #db_users = User.query.limit(count).all()
 
     for one_user in db_users:
@@ -199,7 +189,7 @@ def top_active_users(count=100):
         temp_dict['user_name'] = one_user.user_name
         temp_dict['user_email'] = one_user.user_email
         temp_dict['last_ip'] = one_user.ip_addr
-        temp_dict['last_active'] = one_user.last_active_timestamp
+        temp_dict['last_active'] = one_user.timestamp
 
         status[one_user.user_id] = temp_dict
 
@@ -209,13 +199,13 @@ def top_active_users(count=100):
 def banned_users(count=100):
     status = {}
 
-    db_users = User.query.filter(User.banned == True).order_by(User.last_active_timestamp.desc()).limit(count).all()
+    db_users = User.query.filter(User.banned == True).order_by(User.timestamp.desc()).limit(count).all()
     for one_user in db_users:
         temp_dict = {}
         temp_dict['user_name'] = one_user.user_name
         temp_dict['user_email'] = one_user.user_email
         temp_dict['last_ip'] = one_user.ip_addr
-        temp_dict['last_active'] = one_user.last_active_timestamp
+        temp_dict['last_active'] = one_user.timestamp
         temp_dict['reason'] = one_user.banned_reason
 
         status[one_user.user_id] = temp_dict
