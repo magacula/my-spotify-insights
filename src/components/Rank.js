@@ -133,14 +133,14 @@ const Rank = () => {
         <BiCrown style={{ fill: "#c0c0c0", fontSize: "1.25rem" }} />
       </RankTitle>
     );
-  } else if (rankProgress > 150 && rankProgress <= 250) {
+  } else if (rankProgress > 150 && rankProgress < 250) {
     RankLevel = (
       <RankTitle>
         <RankNumber>Level 2</RankNumber>
         <BiCrown style={{ fill: "#FFD700", fontSize: "1.25rem" }} />
       </RankTitle>
     );
-  } else if (rankProgress > 250) {
+  } else if (rankProgress >= 250) {
     RankLevel = (
       <RankTitle>
         <RankNumber>Level 3</RankNumber>
