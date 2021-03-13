@@ -12,6 +12,7 @@ import { BsGraphUp } from "react-icons/bs";
 import { SiAudioboom } from "react-icons/si";
 import { MdBugReport, MdQueueMusic } from "react-icons/md";
 import { AiFillBug } from "react-icons/ai";
+import { AiFillGithub } from "react-icons/ai";
 import "../styles/App.css";
 import logo from "../styles/MSI-logo.png";
 
@@ -136,10 +137,18 @@ const Logo = styled.img`
   width: 100%;
 `;
 
+const GitHub = styled(AiFillGithub)`
+  color: white;
+  font-size: 3rem;
+  margin: 1rem 0rem;
+  width: 100%;
+`;
+
 const Navbar = () => {
   return (
     <NavContainer>
       <NavMenu>
+
         <NavMenuItem>
           <Link to="/home" title="Home" activeClassName="active-navlink">
             {/* <Home /> */}
@@ -175,31 +184,42 @@ const Navbar = () => {
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link to="/ranks" title="Your Rank" activeClassName="active-navlink">
+          <Link
+              to="/ranks"
+              title="Your Rank"
+              activeClassName="active-navlink">
             <Crown />
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link to="/Tops" activeClassName="active-navlink">
+          <Link
+              to="/Tops"
+              activeClassName="active-navlink">
             <GraphUp />
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link to="/RecentlyPlayed" activeClassName="active-navlink">
+          <Link
+              to="/RecentlyPlayed"
+              activeClassName="active-navlink">
             <Clock />
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link to="/TopTracksGraph" activeClassName="active-navlink">
+          <Link
+              to="/TopTracksGraph"
+              activeClassName="active-navlink">
             <AudioFeatures />
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link to="/Playlists" activeClassName="active-navlink">
+          <Link
+              to="/Playlists"
+              activeClassName="active-navlink">
             <Playlists />
           </Link>
         </NavMenuItem>
@@ -211,6 +231,14 @@ const Navbar = () => {
             <Bug />
           </a>
         </NavMenuItem>
+
+        <NavMenuItem>
+          <a
+              href="https://github.com/magacula/my-spotify-insights">
+            <GitHub />
+          </a>
+        </NavMenuItem>
+
       </NavMenu>
     </NavContainer>
   );
