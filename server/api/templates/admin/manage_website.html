@@ -8,10 +8,51 @@
     <p>Total Number of tables: {{database_status['count']}} </p>
     <p>Total Number of rows: {{database_status['total_rows']}} </p>
     <ol>
-        {% for one_table_name in database_status['tables_details'] %}
-            <li>{{one_table_name}} : {{database_status['tables_details'][one_table_name] }}</li>
-        {%endfor%}
 
     </ol>
+
+    <table>
+        <tr>
+            <th>Table Name</th>
+            <th>Row Count</th>
+        </tr>
+        {% for one_table_name in database_status['tables_details'] %}
+        <tr>
+            <td>{{one_table_name}} </td>
+            <td>{{database_status['tables_details'][one_table_name] }}</td>
+        </tr>
+        {%endfor%}
+
+
+    </table>
+
+    <section id="histories">
+        <h3>Histories</h3>
+        <table>
+            <tr>
+                <th>Path</th>
+                <th>Method</th>
+                <th>Status Code</th>
+                <th>Response Time</th>
+                <th>Remote Address</th>
+                <th>Timestamp</th>
+            </tr>
+            <!--  [{}, {}, {}]-->
+            {% for one_history in website_histories %}
+            <tr>
+                <td>{{one_history['path']}}</td>
+                <td>{{one_history['method']}}</td>
+                <td>{{one_history['status_code']}}</td>
+                <td>{{one_history['response_time']}} ms</td>
+                <td>{{one_history['remote_address']}}</td>
+                <td>{{one_history['timestamp']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+
+
+
+    </section>
 
 {% endblock %}

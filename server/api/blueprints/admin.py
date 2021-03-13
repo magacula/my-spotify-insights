@@ -118,7 +118,16 @@ def bug_reports():
 @limiter.limit("2 per second")
 @login_required
 def manage_website():
-    return render_template("manage_website.html", database_status=database_status())
+    return render_template("manage_website.html", database_status=database_status(), website_histories=website_histories())
+
+@login_required
+def website_histories():
+    result = []
+    all_histories = Flask_Statistics.query.all()
+    for one_history in all_histories:
+        result.append(one_history.get_json())
+
+    return result
 
 
 # database status
