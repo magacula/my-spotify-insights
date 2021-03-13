@@ -8,6 +8,7 @@ from flask import redirect, url_for
 from flask_bootstrap import Bootstrap
 from datetime import datetime
 
+
 #extensions for the backend part
 #postgresql in heroku has restrctions on the numbers or rows, so if we have more than 10000 rows, use sqlalchemy
 db =SQLAlchemy()
@@ -22,6 +23,7 @@ login_manager = LoginManager()
 #this function will be called whenever check "login_required" decorator
 @login_manager.user_loader
 def load_user(user_id):
+    #put it here to prevent recursive import with models.py
     from server.api.models import User
     user = User.query.get_or_404(user_id)
 
