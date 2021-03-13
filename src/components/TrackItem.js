@@ -4,6 +4,7 @@ import styled from "styled-components";
 import themes from "../styles/themes";
 import Loader from "./Loader";
 import { NavLink } from "react-router-dom";
+import TrackAudioFeatures from "./TrackAudioFeatures";
 const { colors } = themes;
 
 const Button = styled(NavLink)`
@@ -110,6 +111,7 @@ const TrackItem = (props) => {
   const [bars, setBars] = useState("");
   const [tempo, setTempo] = useState("");
   const [loading, setLoading] = useState(false);
+  const [audioFeatures, setAudioFeatures] = useState({});
 
   useEffect(() => {
     setLoading(true);
@@ -126,6 +128,18 @@ const TrackItem = (props) => {
         setBars(data.track_audio_analysis.bars.length);
         setTempo(data.track_audio_analysis.track.tempo);
         setLoading(false);
+      });
+
+    fetch(`/user/track_audio_features/${id}`, {
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.track_audio_features[0]);
+        setAudioFeatures(data.track_audio_features[0]);
       });
   }, []);
 
@@ -161,6 +175,8 @@ const TrackItem = (props) => {
             <Bars>{`Bars: ${bars}`}</Bars>
             <Tempo>{`Tempo: ${Math.round(tempo)} BPM`}</Tempo>
           </TrackInfo>
+
+          <TrackAudioFeatures features={audioFeatures} />
         </div>
       )}
     </React.Fragment>
