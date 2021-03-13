@@ -338,9 +338,25 @@ def top_tracks_audio_features():
 
     return {'top_tracks_audio_features': audio_features}
 
+
+# Gets audio features for a track
+@user_bp.route("/user/track_audio_features/<track_id>", methods=['GET'])
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def get_track_audio_features(track_id):
+
+    sp = get_spotify_object()
+
+    track = []
+    track.append(track_id)
+
+    audio_features = sp.audio_features(track)
+
+    return {'track_audio_features': audio_features}
+
+
 # Get audio analysis for a track based upon its Spotify ID
-
-
 @user_bp.route("/user/track_audio_analysis/<track_id>", methods=['GET'])
 @login_required
 @token_checked
@@ -402,7 +418,7 @@ def playback_current():
             }
 
 
-#FIXME: may not need it
+# FIXME: may not need it
 # post bug report
 @user_bp.route("/user/report_bugs", methods=['POST'])
 @limiter.limit("2 per second")
