@@ -7,6 +7,7 @@ from flask_login import LoginManager
 from flask import redirect, url_for
 from flask_bootstrap import Bootstrap
 from datetime import datetime
+from flask_moment import Moment
 
 
 #extensions for the backend part
@@ -48,3 +49,5 @@ def unauthorized():
 
 
 bootstrap = Bootstrap()
+
+moment = Moment()

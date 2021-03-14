@@ -37,34 +37,6 @@
             padding: 5px;
         }
 
-        section#section-navigation > nav.nav-bar > form.search{
-
-            display: inline;
-        }
-
-        div.message-alert{
-            background-color: #FF7F50;
-        }
-        /*
-        a.nav-item{
-            color: black;
-            list-style-type: none;
-            display: inline;
-            font-weight: bold;
-            margin: 5px;
-            text-decoration: none;
-            font-size: 120%;
-        }
-        */
-
-        /*
-        a.active{
-            background-color: #ccccff;
-            padding: 10px 1px;
-            border-radius: 5px;
-        }
-        */
-
 
         section#section-sidebar-left{
             width: 10%;
@@ -77,17 +49,6 @@
             left: 0px;
         }
 
-        section#section-sidebar-right{
-            width: 15%;
-            margin-left:  85%;
-            margin-right: 0px;
-            /*min-height: 100%;*/
-
-            position: absolute;
-            top: 80px;
-            right: 0px;
-
-        }
 
 
         div.sidebar-left-nav-list{
@@ -157,30 +118,13 @@
         div.message-alert{
             text-align: center;
             margin: 5px;
+            background-color: #FF7F50;
 
-        }
-
-        div.question-list{
-            margin-top: 10px;
-        }
-
-        small.question-list-author, small.answer-author{
-            font-weight: bold;
-            font-style: italic;
         }
 
         div.question-list-body{
             margin-left: 1%;
             margin-right: 1%;
-        }
-
-        /*FIXME: not work... */
-        .question-new >div{
-            background-color: red;
-        }
-
-        div.question-body{
-            font-size: 150%;
         }
 
         .text-align-center{
@@ -192,35 +136,12 @@
         }
 
 
-        div.answer-body{
-            font-size: 120%;
-        }
-
         span.flask-moment{
             display: block;
             background-color: red;
             text-align: center;
         }
 
-        div.answer-body{
-            background-color: #DCDCDC;
-        }
-
-        div.answer-comment{
-            padding-left: 15px;
-            border-bottom: 2px solid gray;
-        }
-
-        div.answer-comment-container{
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: 1px dotted gray;
-        }
-
-        div.answer-comment-body{
-            padding-left: 10px;
-            line-height: 150%;
-        }
 
         div#description-bot{
             display:none;
@@ -228,6 +149,24 @@
 
         table, th, td {
             border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        table tr:nth-child(even){
+            background-color: #f2f2f2
+        }
+
+        table tr:hover {
+            background-color: #ddd;
         }
 
 
@@ -283,6 +222,8 @@
         {% block scripts %}
             {{bootstrap.load_css()}}
             {{bootstrap.load_js()}}
+            {{moment.include_jquery()}}
+            {{moment.include_moment()}}
         {% endblock %}
     </script>
 

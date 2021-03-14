@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 #from server.api.decorators import permission_required, login_required
 from server.api.decorators import permission_required
@@ -8,6 +8,7 @@ from server.api.forms.admin import Ban_Reason_Form
 from server.api.utils import get_all_models
 #from server.api.utils import connect_to_database, init_db
 #routes for admin related works
+import random
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -123,7 +124,8 @@ def manage_website():
 @login_required
 def website_histories():
     result = []
-    all_histories = Flask_Statistics.query.all()
+    all_histories = Flask_Statistics.query.order_by(Flask_Statistics.timestamp.desc()).all()
+
     for one_history in all_histories:
         result.append(one_history.get_json())
 
@@ -270,3 +272,9 @@ def unban_user(user_id):
 
 
 
+
+@admin_bp.route("/admin/test_graph")
+@limiter.limit("2 per second")
+@login_required
+def test_graph():
+    return jsonify(result=random.randint(0, 10))
