@@ -25,6 +25,7 @@ def admin_test():
 @admin_bp.route("/admin/home")
 @admin_bp.route("/admin")
 @admin_bp.route("/admin/")
+@login_required
 def home():
 
     title = "Website Histories"
