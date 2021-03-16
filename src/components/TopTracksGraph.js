@@ -6,6 +6,8 @@ import AudioFeatureDescriptions from "./AudioFeatureDescriptions";
 const ChartContainer = styled.div`
   padding: 30px;
   margin-bottom: 100px;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
 const FeatureDescription = styled.div`
