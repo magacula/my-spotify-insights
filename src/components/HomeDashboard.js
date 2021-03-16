@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import themes from "../styles/themes";
 import UserProfile from "./UserProfile";
+import Guidelines from "./Guidelines";
 const { colors } = themes;
 
 const LOGOUT_USER = "/auth/logout";
@@ -32,9 +33,18 @@ const Button = styled.a`
 const HomeDashboard = () => {
   return (
     <React.Fragment>
-      <div>
-        <h1>User Home Page</h1>
-        <Button href={LOGOUT_USER}>Logout</Button>
+        <div align = "right">
+            <Button href={LOGOUT_USER}>Logout</Button>
+        </div>
+
+        <div>
+            <h1> Home </h1>
+            <h3>
+                Welcome to the MySpotifyInsights web application! Navigate through this application to view your "tops" on
+                Spotify, generate a playlist of recommended tracks for you, view your top tracks' audio features, view top
+                tracks in the world, and more!
+            </h3>
+            <Guidelines />
       </div>
       <UserProfile />
     </React.Fragment>
