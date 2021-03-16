@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 #from server.api.decorators import permission_required, login_required
 from server.api.decorators import permission_required
@@ -8,6 +8,9 @@ from server.api.forms.admin import Ban_Reason_Form
 from server.api.utils import get_all_models
 #from server.api.utils import connect_to_database, init_db
 #routes for admin related works
+import random
+import pygal
+from pygal.style import DarkSolarizedStyle, LightSolarizedStyle
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -22,80 +25,62 @@ def admin_test():
 @admin_bp.route("/admin/home")
 @admin_bp.route("/admin")
 @admin_bp.route("/admin/")
+@login_required
 def home():
-    return render_template("base.html")
+
+    title = "Website Histories"
+
+    histories = website_histories()
+
+    x_axis = []
+    y_axis  = []
+
+    count = {}
+    total_cnt = 0
+
+    for one_history in histories:
+        path = one_history['path']
+        try:
+            count[path] += 1
+        except:
+            count[path] = 1
+
+        total_cnt += 1
+
+    for one_path in count:
+        x_axis.append(one_path)
+        y_axis.append(count[one_path])
 
 
 
-"""
-@admin_bp.route("/admin/testdatabase")
-def admin_test_db():
-    db = None
-    try:
-        db = connect_to_database()
-        db_cursor = db.cursor()
-        print("-----------database here...")
+    histories_bar_chart = pygal.Bar(width=1200, height=600,
+                                    explicit_size=True, title=title,
+                                    #style=DarkSolarizedStyle,
+                                    style=LightSolarizedStyle,
+                                    disable_xml_declaration=True)
+    histories_bar_chart.x_labels=x_axis
+    histories_bar_chart.add("visit count", y_axis)
 
-        #db_cursor.execute("SELECT version()")
-        db_cursor.execute("\dt")
+    #------------ pie chart
+    histories_pie_chart = pygal.Pie(width=1200, height=600,
+                                    explicit_size=True, title=title,
+                                    #style=DarkSolarizedStyle,
+                                    style=LightSolarizedStyle,
+                                    disable_xml_declaration=True,
+                                    inner_radius=0.25)
 
-        db_version = db_cursor.fetchall()
-        print("---version: ", db_version)
-
-        #close cursor
-        db_cursor.close()
-
-    except Exception as e:
-        print("something is wrong...",e)
-    finally:
-        #close database connection
-        db.close()
-
-    return "test database connection..."
-
-#FIXME: add more permission restrictions later
-@admin_bp.route("/admin/init_db")
-def init_my_db():
-    init_db()
-    return "init database..."
-
-
-@admin_bp.route("/admin/show_table_user")
-def show_table_user():
-
-    db = None
-    db_result = "DEFAULT"
-    try:
-        db = connect_to_database()
-        db_cursor = db.cursor()
-        print("-----------database here...")
-
-        #drop the database if exist
-
-
-        sql_command = "SELECT * FROM public.user"
-        db_cursor.execute(sql_command)
-
-        db_result = db_cursor.fetchall()
-
-        #print("db result: ", db_result)
-
-        #db.commit()
+    for one_path in count:
+        histories_pie_chart.add(one_path, count[one_path])
 
 
 
-        # close cursor
-        db_cursor.close()
 
-    except Exception as e:
-        print("something is wrong...", e)
-    finally:
-        # close database connection
-        db.close()
+    return render_template("base.html", histories_bar_chart=histories_bar_chart,
+                            histories_pie_chart=histories_pie_chart
+                           )
 
-    return db_result
 
-"""
+
 
 
 #FIXME: may not need it
@@ -118,7 +103,21 @@ def bug_reports():
 @limiter.limit("2 per second")
 @login_required
 def manage_website():
-    return render_template("manage_website.html", database_status=database_status())
+
+
+
+    return render_template("manage_website.html", database_status=database_status(), website_histories=website_histories()
+                           )
+
+@login_required
+def website_histories():
+    result = []
+    all_histories = Flask_Statistics.query.order_by(Flask_Statistics.timestamp.desc()).all()
+
+    for one_history in all_histories:
+        result.append(one_history.get_json())
+
+    return result
 
 
 # database status
@@ -261,3 +260,9 @@ def unban_user(user_id):
 
 
 
+
+@admin_bp.route("/admin/test_graph")
+@limiter.limit("2 per second")
+@login_required
+def test_graph():
+    return jsonify(result=random.randint(0, 10))

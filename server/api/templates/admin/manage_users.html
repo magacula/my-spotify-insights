@@ -13,7 +13,10 @@ this link will manage users
             {{banned_users[one_user_id]['user_name']}}
             ##{{banned_users[one_user_id]['last_ip']}}
             ##{{banned_users[one_user_id]['reason']}}
-            ##{{banned_users[one_user_id]['last_active']}}
+            <!-- ##{{banned_users[one_user_id]['last_active']}} -->
+            <small class="timestamp">
+                {{moment(banned_users[one_user_id]['last_active']).format('LLL')}}
+            </small>
         </li>
         <a href="{{url_for('admin.unban_user', user_id=one_user_id) }}">Unban User</a>
         {% endfor %}
@@ -28,7 +31,9 @@ this link will manage users
             <li>
                 {{top_active_users[one_user_id]['user_name']}}
                 ##{{top_active_users[one_user_id]['last_ip']}}
-                ##{{top_active_users[one_user_id]['last_active']}}
+                <small class="timestamp">
+                    {{moment(top_active_users[one_user_id]['last_active']).format('LLL')}}
+                </small>
             </li>
             <a href="{{url_for('admin.ban_user', user_id=one_user_id) }}">Ban User</a>
         {% endfor %}

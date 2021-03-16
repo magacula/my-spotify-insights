@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
     user_email = db.Column(db.String(20))
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
     rank_progress = db.Column(db.Integer, default=0)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     ip_addr = db.Column(db.String(20))
 
     info_json = db.Column(JSON)
@@ -69,7 +69,7 @@ class Top_Tracks_Info(db.Model):
     __tablename__ = "top_tracks_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
     info_json = db.Column(JSON)
-    timestamp = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime, index=True)
 
     def get_json(self):
         if is_new(self.timestamp, timedelta(hours=1)):
@@ -93,7 +93,7 @@ class Top_Artists_Info(db.Model):
     __tablename = "top_artists_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
     info_json = db.Column(JSON)
-    timestamp = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime, index=True)
 
     def get_json(self):
         if is_new(self.timestamp, timedelta(hours=1)):
@@ -117,7 +117,7 @@ class Recent_Tracks_Info(db.Model):
     __table__name = "recent_tracks_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
     info_json = db.Column(JSON)
-    timestamp = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime, index=True)
 
     def get_json(self):
         if is_new(self.timestamp, timedelta(minutes=5)):
@@ -149,7 +149,7 @@ class Track_Info(db.Model):
     genre = db.Column(db.Text)
 
     info_json = db.Column(JSON)
-    timestamp = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime, index=True)
 
     # call this method to get the data in json format
     def get_json(self):
@@ -203,7 +203,7 @@ class Artist_Info(db.Model):
     background_info = db.Column(db.Text)
 
     info_json = db.Column(JSON)
-    timestamp = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime, index=True)
 
     # call this method to get the data in json format
 
@@ -250,7 +250,7 @@ class Album_Info(db.Model):
     background_info = db.Column(db.Text)
 
     info_json = db.Column(JSON)
-    update_datetime = db.Column(db.DateTime)
+    timestamp = db.Column(db.DateTime)
 
     # call this method to update in database
 
@@ -268,14 +268,14 @@ class Album_Info(db.Model):
         }
 
     def __get_json(self):
-        if is_new(self.update_datetime, timedelta(weeks=1)):
+        if is_new(self.timestamp, timedelta(weeks=1)):
             return self.info_json
 
         # else update by calling api
         sp = get_spotify_object()
         new_info_json = sp.album(self.album_id)
 
-        self.update_datetime = datetime.utcnow()
+        self.timestamp= datetime.utcnow()
         self.info_json = new_info_json
         self.album_name = new_info_json['name']
 
@@ -321,6 +321,48 @@ class No_Max(db.Model):
     __tablename__ = "no_max"
     id = db.Column(db.Integer, primary_key=True)
     tablename = db.Column(db.String(20))
+
+
+class Flask_Statistics(db.Model):
+    __tablename__ = "flask_statistics"
+
+    index = db.Column(db.Integer, primary_key=True)
+    #timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    timestamp = db.Column(db.DateTime, index=True)
+
+    response_time = db.Column(db.Float)
+    #date = db.Column(db.DateTime)
+    method = db.Column(db.String)
+    size = db.Column(db.Integer)
+    status_code = db.Column(db.Integer)
+    path = db.Column(db.String)
+    user_agent = db.Column(db.String)
+    remote_address = db.Column(db.String)
+    exception = db.Column(db.String)
+    referrer = db.Column(db.String)
+    browser = db.Column(db.String)
+    platform = db.Column(db.String)
+    mimetype = db.Column(db.String)
+
+    def get_json(self):
+        return {
+            "timestamp": self.timestamp,
+            "response_time": round(self.response_time * 1000),
+            "method": self.method,
+            "size": self.size,
+            "status_code": self.status_code,
+            "path": self.path,
+            "user_agent": self.user_agent,
+            "remote_address": self.remote_address,
+            "exception": self.exception,
+            "referrer": self.referrer,
+            "browser": self.browser,
+            "platform": self.platform,
+            "mimetype": self.mimetype
+        }
+
+
+
 
 #test on after_insert
 def after_insert_listener(mapper, connection, target):

@@ -47,7 +47,7 @@ def watch_database():
                 continue
 
             #else, if row count exceed, do clean up, remove exceed amt + 1/4 of the MAX allowed
-            remove_amt = (model_row_cnt - MAX_ROWS) + (MAX_ROWS//4)
+            remove_amt = (model_row_cnt - MAX_ROWS) + (MAX_ROWS//3)
             print("-----REACH ROW LIMIT :: try to remove from ", model_name, " : ",remove_amt)
 
             rows_to_delete = one_model.query.order_by(one_model.timestamp).limit(remove_amt)
@@ -84,7 +84,8 @@ def watch_database():
 
 bg_scheduler = BackgroundScheduler()
 
-bg_scheduler.add_job(test_job, 'interval', minutes=1)
+#example
+#bg_scheduler.add_job(test_job, 'interval', minutes=1)
 
 #watch database
 bg_scheduler.add_job(watch_database, 'interval', minutes=1)

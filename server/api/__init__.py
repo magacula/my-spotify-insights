@@ -1,17 +1,20 @@
-from flask import Flask, session
+from flask import Flask, session, g, request
 from flask_login import current_user
 import click
+import time
+from datetime import datetime
 from server.api.blueprints.main import main_bp
 from server.api.blueprints.admin import admin_bp
 from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
-from server.api.extensions import limiter, db, login_manager, bootstrap
+from server.api.extensions import limiter, db, login_manager, bootstrap, moment
 from server.api.settings import website_config
 from server.api.utils import get_all_models
 from server.api.constants import NO_MAX_TABLES
-
+from server.api.models import Flask_Statistics
 #import the file, so the bg_scheduler.start() will run automatically
 import server.api.schedules
+
 
 import os
 
@@ -36,12 +39,91 @@ def create_app(config_name='production'):
     register_error_handler(app)
     register_command(app)
 
-    #start background schedules
-    #bg_scheduler.start()
+    register_flask_stats(app)
+
 
 
 
     return app
+
+
+def register_flask_stats(app):
+    @app.before_request
+    def my_before():
+        g.start_time = time.time()
+        g.request_date = datetime.utcnow()
+
+        #in case it doesn't reach after request
+        g.request_status_code = 500
+
+
+    @app.after_request
+    def my_after(my_response):
+        g.request_status_code = my_response.status_code
+        g.request_content_size = my_response.content_length
+        g.mimetype = my_response.mimetype
+
+        return my_response
+
+    @app.teardown_request
+    def my_teardown(my_response):
+        db_new_record = Flask_Statistics()
+
+        end_time = time.time()
+
+        request_stats_json = {}
+
+        """
+        request_stats_json['response_time'] = end_time - g.start_time
+        request_stats_json['status_code'] = g.request_status_code
+        request_stats_json['size'] = g.request_content_size
+        request_stats_json['method'] = request.method
+        #FIXME: not sure about his
+        request_stats_json['remote_address'] = request.environ.get("HTTP_X_REAL_IP", request.remote_addr)
+        request_stats_json['path'] = request.path
+        request_stats_json['referrer'] = request.referrer
+
+        request_stats_json["browser"] = "{browser} {version}".format(
+            browser=request.user_agent.browser,
+            version=request.user_agent.version)
+        # platform (e.g. windows)
+        request_stats_json["platform"] = request.user_agent.platform
+        # complete user agent string
+        request_stats_json["user_agent"] = request.user_agent.string
+        # date when request was send
+        request_stats_json["date"] = g.request_date
+        # mimetype (e.g. text/html) of the response send to the client
+        request_stats_json["mimetype"] = g.mimetype
+        """
+
+        db_new_record.response_time = end_time - g.start_time
+        db_new_record.status_code = g.request_status_code
+        db_new_record.size = g.request_content_size
+        db_new_record.method = request.method
+        #FIXME: not sure about his
+        db_new_record.remote_address = request.environ.get("HTTP_X_REAL_IP", request.remote_addr)
+        db_new_record.path = request.path
+        db_new_record.referrer = request.referrer
+
+        db_new_record.browser = "{browser} {version}".format(
+            browser=request.user_agent.browser,
+            version=request.user_agent.version)
+        # platform (e.g. windows)
+        db_new_record.platform = request.user_agent.platform
+        # complete user agent string
+        db_new_record.user_agent = request.user_agent.string
+        # date when request was send
+        db_new_record.timestamp = g.request_date
+        # mimetype (e.g. text/html) of the response send to the client
+        db_new_record.mimetype = g.mimetype
+
+        db.session.add(db_new_record)
+        db.session.commit()
+
+        print("----new history ")
+
+
+
 
 
 
@@ -77,6 +159,9 @@ def register_extensions(app):
     db.init_app(app)
     login_manager.init_app(app)
     bootstrap.init_app(app)
+    moment.init_app(app)
+
+
 
 
 def register_command(app):
@@ -123,6 +208,18 @@ def register_command(app):
         print("---all tables that has no max rows limit: ")
         for one_table in results:
             print("--tablename: ", one_table.tablename)
+
+    @app.cli.command()
+    def show_stats():
+        from server.api.models import Flask_Statistics
+        results = Flask_Statistics.query.all()
+        print("---stats: ")
+        for one_stat in results:
+            print("--")
+            print("path: ", one_stat.path)
+            print("method: ", one_stat.method)
+            print("date: ", one_stat.date)
+            print("#####")
 
 
 
