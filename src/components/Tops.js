@@ -23,12 +23,11 @@ const TrackWrapper = styled(Link)`
 `;
 
 const Track = styled.div`
-  filter: brightness(80%);
+  filter: brightness(100%);
 
   &:hover {
-    transform: scale(1.1);
     transition: 0.2s ease-in;
-    filter: brightness(100%);
+    filter: brightness(65%);
     cursor: pointer;
   }
 `;
@@ -58,7 +57,7 @@ const ArtistContainer = styled.div`
 `;
 
 const Artist = styled.div`
-  filter: brightness(70%);
+  filter: brightness(80%);
 
   &:hover {
     transform: scale(1.1);
