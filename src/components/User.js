@@ -36,7 +36,7 @@ const User = () => {
           <Route path="/popular_artists">
             <PopularArtists />
           </Route>
-          <Route path="/film_maker">
+          <Route path="/track_lyrics">
             <FilmMaker />
           </Route>
           <Route path="/ranks">

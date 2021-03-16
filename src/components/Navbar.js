@@ -52,79 +52,72 @@ const NavMenuItem = styled.li`
 const Star = styled(FiStar)`
   fill: white;
   color: white;
-  font-size: 3rem;
-  margin: 1rem 0;
+  font-size: 2.75rem;
   width: 100%;
+  margin: 0.25rem 0;
 `;
 
 const Fire = styled(AiFillFire)`
   fill: white;
   color: white;
-  font-size: 3rem;
-  margin: 1rem 0;
+  font-size: 2.75rem;
   width: 100%;
+  margin: 0.25rem 0;
 `;
 
 const Film = styled(IoIosFilm)`
   fill: white;
   color: white;
-  font-size: 3rem;
-  margin: 1rem 0;
+  font-size: 2.75rem;
   width: 100%;
+  margin: 0.25rem 0;
 `;
 
 const Crown = styled(FaCrown)`
   fill: white;
   color: white;
-  font-size: 2.5rem;
-  margin: 1rem 0;
+  font-size: 2.75rem;
   width: 100%;
+  margin: 0.25rem 0;
 `;
 
 const Clock = styled(HiClock)`
   fill: white;
   color: white;
-  font-size: 3rem;
-  margin: 1rem 0;
+  font-size: 2.75rem;
   width: 100%;
+  margin: 0.25rem 0;
 `;
 
 const GraphUp = styled(BsGraphUp)`
   fill: white;
   color: white;
-  font-size: 3rem;
-  margin: 1rem 0;
+  font-size: 2.75rem;
   width: 100%;
+  margin: 0.25rem 0;
 `;
 
 const AudioFeatures = styled(SiAudioboom)`
   fill: white;
   color: white;
-  font-size: 3rem;
-  margin: 1rem 0;
+  font-size: 2.75rem;
   width: 100%;
+  margin: 0.25rem 0;
 `;
 
 const Playlists = styled(MdQueueMusic)`
   fill: white;
   color: white;
-  font-size: 3rem;
-  margin: 1rem 0;
+  font-size: 2.75rem;
   width: 100%;
+  margin: 0.25rem 0;
 `;
 
 const Bug = styled(AiFillBug)`
   color: white;
-  font-size: 3rem;
-  margin: 1rem 0rem;
+  font-size: 2.75rem;
   width: 100%;
-`;
-
-const Home = styled(HiHome)`
-  color: white;
-  font-size: 3rem;
-  margin: 1rem 0rem;
-  width: 100%;
+  margin: 0.25rem 0;
 `;
 
 const Link = styled(NavLink)`
@@ -133,26 +126,31 @@ const Link = styled(NavLink)`
 
 const Logo = styled.img`
   font-size: 3rem;
-  margin: 1rem 0rem;
   width: 100%;
 `;
 
 const GitHub = styled(AiFillGithub)`
   color: white;
-  font-size: 3rem;
-  margin: 1rem 0rem;
+  font-size: 2.75rem;
   width: 100%;
+  margin: 0.25rem 0;
+`;
+
+const NavText = styled.p`
+  font-size: 0.75rem;
+  text-align: center;
+  margin: 0.25rem;
+  color: ${colors.white};
 `;
 
 const Navbar = () => {
   return (
     <NavContainer>
       <NavMenu>
-
         <NavMenuItem>
           <Link to="/home" title="Home" activeClassName="active-navlink">
-            {/* <Home /> */}
             <Logo src={logo} alt="My Spotify Insights Logo" />
+            <NavText>Home</NavText>
           </Link>
         </NavMenuItem>
 
@@ -162,6 +160,7 @@ const Navbar = () => {
             title="Discover"
             activeClassName="active-navlink">
             <Star />
+            <NavText>Discover</NavText>
           </Link>
         </NavMenuItem>
 
@@ -171,56 +170,52 @@ const Navbar = () => {
             title="Most Popular Artists"
             activeClassName="active-navlink">
             <Fire />
+            <NavText>Top 50</NavText>
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
           <Link
-            to="/film_maker"
-            title="Film Maker"
+            to="/track_lyrics"
+            title="Lyrics"
             activeClassName="active-navlink">
             <Film />
+            <NavText>Lyrics</NavText>
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link
-              to="/ranks"
-              title="Your Rank"
-              activeClassName="active-navlink">
+          <Link to="/ranks" title="Your Rank" activeClassName="active-navlink">
             <Crown />
+            <NavText>Rank</NavText>
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link
-              to="/Tops"
-              activeClassName="active-navlink">
+          <Link to="/Tops" activeClassName="active-navlink">
             <GraphUp />
+            <NavText>Tops</NavText>
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link
-              to="/RecentlyPlayed"
-              activeClassName="active-navlink">
+          <Link to="/RecentlyPlayed" activeClassName="active-navlink">
             <Clock />
+            <NavText>Recent</NavText>
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link
-              to="/TopTracksGraph"
-              activeClassName="active-navlink">
+          <Link to="/TopTracksGraph" activeClassName="active-navlink">
             <AudioFeatures />
+            <NavText>Features</NavText>
           </Link>
         </NavMenuItem>
 
         <NavMenuItem>
-          <Link
-              to="/Playlists"
-              activeClassName="active-navlink">
+          <Link to="/Playlists" activeClassName="active-navlink">
             <Playlists />
+            <NavText>Playlists</NavText>
           </Link>
         </NavMenuItem>
 
@@ -229,16 +224,15 @@ const Navbar = () => {
             href="mailto:myspotifyinsights@gmail.com?&subject=Spotify%20Insights%20Bug%20Report&body=Hello,%20I%20was%20using%20your%20site%20when%20I%20encountered%20a%20bug.%0D%0A%0AHere%20is%20what%20happened%3A%0D%0A"
             target="_top">
             <Bug />
+            <NavText>Bugs</NavText>
           </a>
         </NavMenuItem>
 
         <NavMenuItem>
-          <a
-              href="https://github.com/magacula/my-spotify-insights">
+          <a href="https://github.com/magacula/my-spotify-insights">
             <GitHub />
           </a>
         </NavMenuItem>
-
       </NavMenu>
     </NavContainer>
   );
