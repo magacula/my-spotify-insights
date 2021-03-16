@@ -62,7 +62,7 @@ const Artist = styled.h2`
 `;
 
 const TrackInfo = styled.div`
-  margin-top: 2.5rem;
+  margin-top: 4rem;
   width: 100%;
   display: grid;
   align-items: center;
@@ -160,7 +160,7 @@ const TrackItem = (props) => {
       {loading ? (
         <Loader />
       ) : (
-        <div style={{ marginLeft: "100px", marginTop: "100px" }}>
+        <div style={{ marginLeft: "100px", marginTop: "4rem" }}>
           <TrackContainer>
             <TrackCover src={cover} alt="" />
             <TrackTitle>

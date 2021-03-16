@@ -96,7 +96,7 @@ const ArtistItem = (props) => {
   return (
     <React.Fragment>
       <Button to="/Tops/Artists">Go Back</Button>
-      <div style={{ marginLeft: "100px", marginTop: "75px" }}>
+      <div style={{ marginLeft: "100px", marginTop: "2rem" }}>
         <ArtistContainer>
           <ArtistImg src={image} alt="" />
           <ArtistName>{name}</ArtistName>
