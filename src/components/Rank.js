@@ -3,9 +3,18 @@ import styled from "styled-components";
 import ChangeBackground from "./ChangeBackground";
 import Loader from "./Loader";
 import themes from "../styles/themes";
+import { FaUserCircle } from "react-icons/fa";
 import { BiCrown } from "react-icons/bi";
 import { RiPaintFill } from "react-icons/ri";
 const { colors } = themes;
+
+const NoImage = styled(FaUserCircle)`
+  font-size: 10rem;
+  fill: ${colors.white};
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 3px solid #f742df;
+`;
 
 const PageTitle = styled.h1`
   margin-left: 0;
@@ -95,6 +104,7 @@ const Rank = () => {
   const [rankProgress, setRankProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState([]);
+  const [profileImage, setProfileImage] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -112,6 +122,8 @@ const Rank = () => {
       .then((data) => {
         console.log(data.user);
         setUserInfo(data.user);
+        setLoading(false);
+        setProfileImage(data.user[0].images[0].url);
         setLoading(false);
       })
       .catch((error) => console.log(error));
@@ -154,13 +166,17 @@ const Rank = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div style={{ marginLeft: "110px", marginTop: "30px" }}>
+        <div style={{ marginLeft: "110px", marginTop: "2rem" }}>
           <PageTitle>Your Rank</PageTitle>
           <RankContainer>
             {userInfo.map((item, index) => {
               return (
                 <ProfileSection>
-                  <ProfilePic src={item.images[0].url} alt="profile_pic" />
+                  {profileImage ? (
+                    <ProfilePic src={item.images[0].url} alt="profile_pic" />
+                  ) : (
+                    <NoImage />
+                  )}
                   <UserName>{item.display_name}</UserName>
                 </ProfileSection>
               );

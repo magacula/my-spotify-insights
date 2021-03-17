@@ -1,12 +1,44 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Loader from "./Loader";
+import { FaUserCircle } from "react-icons/fa";
+import themes from "../styles/themes";
+const { colors } = themes;
+
+const NoImage = styled(FaUserCircle)`
+  font-size: 10rem;
+  fill: ${colors.white};
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 3px solid #f742df;
+`;
+
+const ProfileSection = styled.div`
+  border-bottom: 3px solid grey;
+`;
+
+const ProfileContainer = styled.div`
+  max-width: 850px;
+  width: 50vw;
+  display: flex;
+  justify-content: space-around;
+  margin: 0px auto;
+  padding: 0 2rem 2rem 1.5rem;
+`;
+
+const ImageContainer = styled.div`
+  margin: auto 4rem;
+`;
+
+const UserDetails = styled.div`
+  padding: 2rem 0;
+`;
 
 const UserProfile = () => {
   // example to display userInfo using useState & fetch call
   const [userInfo, setUserInfo] = useState([]);
-  const [isShown, setIsShown] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [profileImage, setProfileImage] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -16,38 +48,37 @@ const UserProfile = () => {
         console.log(data.user);
         setUserInfo(data.user);
         setLoading(false);
+        setProfileImage(data.user[0].images[0].url);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
   }, []);
 
   return (
     <>
-      <div style={{ marginLeft: "150px" }}>
+      <div style={{ marginLeft: "100px" }}>
         {userInfo.map((item, index) => {
           return (
-            <div key={index}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-around",
-                  margin: "18px 18px",
-                  borderBottom: "3px solid grey",
-                  paddingBottom: "30px",
-                }}>
-                <div>
-                  <img
-                    style={{
-                      width: "220px",
-                      height: "220px",
-                      aspectRatio: "1.0",
-                      borderRadius: "150px",
-                      border: "3px solid #f742df",
-                    }}
-                    src={item.images[0].url}
-                    alt="profile_pic"
-                  />
-                </div>
-                <div>
+            <ProfileSection key={index}>
+              <ProfileContainer>
+                <ImageContainer>
+                  {profileImage ? (
+                    <img
+                      style={{
+                        width: "220px",
+                        height: "220px",
+                        aspectRatio: "1.0",
+                        borderRadius: "50%",
+                        border: "3px solid #f742df",
+                      }}
+                      src={item.images[0].url}
+                      alt="profile_pic"
+                    />
+                  ) : (
+                    <NoImage />
+                  )}
+                </ImageContainer>
+                <UserDetails>
                   <h4 style={{ fontSize: "xx-large" }}>
                     {item.display_name}'s Profile
                   </h4>
@@ -64,9 +95,9 @@ const UserProfile = () => {
                     <h5>Subscription: {item.product}</h5>
                     <h5>Country: {item.country}</h5>
                   </div>
-                </div>
-              </div>
-            </div>
+                </UserDetails>
+              </ProfileContainer>
+            </ProfileSection>
           );
         })}
       </div>
