@@ -59,7 +59,7 @@ const PopularArtists = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div style={{ marginLeft: "110px", marginTop: "30px" }}>
+        <div style={{ marginLeft: "100px", marginTop: "30px" }}>
           <div style={{ display: "flex" }}>
             <h4 style={{ marginLeft: "165px", padding: "5px 5px" }}>Track</h4>
           </div>

@@ -18,7 +18,7 @@ const Button = styled.a`
   text-transform: capitalize;
   font-size: 1rem;
   letter-spacing: 0.1rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   margin-left: 110px;
   margin-right: 0.5rem;
   transition: all 0.3s linear;
@@ -33,20 +33,19 @@ const Button = styled.a`
 const HomeDashboard = () => {
   return (
     <React.Fragment>
-        <div align = "right">
-            <Button href={LOGOUT_USER}>Logout</Button>
-        </div>
-
-        <div>
-            <h1> Home </h1>
-            <h3>
-                Welcome to the MySpotifyInsights web application! Navigate through this application to view your "tops" on
-                Spotify, generate a playlist of recommended tracks for you, view your top tracks' audio features, view top
-                tracks in the world, and more!
-            </h3>
-            <Guidelines />
+      <div align="right">
+        <Button href={LOGOUT_USER}>Logout</Button>
       </div>
       <UserProfile />
+      <div>
+        <h3>
+          &ensp;&ensp;Welcome to the MySpotifyInsights web application! Navigate
+          through this application to view your "tops" on Spotify, generate a
+          playlist of recommended tracks for you, view your top tracks' audio
+          features, view top tracks in the world, and more!
+        </h3>
+        <Guidelines />
+      </div>
     </React.Fragment>
   );
 };

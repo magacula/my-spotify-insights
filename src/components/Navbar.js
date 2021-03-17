@@ -49,6 +49,12 @@ const NavMenuItem = styled.li`
   }
 `;
 
+const Logo = styled.img`
+  font-size: 3rem;
+  width: 100%;
+  margin: 0.25rem 0;
+`;
+
 const Star = styled(FiStar)`
   fill: white;
   color: white;
@@ -124,11 +130,6 @@ const Link = styled(NavLink)`
   color: ${colors.white};
 `;
 
-const Logo = styled.img`
-  font-size: 3rem;
-  width: 100%;
-`;
-
 const GitHub = styled(AiFillGithub)`
   color: white;
   font-size: 2.75rem;
@@ -150,7 +151,6 @@ const Navbar = () => {
         <NavMenuItem>
           <Link to="/home" title="Home" activeClassName="active-navlink">
             <Logo src={logo} alt="My Spotify Insights Logo" />
-            <NavText>Home</NavText>
           </Link>
         </NavMenuItem>
 
