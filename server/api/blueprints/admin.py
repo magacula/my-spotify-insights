@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 #from server.api.decorators import permission_required, login_required
-from server.api.decorators import permission_required
+from server.api.decorators import permission_required, is_admin
 from server.api.extensions import limiter, db
 from server.api.models import *
 from server.api.forms.admin import Ban_Reason_Form
@@ -26,6 +26,7 @@ def admin_test():
 @admin_bp.route("/admin")
 @admin_bp.route("/admin/")
 @login_required
+@is_admin
 def home():
 
     title = "Website Histories"
@@ -87,6 +88,7 @@ def home():
 @admin_bp.route("/admin/bug_reports")
 @limiter.limit("2 per second")
 @login_required
+@is_admin
 def bug_reports():
     all_bug_reports = Bug_Report.query.all()
 
@@ -102,6 +104,7 @@ def bug_reports():
 @admin_bp.route("/admin/manage_website")
 @limiter.limit("2 per second")
 @login_required
+@is_admin
 def manage_website():
 
 
@@ -110,6 +113,7 @@ def manage_website():
                            )
 
 @login_required
+@is_admin
 def website_histories():
     result = []
     all_histories = Flask_Statistics.query.order_by(Flask_Statistics.timestamp.desc()).all()
@@ -122,6 +126,7 @@ def website_histories():
 
 # database status
 @login_required
+@is_admin
 def database_status():
 
     #{'count':num, 'total_rows':num,tables:{'one_table':row_num} }
@@ -166,6 +171,7 @@ def database_status():
 @admin_bp.route("/admin/manage_users")
 @limiter.limit("2 per second")
 @login_required
+@is_admin
 def manage_users():
     return render_template("manage_users.html",
                            top_active_users=top_active_users(100),
@@ -176,6 +182,7 @@ def manage_users():
 
 
 @login_required
+@is_admin
 def top_active_users(count=100):
     #{'user_id':{'user_name':name, 'user_email':email, 'last_active':time, 'last_ip':ip} }
     status = {}
@@ -195,6 +202,7 @@ def top_active_users(count=100):
     return status
 
 @login_required
+@is_admin
 def banned_users(count=100):
     status = {}
 
@@ -216,6 +224,7 @@ def banned_users(count=100):
 @admin_bp.route("/admin/manage_users/ban/<user_id>", methods=['GET','POST'])
 @limiter.limit("1 per second")
 @login_required
+@is_admin
 def ban_user(user_id):
     form = Ban_Reason_Form()
 
@@ -246,6 +255,7 @@ def ban_user(user_id):
 @admin_bp.route("/admin/manage_users/unban/<user_id>")
 @limiter.limit("1 per second")
 @login_required
+@is_admin
 def unban_user(user_id):
     db_user = User.query.filter(User.user_id == user_id).first()
     if not db_user:
@@ -262,8 +272,3 @@ def unban_user(user_id):
 
 
 
-@admin_bp.route("/admin/test_graph")
-@limiter.limit("2 per second")
-@login_required
-def test_graph():
-    return jsonify(result=random.randint(0, 10))

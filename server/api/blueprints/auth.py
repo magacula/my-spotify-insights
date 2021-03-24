@@ -70,11 +70,15 @@ def redirect_page():
         cur_user = sp.current_user()
         cur_user_name = cur_user['display_name']
         cur_user_id = cur_user['id']
+        cur_user_email = cur_user['email']
+
 
         # FIXME: may need more info later
         db_user = User.query.filter(User.user_id == cur_user_id).first()
         if not db_user:
-            db_user = User(user_name=cur_user_name, user_id=cur_user_id)
+            db_user = User(user_name=cur_user_name, user_id=cur_user_id,
+                           user_email=cur_user_email
+                           )
             db.session.add(db_user)
             db.session.commit()
 

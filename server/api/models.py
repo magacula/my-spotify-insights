@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
     __tablename__ = "user"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
     user_name = db.Column(db.String(30))
-    user_email = db.Column(db.String(20))
+    user_email = db.Column(db.String(30), nullable=False)
     join_date = db.Column(db.DateTime, default=datetime.utcnow)
     rank_progress = db.Column(db.Integer, default=0)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
@@ -35,6 +35,8 @@ class User(db.Model, UserMixin):
     banned = db.Column(db.Boolean, default=False)
     banned_reason = db.Column(db.Text)
     banned_timestamp = db.Column(db.DateTime)
+
+    is_admin = db.Column(db.Boolean, default=False)
 
     # for login
     def get_id(self):
