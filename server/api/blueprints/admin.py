@@ -204,7 +204,7 @@ def banned_users(count=100):
         temp_dict['user_name'] = one_user.user_name
         temp_dict['user_email'] = one_user.user_email
         temp_dict['last_ip'] = one_user.ip_addr
-        temp_dict['last_active'] = one_user.timestamp
+        temp_dict['banned_timestamp'] = one_user.banned_timestamp
         temp_dict['reason'] = one_user.banned_reason
 
         status[one_user.user_id] = temp_dict
@@ -232,6 +232,7 @@ def ban_user(user_id):
 
         db_user.banned = True
         db_user.banned_reason=form.reason.data
+        db_user.banned_timestamp = datetime.utcnow()
         db.session.commit()
         flash("Banned user...")
         return redirect(url_for('admin.manage_users'))
