@@ -11,7 +11,7 @@ from server.api.extensions import limiter, db, login_manager, bootstrap, moment
 from server.api.settings import website_config
 from server.api.utils import get_all_models
 from server.api.constants import NO_MAX_TABLES
-from server.api.models import Flask_Statistics
+from server.api.models import Flask_Statistics, User
 #import the file, so the bg_scheduler.start() will run automatically
 import server.api.schedules
 
@@ -220,6 +220,51 @@ def register_command(app):
             print("method: ", one_stat.method)
             print("date: ", one_stat.date)
             print("#####")
+
+    @app.cli.command()
+    @click.argument("email")
+    def add_admin(email):
+        db_user = User.query.filter(User.user_email==email).first()
+        if not(db_user):
+            print("--No user found with email: ", email)
+            return
+        #else
+        db_user.is_admin = True
+        db.session.commit()
+        print("--Upgrade user with email: ", email, " to amdin!!")
+
+    @app.cli.command()
+    @click.argument("email")
+    def remove_admin(email):
+        db_user = User.query.filter(User.user_email==email).first()
+        if not(db_user):
+            print("--No user found with email: ", email)
+            return
+        if db_user.is_admin:
+            print("--User is not admin!! ", email)
+            return
+
+        #else
+        db_user.is_admin = False
+        db.session.commit()
+        print("--Upgrade user to amdin!! ", email)
+
+    @app.cli.command()
+    def all_admins():
+        db_users = User.query.filter(User.is_admin==True).all()
+        print("---Admins---")
+        for one_user in db_users:
+            print("-User Name: ", one_user.user_name, ", User Email: ", one_user.user_email)
+        print("###END###")
+
+    @app.cli.command()
+    def all_users():
+        db_users = User.query.all()
+        print("---Users---")
+        for one_user in db_users:
+            print("-User Name: ", one_user.user_name, ", User Email: ", one_user.user_email)
+        print("###END###")
+
 
 
 
