@@ -144,7 +144,11 @@ class Track_Info(db.Model):
     track_name = db.Column(db.String(30))
     # if not enough space, delete records according to last_active
     #last_active = db.Column(db.DateTime)
-    lyrics = db.Column(db.Text)
+
+    #with timestamp will have the starting time of that sentence as the key, and value is the actual sentence
+    #without timestamp will be just the lyrics in terms of a list of sentences
+    #{'with_timestamp': [0:"first sentence",  13.5: "second sentence"], without_timestamp:[]}
+    lyrics = db.Column(db.JSON)
     background_info = db.Column(db.Text)
     release_date = db.Column(db.Text)
     genre = db.Column(db.Text)
