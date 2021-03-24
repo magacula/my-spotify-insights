@@ -34,6 +34,7 @@ class User(db.Model, UserMixin):
 
     banned = db.Column(db.Boolean, default=False)
     banned_reason = db.Column(db.Text)
+    banned_timestamp = db.Column(db.DateTime)
 
     # for login
     def get_id(self):
