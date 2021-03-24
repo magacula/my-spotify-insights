@@ -165,15 +165,16 @@ def register_extensions(app):
 
 
 def register_command(app):
-    #in cmd, run:  flask test
-    @app.cli.command()
-    def test():
-        click.echo("this is testing command")
 
     #command to initialize database, use will care...
     @app.cli.command()
     @click.option("--drop", is_flag=True, help="drop the tables")
     def init_db(drop):
+        """Initialize the database (after changes in table structures)
+
+        :param drop: Drop all the tables before initializing ___
+        :return:
+        """
         if drop:
             click.confirm("this will drop all the tables, are you sure? ", abort=True)
             #do not delete, if drop_all() failed, uncomment one of them to see if it works
@@ -203,12 +204,15 @@ def register_command(app):
 
     @app.cli.command()
     def no_row_max_tables():
+        """Display a list of tables that have not limit on rows __
+        """
         from server.api.models import No_Max
         results = No_Max.query.all()
         print("---all tables that has no max rows limit: ")
         for one_table in results:
             print("--tablename: ", one_table.tablename)
 
+    #FIXME: remove later, seems useless
     @app.cli.command()
     def show_stats():
         from server.api.models import Flask_Statistics
@@ -218,12 +222,16 @@ def register_command(app):
             print("--")
             print("path: ", one_stat.path)
             print("method: ", one_stat.method)
-            print("date: ", one_stat.date)
+            print("date: ", one_stat.timestamp)
             print("#####")
 
     @app.cli.command()
     @click.argument("email")
     def add_admin(email):
+        """Add a use as admin, given the email of an existing user __
+
+        :param email: the email of the user you want to add as an admin
+        """
         db_user = User.query.filter(User.user_email==email).first()
         if not(db_user):
             print("--No user found with email: ", email)
@@ -236,6 +244,10 @@ def register_command(app):
     @app.cli.command()
     @click.argument("email")
     def remove_admin(email):
+        """Remove A User If The User Is An Admin __
+
+        :param email: the email of the admin you want to remove
+        """
         db_user = User.query.filter(User.user_email==email).first()
         if not(db_user):
             print("--No user found with email: ", email)
@@ -251,6 +263,8 @@ def register_command(app):
 
     @app.cli.command()
     def all_admins():
+        """Display all admins in the database __
+        """
         db_users = User.query.filter(User.is_admin==True).all()
         print("---Admins---")
         for one_user in db_users:
@@ -259,6 +273,8 @@ def register_command(app):
 
     @app.cli.command()
     def all_users():
+        """Display all users in the database __
+        """
         db_users = User.query.all()
         print("---Users---")
         for one_user in db_users:
@@ -266,6 +282,7 @@ def register_command(app):
         print("###END###")
 
 
+    #help messages for different commands
 
 
 
