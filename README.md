@@ -99,3 +99,37 @@ pip install flask python-dotenv flask-cors gunicorn boto3 matplotlib
     - Everytime you want to reflect your changes when you run the application in local machine, make sure you follow the
         instructions in **Get Ready for Testing Running in Local Machine** to prepare for next run
 
+
+## Flask Commands
+  The are some helpful commands that can can be excuted for certain purpose
+  - In order to get a list of commands that are available, run
+    ```bash
+    flask --help
+    ```
+    - Sample Output 
+    ```bash
+    Commands:
+      add-admin
+      all-admins
+      all-users
+      init-db
+      no-row-max-tables
+      remove-admin       Remove A User If The User Is An Admin__ :param email:...
+      routes             Show the routes for the app.
+      run                Run a development server.
+      shell              Run a shell in the app context.
+    ```
+  - The previous command does not display the full help messages, in order to get the full help message, run
+    ```bash
+    flask [command] --help
+    ex:
+    flasks remove-admin --help
+    ```
+    - Sample Output:
+    ```bash
+    Usage: flask remove-admin [OPTIONS] EMAIL
+
+    Remove A User If The User Is An Admin__
+
+    :param email: the email of the admin you want to remove
+    ```
