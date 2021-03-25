@@ -6,30 +6,63 @@
 {% block content %}
 {% from 'bootstrap/form.html' import render_form %}
 
-    <section id="database-status">
-        <table class="center" >
-            <tr>
-                <th>Total Tables:{{database_status['count']}}</th>
-                <th>Total Rows:{{database_status['total_rows']}}</th>
-            </tr>
-            <tr>
-                <th>Table Name</th>
-                <th>Row Count</th>
-            </tr>
-            {% for one_table_name in database_status['tables_details'] %}
-            <tr>
-                <td>{{one_table_name}} </td>
-                <td>{{database_status['tables_details'][one_table_name] }}</td>
-            </tr>
-            {%endfor%}
+    <section  >
+        <div class="text-center">
+            <div class="database-status bar-rounded">
+                <div class="bold">
+                    Total # of Tables
+                </div>
+                {{database_status['count']}}
+            </div>
+
+            <div class="database-status bar-rounded">
+                <div class="bold">
+                    Total # of Rows
+                </div>
+                {{database_status['total_rows']}}
+            </div>
+
+            <div class="database-status bar-rounded">
+                <div class="bold">
+                    Row Limit
+                </div>
+                10,000
+            </div>
+        </div>
+
+        <br>
+        <div>
+            <table class="center">
+                <tr>
+                    <th>Table Name</th>
+                    <th>Row Count</th>
+                    <th>Row Limit</th>
+                </tr>
+                {% for one_table_name in database_status['tables_details'] %}
+                <tr>
+                    <td>{{one_table_name}} </td>
+                    {% set row_count = database_status['tables_details'][one_table_name]['count']  %}
+                    {% set row_limit = database_status['tables_details'][one_table_name]['limit']  %}
+                    <td>{{row_count}}</td>
+                    {% if row_limit > 0 %}
+                    <td>{{row_limit}}</td>
+                    {% else %}
+                    <td>No Limit</td>
+                    {% endif %}
 
 
-        </table>
+                </tr>
+                {%endfor%}
+
+
+            </table>
+        </div>
+
 
     </section>
 
     <section id="histories">
-        <h3>Histories</h3>
+        <h3 class="text-center bold">Histories</h3>
         <table class="center">
             <tr>
                 <th>Path</th>

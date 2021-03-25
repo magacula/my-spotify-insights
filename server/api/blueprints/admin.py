@@ -6,6 +6,7 @@ from server.api.extensions import limiter, db
 from server.api.models import *
 from server.api.forms.admin import Ban_Reason_Form
 from server.api.utils import get_all_models
+from server.api.constants import NO_MAX_TABLES, MAX_ROWS
 #from server.api.utils import connect_to_database, init_db
 #routes for admin related works
 import random
@@ -136,7 +137,9 @@ def database_status():
     status['count'] = len(all_table_names)
 
     total_rows = 0
+    #{'tablename':{'count': N, 'limit': N}, 'tablename':{}}
     tables_details = {}
+
 
 
     #get all the models (tables) in the database
@@ -147,10 +150,15 @@ def database_status():
         try:
             model_name = one_model.__tablename__
             model_row_cnt = one_model.query.count()
-
             total_rows += model_row_cnt
-            tables_details[model_name] = model_row_cnt
-        except:
+            model_row_limit = -1
+            if model_name not in NO_MAX_TABLES:
+                model_row_limit = MAX_ROWS
+
+            #tables_details[model_name] = model_row_cnt
+            tables_details[model_name] = {'count': model_row_cnt, 'limit': model_row_limit}
+        except Exception as e:
+            print("======table status exception: ", e)
             pass
 
 
