@@ -18,21 +18,20 @@ import logo from "../styles/MSI-logo.png";
 
 const { colors } = themes;
 
-const NavContainer = styled.div`
+const NavContainer = styled.div``;
+
+const NavMenu = styled.ul`
+  list-style: none;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0px;
+  left: 0px;
   width: 100px;
   background-color: ${colors.sidePanelGray};
   text-align: center;
   z-index: 99;
-`;
-
-const NavMenu = styled.ul`
-  list-style: none;
 `;
 
 const NavMenuItem = styled.li`
@@ -47,11 +46,17 @@ const NavMenuItem = styled.li`
     transition: all 0.3s linear;
     cursor: pointer;
   }
+
+  &:last-of-type {
+    margin-top: auto;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const Logo = styled.img`
   font-size: 3rem;
   width: 100%;
+  height: 100%;
   margin: 0.25rem 0;
 `;
 
@@ -66,7 +71,7 @@ const Star = styled(FiStar)`
 const Fire = styled(AiFillFire)`
   fill: white;
   color: white;
-  font-size: 2.75rem;
+  font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
 `;
@@ -74,7 +79,7 @@ const Fire = styled(AiFillFire)`
 const Film = styled(IoIosFilm)`
   fill: white;
   color: white;
-  font-size: 2.75rem;
+  font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
 `;
@@ -82,7 +87,7 @@ const Film = styled(IoIosFilm)`
 const Crown = styled(FaCrown)`
   fill: white;
   color: white;
-  font-size: 2.75rem;
+  font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
 `;
@@ -90,7 +95,7 @@ const Crown = styled(FaCrown)`
 const Clock = styled(HiClock)`
   fill: white;
   color: white;
-  font-size: 2.75rem;
+  font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
 `;
@@ -98,7 +103,7 @@ const Clock = styled(HiClock)`
 const GraphUp = styled(BsGraphUp)`
   fill: white;
   color: white;
-  font-size: 2.75rem;
+  font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
 `;
@@ -106,7 +111,7 @@ const GraphUp = styled(BsGraphUp)`
 const AudioFeatures = styled(SiAudioboom)`
   fill: white;
   color: white;
-  font-size: 2.75rem;
+  font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
 `;
@@ -114,14 +119,14 @@ const AudioFeatures = styled(SiAudioboom)`
 const Playlists = styled(MdQueueMusic)`
   fill: white;
   color: white;
-  font-size: 2.75rem;
+  font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
 `;
 
 const Bug = styled(AiFillBug)`
   color: white;
-  font-size: 2.75rem;
+  font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
 `;

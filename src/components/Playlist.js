@@ -7,20 +7,33 @@ const { colors } = themes;
 const PlaylistContainer = styled(Link)`
   color: ${colors.white};
   text-align: center;
-  justify-content: center;
   align-items: center;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  width: 100%;
+
+  &:hover {
+    transition: 0.2s ease-in;
+  }
 `;
 
 const PlaylistItem = styled.div`
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  &:hover {
+    transition: 0.2s ease-in;
+    filter: brightness(105%);
+    cursor: pointer;
+    background-color: rgba(23, 23, 23, 0.8);
+  }
 `;
 
 const PlaylistImage = styled.img`
-  width: 35%;
-  margin-left: 4rem;
+  width: 20vw;
+  height: 20vw;
+  object-fit: cover;
 `;
 
 const PlaylistInfo = styled.div`
@@ -33,7 +46,7 @@ const Playlist = ({ playlist }) => {
   return (
     <PlaylistItem>
       <PlaylistContainer to={`/playlist/${playlist.id}`}>
-        <PlaylistImage src={playlist.images[0].url} />
+          <PlaylistImage src={playlist.images[0].url} />
         <PlaylistInfo>
           <PlaylistName>{playlist.name}</PlaylistName>
         </PlaylistInfo>

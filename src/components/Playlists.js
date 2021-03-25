@@ -6,9 +6,14 @@ import themes from "../styles/themes";
 const { colors } = themes;
 
 const PlaylistsContainer = styled.div`
-  margin-left: 110px;
+  margin-left: 150px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   display: grid;
+  justify-content: center;
+  justify-items: center;
   grid-template-columns: 1fr 1fr;
+  grid-row-gap: 1.5rem;
 `;
 
 const Playlists = () => {
@@ -31,13 +36,12 @@ const Playlists = () => {
     <React.Fragment>
       <h1>Your Playlists</h1>
 
-      <PlaylistsContainer style={{ marginLeft: "12rem" }}>
+      <PlaylistsContainer>
         {playlists.map((playlist, index) => {
           return (
             <Playlist
               key={index}
               playlist={playlist}
-              style={{ marginLeft: "150px" }}
             />
           );
         })}
