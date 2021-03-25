@@ -75,16 +75,22 @@ const ArtistWrapper = styled(Link)`
 const ArtistInfo = styled.div`
   max-width: 350px;
   width: 100%;
+  justify-content: center;
+  display: grid;
 `;
 
 const ArtistName = styled.p`
+  margin-top: 1rem;
   font-size: 1.5rem;
   width: 100%;
   text-align: center;
 `;
 
 const ArtistPic = styled.img`
-  border-radius: 50%;
+  border-radius: 100%;
+  object-fit: cover;
+  width: 250px;
+  height: 250px;
   text-align: center;
   display: inline-flex;
   justify-content: center;
