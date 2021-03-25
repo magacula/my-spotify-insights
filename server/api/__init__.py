@@ -11,7 +11,7 @@ from server.api.extensions import limiter, db, login_manager, bootstrap, moment
 from server.api.settings import website_config
 from server.api.utils import get_all_models
 from server.api.constants import NO_MAX_TABLES
-from server.api.models import Flask_Statistics
+from server.api.models import Flask_Statistics, User
 #import the file, so the bg_scheduler.start() will run automatically
 import server.api.schedules
 
@@ -165,15 +165,16 @@ def register_extensions(app):
 
 
 def register_command(app):
-    #in cmd, run:  flask test
-    @app.cli.command()
-    def test():
-        click.echo("this is testing command")
 
     #command to initialize database, use will care...
     @app.cli.command()
     @click.option("--drop", is_flag=True, help="drop the tables")
     def init_db(drop):
+        """Initialize the database (after changes in table structures)
+
+        :param drop: Drop all the tables before initializing ___
+        :return:
+        """
         if drop:
             click.confirm("this will drop all the tables, are you sure? ", abort=True)
             #do not delete, if drop_all() failed, uncomment one of them to see if it works
@@ -203,12 +204,15 @@ def register_command(app):
 
     @app.cli.command()
     def no_row_max_tables():
+        """Display a list of tables that have not limit on rows __
+        """
         from server.api.models import No_Max
         results = No_Max.query.all()
         print("---all tables that has no max rows limit: ")
         for one_table in results:
             print("--tablename: ", one_table.tablename)
 
+    #FIXME: remove later, seems useless
     @app.cli.command()
     def show_stats():
         from server.api.models import Flask_Statistics
@@ -218,9 +222,67 @@ def register_command(app):
             print("--")
             print("path: ", one_stat.path)
             print("method: ", one_stat.method)
-            print("date: ", one_stat.date)
+            print("date: ", one_stat.timestamp)
             print("#####")
 
+    @app.cli.command()
+    @click.argument("email")
+    def add_admin(email):
+        """Add a use as admin, given the email of an existing user __
+
+        :param email: the email of the user you want to add as an admin
+        """
+        db_user = User.query.filter(User.user_email==email).first()
+        if not(db_user):
+            print("--No user found with email: ", email)
+            return
+        #else
+        db_user.is_admin = True
+        db.session.commit()
+        print("--Upgrade user with email: ", email, " to amdin!!")
+
+    @app.cli.command()
+    @click.argument("email")
+    def remove_admin(email):
+        """Remove A User If The User Is An Admin __
+
+        :param email: the email of the admin you want to remove
+        """
+        db_user = User.query.filter(User.user_email==email).first()
+        if not(db_user):
+            print("--No user found with email: ", email)
+            return
+        if db_user.is_admin:
+            print("--User is not admin!! ", email)
+            return
+
+        #else
+        db_user.is_admin = False
+        db.session.commit()
+        print("--Upgrade user to amdin!! ", email)
+
+    @app.cli.command()
+    def all_admins():
+        """Display all admins in the database __
+        """
+        db_users = User.query.filter(User.is_admin==True).all()
+        print("---Admins---")
+        for one_user in db_users:
+            print("-User Name: ", one_user.user_name, ", User Email: ", one_user.user_email)
+        print("###END###")
+
+    @app.cli.command()
+    def all_users():
+        """Display all users in the database __
+        """
+        db_users = User.query.all()
+        print("---Users---")
+        for one_user in db_users:
+            print("-User Name: ", one_user.user_name, ", User Email: ", one_user.user_email)
+        print("###END###")
+
+
+    #help messages for different commands
 
 
 

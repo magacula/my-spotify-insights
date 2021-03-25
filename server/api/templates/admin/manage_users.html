@@ -5,40 +5,57 @@
 
 {% block content %}
 {% from 'bootstrap/form.html' import render_form %}
-this link will manage users
-    <h3>Banned Users</h3>
-    <ul>
-        {% for one_user_id in banned_users %}
-        <li>
-            {{banned_users[one_user_id]['user_name']}}
-            ##{{banned_users[one_user_id]['last_ip']}}
-            ##{{banned_users[one_user_id]['reason']}}
-            <!-- ##{{banned_users[one_user_id]['last_active']}} -->
-            <small class="timestamp">
-                {{moment(banned_users[one_user_id]['last_active']).format('LLL')}}
-            </small>
-        </li>
-        <a href="{{url_for('admin.unban_user', user_id=one_user_id) }}">Unban User</a>
-        {% endfor %}
 
-    </ul>
-
-
-    <h3>Top Active Users</h3>
-    <ul>
-
-        {% for one_user_id in top_active_users %}
-            <li>
-                {{top_active_users[one_user_id]['user_name']}}
-                ##{{top_active_users[one_user_id]['last_ip']}}
-                <small class="timestamp">
-                    {{moment(top_active_users[one_user_id]['last_active']).format('LLL')}}
+    <section>
+        <h3 class="text-center">Banned Users</h3>
+            {% for one_user_id in banned_users %}
+            <div class="user-info bar-rounded">
+                <small class="float-right">
+                    <div class="bold inline">Banned Since: </div>{{moment(banned_users[one_user_id]['banned_timestamp']).format('LLL')}}
                 </small>
-            </li>
-            <a href="{{url_for('admin.ban_user', user_id=one_user_id) }}">Ban User</a>
-        {% endfor %}
+
+                <div class="bold inline">User Name: </div> {{banned_users[one_user_id]['user_name']}}
+                <br>
+                <div class="bold inline">Last Active Ip Address: </div>{{banned_users[one_user_id]['last_ip']}}
+                <a class="float-right" href="{{url_for('admin.unban_user', user_id=one_user_id) }}">Unban User</a>
+                <br>
+                <div class="bold text-center">Reason</div>
+                <div class="text-center">
+                    {{banned_users[one_user_id]['reason']}}
+                </div>
+
+            </div>
+            <br>
+
+            {% endfor %}
+
+            {% if banned_users|length == 0%}
+                <div class="user-info bar-rounded">None</div>
+            {% endif %}
+
+    </section>
 
 
-    </ul>
+    <section>
+        <h3 class="text-center">Top Active Users</h3>
+
+            {% for one_user_id in top_active_users %}
+            <div class="user-info bar-rounded">
+                <small class="timestamp float-right">
+                    <div class="bold inline">Last Active: </div>{{moment(top_active_users[one_user_id]['last_active']).format('LLL')}}
+                </small>
+
+                <div class="bold inline">User Name: </div>{{top_active_users[one_user_id]['user_name']}}
+                <br>
+                <div class="bold inline">Last Active Ip Address: </div>{{top_active_users[one_user_id]['last_ip']}}
+
+                <a class="float-right" href="{{url_for('admin.ban_user', user_id=one_user_id) }}">Ban User</a>
+            </div>
+            <br>
+            {% endfor %}
+
+
+
+    </section>
 
 {% endblock %}

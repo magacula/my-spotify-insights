@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 #from server.api.decorators import permission_required, login_required
-from server.api.decorators import permission_required
+from server.api.decorators import permission_required, is_admin
 from server.api.extensions import limiter, db
 from server.api.models import *
 from server.api.forms.admin import Ban_Reason_Form
 from server.api.utils import get_all_models
+from server.api.constants import NO_MAX_TABLES, MAX_ROWS
 #from server.api.utils import connect_to_database, init_db
 #routes for admin related works
 import random
@@ -26,6 +27,7 @@ def admin_test():
 @admin_bp.route("/admin")
 @admin_bp.route("/admin/")
 @login_required
+@is_admin
 def home():
 
     title = "Website Histories"
@@ -87,6 +89,7 @@ def home():
 @admin_bp.route("/admin/bug_reports")
 @limiter.limit("2 per second")
 @login_required
+@is_admin
 def bug_reports():
     all_bug_reports = Bug_Report.query.all()
 
@@ -102,6 +105,7 @@ def bug_reports():
 @admin_bp.route("/admin/manage_website")
 @limiter.limit("2 per second")
 @login_required
+@is_admin
 def manage_website():
 
 
@@ -110,6 +114,7 @@ def manage_website():
                            )
 
 @login_required
+@is_admin
 def website_histories():
     result = []
     all_histories = Flask_Statistics.query.order_by(Flask_Statistics.timestamp.desc()).all()
@@ -122,6 +127,7 @@ def website_histories():
 
 # database status
 @login_required
+@is_admin
 def database_status():
 
     #{'count':num, 'total_rows':num,tables:{'one_table':row_num} }
@@ -131,7 +137,9 @@ def database_status():
     status['count'] = len(all_table_names)
 
     total_rows = 0
+    #{'tablename':{'count': N, 'limit': N}, 'tablename':{}}
     tables_details = {}
+
 
 
     #get all the models (tables) in the database
@@ -142,10 +150,15 @@ def database_status():
         try:
             model_name = one_model.__tablename__
             model_row_cnt = one_model.query.count()
-
             total_rows += model_row_cnt
-            tables_details[model_name] = model_row_cnt
-        except:
+            model_row_limit = -1
+            if model_name not in NO_MAX_TABLES:
+                model_row_limit = MAX_ROWS
+
+            #tables_details[model_name] = model_row_cnt
+            tables_details[model_name] = {'count': model_row_cnt, 'limit': model_row_limit}
+        except Exception as e:
+            print("======table status exception: ", e)
             pass
 
 
@@ -166,6 +179,7 @@ def database_status():
 @admin_bp.route("/admin/manage_users")
 @limiter.limit("2 per second")
 @login_required
+@is_admin
 def manage_users():
     return render_template("manage_users.html",
                            top_active_users=top_active_users(100),
@@ -176,6 +190,7 @@ def manage_users():
 
 
 @login_required
+@is_admin
 def top_active_users(count=100):
     #{'user_id':{'user_name':name, 'user_email':email, 'last_active':time, 'last_ip':ip} }
     status = {}
@@ -195,6 +210,7 @@ def top_active_users(count=100):
     return status
 
 @login_required
+@is_admin
 def banned_users(count=100):
     status = {}
 
@@ -204,7 +220,7 @@ def banned_users(count=100):
         temp_dict['user_name'] = one_user.user_name
         temp_dict['user_email'] = one_user.user_email
         temp_dict['last_ip'] = one_user.ip_addr
-        temp_dict['last_active'] = one_user.timestamp
+        temp_dict['banned_timestamp'] = one_user.banned_timestamp
         temp_dict['reason'] = one_user.banned_reason
 
         status[one_user.user_id] = temp_dict
@@ -216,6 +232,7 @@ def banned_users(count=100):
 @admin_bp.route("/admin/manage_users/ban/<user_id>", methods=['GET','POST'])
 @limiter.limit("1 per second")
 @login_required
+@is_admin
 def ban_user(user_id):
     form = Ban_Reason_Form()
 
@@ -232,6 +249,7 @@ def ban_user(user_id):
 
         db_user.banned = True
         db_user.banned_reason=form.reason.data
+        db_user.banned_timestamp = datetime.utcnow()
         db.session.commit()
         flash("Banned user...")
         return redirect(url_for('admin.manage_users'))
@@ -245,6 +263,7 @@ def ban_user(user_id):
 @admin_bp.route("/admin/manage_users/unban/<user_id>")
 @limiter.limit("1 per second")
 @login_required
+@is_admin
 def unban_user(user_id):
     db_user = User.query.filter(User.user_id == user_id).first()
     if not db_user:
@@ -261,8 +280,3 @@ def unban_user(user_id):
 
 
 
-@admin_bp.route("/admin/test_graph")
-@limiter.limit("2 per second")
-@login_required
-def test_graph():
-    return jsonify(result=random.randint(0, 10))

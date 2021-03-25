@@ -33,7 +33,7 @@ def load_user(user_id):
         return None
 
     #update last active timestamp
-    user.last_active_timestamp = datetime.utcnow()
+    user.timestamp = datetime.utcnow()
     #update ip address
     user.ip_addr = get_remote_address()
     #print("----remote address: ", get_remote_address())

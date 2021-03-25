@@ -31,6 +31,25 @@ def login_required(func):
     return decorated_function
 """
 
+def is_admin(func):
+
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        # print("-------current session: ", session)
+        # if logged_in value not exist or false, then user is not logged in
+        try:
+            if not current_user.is_admin:
+                return redirect(url_for('auth.access_denied'))
+        except Exception as e:
+            print("---------is_admin decorator Exception: ", e)
+
+            return redirect(url_for('auth.access_denied'))
+
+
+        return func(*args, **kwargs)
+
+    return decorated_function
+
 # check if token still valid or exist
 def token_checked(func):
     @wraps(func)
@@ -65,6 +84,7 @@ def permission_required(permission_name):
             return func(*args, **kwargs)
         return decorated_function
     return decorator
+
 
 
 def rank_progress_above(rank_progress):
