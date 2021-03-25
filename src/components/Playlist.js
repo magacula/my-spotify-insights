@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import themes from "../styles/themes";
@@ -45,8 +45,18 @@ const PlaylistName = styled.h4``;
 const Playlist = ({ playlist }) => {
   return (
     <PlaylistItem>
-      <PlaylistContainer to={`/playlist/${playlist.id}`}>
-          <PlaylistImage src={playlist.images[0].url} />
+      <PlaylistContainer
+        to={{
+          pathname: `/playlist/${playlist.id}`,
+          state: {
+            id: `${playlist.id}`,
+            name: `${playlist.name}`,
+            cover: `${playlist.images[0].url}`,
+            total: `${playlist.tracks.total}`,
+            uri: `${playlist.uri}`,
+          },
+        }}>
+        <PlaylistImage src={playlist.images[0].url} />
         <PlaylistInfo>
           <PlaylistName>{playlist.name}</PlaylistName>
         </PlaylistInfo>

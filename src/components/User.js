@@ -14,6 +14,7 @@ import Playlists from "./Playlists";
 import TrackItem from "./TrackItem";
 import ArtistItem from "./ArtistItem";
 import AlbumItem from "./AlbumItem";
+import PlaylistItem from "./PlaylistItem";
 
 // For LOGGING OUT OUT User, just route to path="/" after clicking button
 
@@ -25,7 +26,7 @@ const User = () => {
         <Route exact path="/">
           <LoginPage />
         </Route>
-        <div className="container">
+        <div>
           <Navbar />
           <Route exact path="/home">
             <HomeDashboard />
@@ -58,6 +59,7 @@ const User = () => {
           <Route path="/track/:trackId" component={TrackItem} />
           <Route path="/artist/:artistId" component={ArtistItem} />
           <Route path="/album/:albumId" component={AlbumItem} />
+          <Route path="/playlist/:playlistId" component={PlaylistItem} />
         </div>
       </Switch>
     </Router>
