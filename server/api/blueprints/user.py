@@ -211,9 +211,28 @@ def playlists():
         return sp.user_playlist_add_tracks(
             user=user_id, playlist_id=playlist_id, tracks=tracks)
 
+# Gets tracks from a user's playlist
+
+
+@user_bp.route("/user/playlist/<playlist_id>", methods=['GET'])
+@limiter.limit("2 per second")
+@login_required
+@token_checked
+def get_user_playlist(playlist_id):
+    sp = get_spotify_object()
+
+    user_playlist = []
+
+    playlist_tracks = sp.playlist_tracks(playlist_id)
+
+    for track in playlist_tracks['items']:
+        user_playlist.append(track)
+
+    return {'playlist_tracks': user_playlist}
+
+
 # FIXME: need to verify if this works
 # user can save their downloaded tracks' path, so they can play through this website
-
 
 @user_bp.route("/user/local_tracks", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
