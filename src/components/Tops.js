@@ -208,6 +208,7 @@ const Tops = () => {
                         cover: `${track.album.images[1].url}`,
                         duration_ms: `${track.duration_ms}`,
                         popularity: `${track.popularity}`,
+                        fromTops: "true",
                       },
                     }}>
                     <TrackInfo>

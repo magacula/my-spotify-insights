@@ -98,7 +98,6 @@ const Track = ({ track }) => {
         to={{
           pathname: `/track/${track.id}`,
           state: {
-            fromRecentlyPlayed: true,
             id: `${track.id}`,
             name: `${track.name}`,
             artist: `${track.artists[0].name}`,
@@ -107,6 +106,7 @@ const Track = ({ track }) => {
             popularity: `${track.popularity}`,
             release_date: `${track.release_date}`,
             genre: `${track.genre}`,
+            fromRecentlyPlayed: true,
           },
         }}>
         <TrackImage src={track.album.images[0].url} />
