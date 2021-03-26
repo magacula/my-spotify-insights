@@ -75,6 +75,7 @@ const TrackMeta = styled.div`
 const TrackName = styled.span`
   margin-bottom: 5px;
   border-bottom: 1px solid transparent;
+  font-size: 1.25rem;
   &:hover,
   &:focus {
     border-bottom: 1px solid ${colors.white};
@@ -87,9 +88,10 @@ const TrackAlbum = styled.div`
   white-space: nowrap;
   padding-right: 1px;
   color: ${colors.lightGrey};
-  font-size: 14px;
   margin-top: 3px;
+  font-size: 1rem;
 `;
+
 const TrackDuration = styled.div`
   color: ${colors.lighterGrey};
   font-size: 14px;

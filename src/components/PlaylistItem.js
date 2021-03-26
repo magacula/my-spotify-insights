@@ -36,6 +36,8 @@ const Button = styled(NavLink)`
 const PlaylistTrackList = styled.ul`
   display: grid;
   justify-content: center;
+  margin-right: 2rem;
+  margin-left: 2rem;
 `;
 
 const PlaylistContainer = styled.div`
@@ -44,8 +46,10 @@ const PlaylistContainer = styled.div`
   align-items: center;
   align-content: center;
   justify-content: center;
-  margin-bottom: 4rem;
   column-gap: 4rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
+  margin-bottom: 4rem;
 `;
 
 const PlaylistInfo = styled.div`
@@ -74,12 +78,14 @@ const PlaylistDescription = styled.p`
   margin-left: 2.5rem;
   margin-top: 0.5rem;
   max-width: 600px;
+  text-align: center;
 `;
 
 const PlaylistTotal = styled.p`
   font-size: 1.5rem;
   margin-left: 2.5rem;
   margin-top: 0.5rem;
+  text-align: center;
 `;
 
 const PlaylistCover = styled.img`
@@ -119,7 +125,12 @@ const PlaylistItem = (props) => {
       {loading ? (
         <Loader />
       ) : (
-        <div style={{ marginLeft: "100px", marginTop: "4rem" }}>
+        <div
+          style={{
+            marginLeft: "100px",
+            marginRight: "100px",
+            marginTop: "4rem",
+          }}>
           <PlaylistContainer>
             <PlaylistCover src={cover} alt="" />
             <PlaylistInfo>

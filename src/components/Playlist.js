@@ -40,7 +40,15 @@ const PlaylistInfo = styled.div`
   width: 80%;
 `;
 
-const PlaylistName = styled.h4``;
+const PlaylistName = styled.h5`
+  font-weight: 600;
+  font-size: 1.5rem;
+`;
+
+const PlaylistOwner = styled.p`
+  margin-top: 0.5rem;
+  font-size: 1rem;
+`;
 
 const Playlist = ({ playlist }) => {
   return (
@@ -61,6 +69,7 @@ const Playlist = ({ playlist }) => {
         <PlaylistImage src={playlist.images[0].url} />
         <PlaylistInfo>
           <PlaylistName>{playlist.name}</PlaylistName>
+          <PlaylistOwner>{playlist.owner.display_name}</PlaylistOwner>
         </PlaylistInfo>
       </PlaylistContainer>
     </PlaylistItem>
