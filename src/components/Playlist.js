@@ -54,6 +54,8 @@ const Playlist = ({ playlist }) => {
             cover: `${playlist.images[0].url}`,
             total: `${playlist.tracks.total}`,
             uri: `${playlist.uri}`,
+            owner: `${playlist.owner.display_name}`,
+            description: `${playlist.description}`,
           },
         }}>
         <PlaylistImage src={playlist.images[0].url} />

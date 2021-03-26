@@ -2,6 +2,8 @@ import React from "react";
 import themes from "../styles/themes";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { HiPlay } from "react-icons/hi";
+import { Howl } from "howler";
 const { colors } = themes;
 
 const TrackLeft = styled.span`
@@ -11,7 +13,11 @@ const TrackLeft = styled.span`
   padding-right: 1px;
 `;
 
-const TrackRight = styled.span``;
+const TrackRight = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 6rem;
+`;
 
 const TrackArtwork = styled.div`
   display: inline-block;
@@ -84,9 +90,22 @@ const TrackAlbum = styled.div`
   font-size: 14px;
   margin-top: 3px;
 `;
-const TrackDuration = styled.span`
+const TrackDuration = styled.div`
   color: ${colors.lighterGrey};
   font-size: 14px;
+`;
+
+const PlayButton = styled(HiPlay)`
+  fill: grey;
+  color: white;
+  height: 50px;
+  font-size: 3rem;
+  margin-left: 1.5rem;
+
+  &:hover {
+    fill: #65d36e;
+    transition: 0.35s;
+  }
 `;
 
 // Format milliseconds into MM:SS
@@ -95,6 +114,17 @@ const formatDuration = (millis) => {
   const seconds = ((millis % 60000) / 1000).toFixed(0);
 
   return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+};
+
+// Play track in the browser
+var sound;
+let soundPlay = (src) => {
+  sound = new Howl({
+    src,
+    html5: true,
+  });
+  sound.play();
+  sound.fade(0.0, 1.0, 5000);
 };
 
 const PlaylistTrack = ({ track }) => (
@@ -158,6 +188,15 @@ const PlaylistTrack = ({ track }) => (
         <TrackRight>
           {track.duration_ms && (
             <TrackDuration>{formatDuration(track.duration_ms)}</TrackDuration>
+          )}
+          {track.preview_url == null ? (
+            <div></div>
+          ) : (
+            <PlayButton
+              onMouseEnter={() => soundPlay(track.preview_url)}
+              onMouseLeave={() => {
+                sound.stop();
+              }}></PlayButton>
           )}
         </TrackRight>
       </TrackMeta>

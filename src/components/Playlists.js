@@ -38,12 +38,7 @@ const Playlists = () => {
 
       <PlaylistsContainer>
         {playlists.map((playlist, index) => {
-          return (
-            <Playlist
-              key={index}
-              playlist={playlist}
-            />
-          );
+          return <Playlist key={index} playlist={playlist} />;
         })}
       </PlaylistsContainer>
       {/* uses conditional rendering to render our loading component */}

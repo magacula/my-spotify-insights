@@ -5,12 +5,14 @@ import themes from "../styles/themes";
 import Loader from "./Loader";
 import { NavLink } from "react-router-dom";
 import TrackAudioFeatures from "./TrackAudioFeatures";
-import Track from "./Track";
 import PlaylistTrack from "./PlaylistTrack";
 const { colors } = themes;
 
 const Button = styled(NavLink)`
   display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 0;
   background: ${colors.lightBlue};
   color: ${colors.white};
   padding: 0.25rem 0.75rem;
@@ -20,8 +22,8 @@ const Button = styled(NavLink)`
   font-size: 1rem;
   letter-spacing: 0.1rem;
   margin-top: 2rem;
-  margin-left: 120px;
-  margin-right: 0.5rem;
+  margin-top: 2rem;
+  margin-right: 2rem;
   transition: all 0.3s linear;
   cursor: pointer;
 
@@ -36,8 +38,65 @@ const PlaylistTrackList = styled.ul`
   justify-content: center;
 `;
 
+const PlaylistContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  margin-bottom: 4rem;
+  column-gap: 4rem;
+`;
+
+const PlaylistInfo = styled.div`
+  display: grid;
+  align-items: center;
+  align-content: right;
+`;
+
+const PlaylistTitle = styled.p`
+  font-weight: 600;
+  font-size: 3rem;
+  margin-left: 2.5rem;
+  text-align: center;
+`;
+
+const PlaylistOwner = styled.p`
+  font-size: 1.5rem;
+  margin-left: 2.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+`;
+
+const PlaylistDescription = styled.p`
+  font-size: 1.5rem;
+  margin-left: 2.5rem;
+  margin-top: 0.5rem;
+  max-width: 600px;
+`;
+
+const PlaylistTotal = styled.p`
+  font-size: 1.5rem;
+  margin-left: 2.5rem;
+  margin-top: 0.5rem;
+`;
+
+const PlaylistCover = styled.img`
+  width: 400px;
+  /* margin-left: 8rem; */
+`;
+
 const PlaylistItem = (props) => {
-  const { id, name, cover, total, uri } = props.location.state;
+  const {
+    id,
+    name,
+    description,
+    owner,
+    cover,
+    total,
+    uri,
+  } = props.location.state;
   console.log(props);
 
   const [playlist, setPlaylist] = useState([]);
@@ -60,7 +119,18 @@ const PlaylistItem = (props) => {
       {loading ? (
         <Loader />
       ) : (
-        <div style={{ marginLeft: "110px", marginTop: "4rem" }}>
+        <div style={{ marginLeft: "100px", marginTop: "4rem" }}>
+          <PlaylistContainer>
+            <PlaylistCover src={cover} alt="" />
+            <PlaylistInfo>
+              <PlaylistTitle>{name}</PlaylistTitle>
+              <PlaylistOwner>{`by ${owner}`}</PlaylistOwner>
+              {description && (
+                <PlaylistDescription>{description}</PlaylistDescription>
+              )}
+              <PlaylistTotal>{`total tracks: ${total.toString()}`}</PlaylistTotal>
+            </PlaylistInfo>
+          </PlaylistContainer>
           <PlaylistTrackList>
             {playlist.map(({ track }, index) => {
               return <PlaylistTrack track={track} key={index} />;
@@ -81,6 +151,7 @@ PlaylistItem.propTypes = {
   cover: PropTypes.string,
   total: PropTypes.number,
   uri: PropTypes.string,
+  owner: PropTypes.string,
 };
 
 export default PlaylistItem;
