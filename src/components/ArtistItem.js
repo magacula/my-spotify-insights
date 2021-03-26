@@ -7,6 +7,9 @@ const { colors } = themes;
 
 const Button = styled(NavLink)`
   display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 0;
   background: ${colors.lightBlue};
   color: ${colors.white};
   padding: 0.25rem 0.75rem;
@@ -16,8 +19,8 @@ const Button = styled(NavLink)`
   font-size: 1rem;
   letter-spacing: 0.1rem;
   margin-top: 2rem;
-  margin-left: 120px;
-  margin-right: 0.5rem;
+  margin-top: 2rem;
+  margin-right: 2rem;
   transition: all 0.3s linear;
   cursor: pointer;
 

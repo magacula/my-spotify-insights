@@ -9,6 +9,9 @@ const { colors } = themes;
 
 const Button = styled(NavLink)`
   display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 0;
   background: ${colors.lightBlue};
   color: ${colors.white};
   padding: 0.25rem 0.75rem;
@@ -18,8 +21,8 @@ const Button = styled(NavLink)`
   font-size: 1rem;
   letter-spacing: 0.1rem;
   margin-top: 2rem;
-  margin-left: 120px;
-  margin-right: 0.5rem;
+  margin-top: 2rem;
+  margin-right: 2rem;
   transition: all 0.3s linear;
   cursor: pointer;
 
@@ -30,32 +33,41 @@ const Button = styled(NavLink)`
 `;
 
 const TrackContainer = styled.div`
-  width: 100%;
   display: flex;
   align-items: center;
-  align-content: center;
-  justify-items: center;
+  justify-content: center;
 `;
 
 const TrackTitle = styled.div`
   width: 100%;
   display: grid;
   align-items: center;
-  align-content: right;
+  align-content: center;
+  margin-left: 2rem;
+  margin-right: 8rem;
+`;
+
+const ImageContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: 8rem;
 `;
 
 const TrackCover = styled.img`
   width: 400px;
-  margin-left: 8rem;
 `;
 
-const Track = styled.h1`
-  font-size: 5rem;
+const TrackName = styled.p`
+  font-size: 3rem;
   margin-top: 2rem;
-  margin-left: 0;
+  font-weight: 600;
+  margin-left: 2rem;
+  max-width: 500px;
 `;
 
-const Artist = styled.h2`
+const Artist = styled.p`
   font-size: 1.5rem;
   margin-left: 2.5rem;
   margin-top: 0.5rem;
@@ -71,27 +83,27 @@ const TrackInfo = styled.div`
 `;
 
 const Duration = styled.p`
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 600;
 `;
 
 const Popularity = styled.p`
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 600;
 `;
 
 const Tempo = styled.p`
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 600;
 `;
 
 const Beats = styled.p`
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 600;
 `;
 
 const Bars = styled.p`
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 600;
 `;
 
@@ -165,9 +177,11 @@ const TrackItem = (props) => {
       ) : (
         <div style={{ marginLeft: "100px", marginTop: "4rem" }}>
           <TrackContainer>
-            <TrackCover src={cover} alt="" />
+            <ImageContainer>
+              <TrackCover src={cover} alt="" />
+            </ImageContainer>
             <TrackTitle>
-              <Track style={{ marginLeft: "2rem" }}>{name}</Track>
+              <TrackName>{name}</TrackName>
               <Artist>{artist}</Artist>
             </TrackTitle>
           </TrackContainer>
