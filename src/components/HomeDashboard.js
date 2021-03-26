@@ -30,22 +30,40 @@ const Button = styled.a`
   }
 `;
 
+const ContentContainer = styled.div`
+  display: grid;
+  justify-content: center;
+  line-height: 1.3;
+  margin: 2rem 100px;
+`;
+
+const WelcomeHeading = styled.h1`
+  margin: 0 4rem;
+  font-size: 3rem;
+`;
+
+const Welcome = styled.p`
+  margin: 1.5rem 4rem;
+  font-size: 1.25rem;
+`;
+
 const HomeDashboard = () => {
   return (
     <React.Fragment>
       <div align="right">
         <Button href={LOGOUT_USER}>Logout</Button>
       </div>
+
       <UserProfile />
-      <div>
-        <h3>
-          &ensp;&ensp;Welcome to the MySpotifyInsights web application! Navigate
-          through this application to view your "tops" on Spotify, generate a
-          playlist of recommended tracks for you, view your top tracks' audio
-          features, view top tracks in the world, and more!
-        </h3>
+      <ContentContainer>
+        <WelcomeHeading>Welcome to MySpotifyInsights!</WelcomeHeading>
+        <Welcome>
+          Navigate through this web application to view your "tops" on Spotify,
+          generate a playlist of recommended tracks for you, view your top
+          tracks' audio features, view top tracks in the world, and more!
+        </Welcome>
         <Guidelines />
-      </div>
+      </ContentContainer>
     </React.Fragment>
   );
 };

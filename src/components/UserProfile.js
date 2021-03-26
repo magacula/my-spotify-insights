@@ -14,7 +14,7 @@ const NoImage = styled(FaUserCircle)`
 `;
 
 const ProfileSection = styled.div`
-  border-bottom: 3px solid grey;
+  /* border-bottom: 3px solid grey; */
 `;
 
 const ProfileContainer = styled.div`
