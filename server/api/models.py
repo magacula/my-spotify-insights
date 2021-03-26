@@ -67,7 +67,7 @@ class User(db.Model, UserMixin):
 
         return self.info_json
 
-
+#########################################################################################################
 class Top_Tracks_Info(db.Model):
     __tablename__ = "top_tracks_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
@@ -92,6 +92,52 @@ class Top_Tracks_Info(db.Model):
         return self.info_json
 
 
+class Top_Tracks_Info_medium(db.Model):
+    __tablename__ = "top_tracks_info_medium"
+    user_id = db.Column(db.String(30), primary_key=True, nullable=False)
+    info_json = db.Column(JSON)
+    timestamp = db.Column(db.DateTime, index=True)
+
+    def get_json(self):
+        if is_new(self.timestamp, timedelta(hours=1)):
+            return self.info_json
+
+        # else update by calling api
+        sp = get_spotify_object()
+        new_json_info = sp.current_user_top_tracks(
+            limit=50, time_range='medium_term')
+
+        self.info_json = new_json_info
+        self.timestamp = datetime.utcnow()
+        db.session.commit()
+
+        print("---in db, updating user top tracks info...")
+
+        return self.info_json
+
+class Top_Tracks_Info_short(db.Model):
+    __tablename__ = "top_tracks_info_short"
+    user_id = db.Column(db.String(30), primary_key=True, nullable=False)
+    info_json = db.Column(JSON)
+    timestamp = db.Column(db.DateTime, index=True)
+
+    def get_json(self):
+        if is_new(self.timestamp, timedelta(hours=1)):
+            return self.info_json
+
+        # else update by calling api
+        sp = get_spotify_object()
+        new_json_info = sp.current_user_top_tracks(
+            limit=50, time_range='short_term')
+
+        self.info_json = new_json_info
+        self.timestamp = datetime.utcnow()
+        db.session.commit()
+
+        print("---in db, updating user top tracks info...")
+
+        return self.info_json
+
 class Top_Artists_Info(db.Model):
     __tablename = "top_artists_info"
     user_id = db.Column(db.String(30), primary_key=True, nullable=False)
@@ -115,6 +161,51 @@ class Top_Artists_Info(db.Model):
 
         return self.info_json
 
+class Top_Artists_Info_medium(db.Model):
+    __tablename = "top_artists_info_medium"
+    user_id = db.Column(db.String(30), primary_key=True, nullable=False)
+    info_json = db.Column(JSON)
+    timestamp = db.Column(db.DateTime, index=True)
+
+    def get_json(self):
+        if is_new(self.timestamp, timedelta(hours=1)):
+            return self.info_json
+
+        # else update by calling api
+        sp = get_spotify_object()
+        new_json_info = sp.current_user_top_artists(
+            limit=50, time_range='medium_term')
+
+        self.info_json = new_json_info
+        self.timestamp = datetime.utcnow()
+        db.session.commit()
+
+        print("---in db, updating user top artists info...")
+
+        return self.info_json
+
+class Top_Artists_Info_short(db.Model):
+    __tablename = "top_artists_info_short"
+    user_id = db.Column(db.String(30), primary_key=True, nullable=False)
+    info_json = db.Column(JSON)
+    timestamp = db.Column(db.DateTime, index=True)
+
+    def get_json(self):
+        if is_new(self.timestamp, timedelta(hours=1)):
+            return self.info_json
+
+        # else update by calling api
+        sp = get_spotify_object()
+        new_json_info = sp.current_user_top_artists(
+            limit=50, time_range='short_term')
+
+        self.info_json = new_json_info
+        self.timestamp = datetime.utcnow()
+        db.session.commit()
+
+        print("---in db, updating user top artists info...")
+
+        return self.info_json
 
 class Recent_Tracks_Info(db.Model):
     __table__name = "recent_tracks_info"

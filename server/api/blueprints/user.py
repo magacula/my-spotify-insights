@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from server.api.decorators import token_checked, rank_progress_above
 from server.api.constants import LV_ZERO, LV_ONE, LV_TWO, LV_THREE
 from server.api.extensions import limiter, db
-from server.api.models import Top_Tracks_Info, Top_Artists_Info, Recent_Tracks_Info, User, Bug_Report
+from server.api.models import Top_Artists_Info_medium, Top_Artists_Info_short, Top_Tracks_Info, Top_Tracks_Info_medium, Top_Artists_Info, Recent_Tracks_Info, Top_Tracks_Info_short, User, Bug_Report
 from server.api.utils import get_spotify_object
 import sys
 from datetime import datetime
@@ -50,7 +50,7 @@ def increment_rank_progress():
     return {}
 
 
-# Returns dictionary of user's top tracks
+# Returns dictionary of user's top tracks (long term)
 @user_bp.route("/user/top_tracks")
 @limiter.limit("5 per second")
 @login_required
@@ -76,7 +76,59 @@ def top_tracks():
 
         return {"top_tracks": new_top_tracks_info.get_json()['items']}
 
+# Returns dictionary of user's top tracks (medium term)
+@user_bp.route("/user/top_tracks_medium")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def top_tracks_medium():
+    sp = get_spotify_object()
+    #cur_user_id = session['USER_ID']
+    cur_user_id = current_user.user_id
 
+    # database query
+    db_top_tracks_info = Top_Tracks_Info_medium.query.filter(
+        Top_Tracks_Info.user_id == cur_user_id).first()
+    if db_top_tracks_info:
+        # database will update the data according to the time interval set
+        return {'top_tracks': db_top_tracks_info.get_json()['items']}
+
+    else:
+        # if not exist in database, then add it
+        new_top_tracks_info = Top_Tracks_Info_medium(user_id=cur_user_id)
+        db.session.add(new_top_tracks_info)
+        # push the changes to database
+        db.session.commit()
+
+        return {"top_tracks_medium": new_top_tracks_info.get_json()['items']}
+
+# Returns dictionary of user's top tracks (short term)
+@user_bp.route("/user/top_tracks_short")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def top_tracks_short():
+    sp = get_spotify_object()
+    #cur_user_id = session['USER_ID']
+    cur_user_id = current_user.user_id
+
+    # database query
+    db_top_tracks_info = Top_Tracks_Info_short.query.filter(
+        Top_Tracks_Info.user_id == cur_user_id).first()
+    if db_top_tracks_info:
+        # database will update the data according to the time interval set
+        return {'top_tracks': db_top_tracks_info.get_json()['items']}
+
+    else:
+        # if not exist in database, then add it
+        new_top_tracks_info = Top_Tracks_Info_short(user_id=cur_user_id)
+        db.session.add(new_top_tracks_info)
+        # push the changes to database
+        db.session.commit()
+
+        return {"top_tracks_short": new_top_tracks_info.get_json()['items']}
+
+# Returns dictionary of user's top artists (long term)
 @user_bp.route("/user/top_artists")
 @limiter.limit("5 per second")
 @login_required
@@ -102,7 +154,59 @@ def top_artists():
 
         return {"top_artists": new_top_artists_info.get_json()['items']}
 
+# Returns dictionary of user's top tracks (short term)
+@user_bp.route("/user/top_artists_short")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def top_artists_short():
+    sp = get_spotify_object()
+    #cur_user_id = session['USER_ID']
+    cur_user_id = current_user.user_id
 
+    # database query
+    db_top_artists_info = Top_Artists_Info_short.query.filter(
+        Top_Artists_Info.user_id == cur_user_id).first()
+    if db_top_artists_info:
+        # database will update the data according to the time interval set
+        return {'top_artists': db_top_artists_info.get_json()['items']}
+
+    else:
+        # if not exist in database, then add it
+        new_top_artists_info = Top_Artists_Info_short(user_id=cur_user_id)
+        db.session.add(new_top_artists_info)
+        # push the changes to database
+        db.session.commit()
+
+        return {"top_artists": new_top_artists_info.get_json()['items']}
+
+# Returns dictionary of user's top tracks (medium term)
+@user_bp.route("/user/top_artists_medium")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def top_artists_medium():
+    sp = get_spotify_object()
+    #cur_user_id = session['USER_ID']
+    cur_user_id = current_user.user_id
+
+    # database query
+    db_top_artists_info = Top_Artists_Info_medium.query.filter(
+        Top_Artists_Info.user_id == cur_user_id).first()
+    if db_top_artists_info:
+        # database will update the data according to the time interval set
+        return {'top_artists': db_top_artists_info.get_json()['items']}
+
+    else:
+        # if not exist in database, then add it
+        new_top_artists_info = Top_Artists_Info_medium(user_id=cur_user_id)
+        db.session.add(new_top_artists_info)
+        # push the changes to database
+        db.session.commit()
+
+        return {"top_artists": new_top_artists_info.get_json()['items']}
+
+# --------------- top albums long range -------------------------
 @user_bp.route("/user/top_albums")
 @limiter.limit("5 per second")
 @login_required
@@ -118,7 +222,7 @@ def top_albums():
     limit_count = 50
     while(True):
         top_tracks_raw = sp.current_user_top_tracks(
-            limit=limit_count, offset=offset_count)
+            limit=limit_count, offset=offset_count, time_range='long_term')
         offset_count += limit_count
 
         for one_track in top_tracks_raw['items']:
@@ -135,6 +239,75 @@ def top_albums():
             break
 
     return {"top_albums": top_albums}
+
+
+
+@user_bp.route("/user/top_albums_medium")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def top_albums_medium():
+    sp = get_spotify_object()
+
+    top_albums = []
+
+    history = []
+    # keep get top tracks until there is no more left
+    offset_count = 0
+    limit_count = 50
+    while(True):
+        top_tracks_raw = sp.current_user_top_tracks(
+            limit=limit_count, offset=offset_count, time_range='medium_term')
+        offset_count += limit_count
+
+        for one_track in top_tracks_raw['items']:
+            cur_album = one_track['album']
+            cur_album_id = one_track['album']['id']
+
+            if cur_album_id not in history:
+                top_albums.append(cur_album)
+                # make sure they don't repeat
+                history.append((cur_album_id))
+
+        # if there are less tracks then limit_count, then no need to do another search
+        if len(top_tracks_raw['items']) < limit_count:
+            break
+
+    return {"top_albums_medium": top_albums}
+
+
+@user_bp.route("/user/top_albums_short")
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def top_albums_short():
+    sp = get_spotify_object()
+
+    top_albums = []
+
+    history = []
+    # keep get top tracks until there is no more left
+    offset_count = 0
+    limit_count = 50
+    while(True):
+        top_tracks_raw = sp.current_user_top_tracks(
+            limit=limit_count, offset=offset_count, time_range='short_term')
+        offset_count += limit_count
+
+        for one_track in top_tracks_raw['items']:
+            cur_album = one_track['album']
+            cur_album_id = one_track['album']['id']
+
+            if cur_album_id not in history:
+                top_albums.append(cur_album)
+                # make sure they don't repeat
+                history.append((cur_album_id))
+
+        # if there are less tracks then limit_count, then no need to do another search
+        if len(top_tracks_raw['items']) < limit_count:
+            break
+
+    return {"top_albums_short": top_albums}
 
 
 # Returns dictionary of a user's recently played tracks

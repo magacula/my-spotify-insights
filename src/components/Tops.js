@@ -144,9 +144,24 @@ const AlbumName = styled.p`
 const AlbumCover = styled.img``;
 
 const Tops = () => {
-  const [topTracks, setTopTracks] = useState([]);
+  const [radio, setRadio] = useState("short");
+
+  const [topTracksShort, setTopTracksShort] = useState([]);
+  const [topTracksMedium, setTopTracksMedium] = useState([]);
+  const [topTracksLong, setTopTracksLong] = useState([]);
+  
   const [topAlbums, setTopAlbums] = useState([]);
+  const [topAlbumsMedium, setTopAlbumsMedium] = useState([]);
+  const [topAlbumsShort, setTopAlbumsShort] = useState([]);
+  
   const [topArtists, setTopArtists] = useState([]);
+  const [topArtistsMedium, setTopArtistsMedium] = useState([]);
+  const [topArtistsShort, setTopArtistsShort] = useState([]);
+
+  const [currentTopTracks, setCurrentTopTracks] = useState([]);
+  const [currentTopArtists, setCurrentTopArtists] = useState([]);
+  const [currentTopAlbums, setCurrentTopAlbums] = useState([]);
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -159,10 +174,35 @@ const Tops = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.top_tracks);
-        setTopTracks(data.top_tracks);
+        //console.log(data.top_tracks);
+        setTopTracksLong(data.top_tracks);
         setLoading(false);
       });
+    
+      fetch("/user/top_tracks_medium", {
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          //console.log(data.top_tracks);
+          setTopTracksMedium(data.top_tracks);
+          
+        });
+        fetch("/user/top_tracks_short", {
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            //console.log(data.top_tracks);
+            setTopTracksShort(data.top_tracks);
+            setCurrentTopTracks(data.top_tracks);
+          });
 
     fetch("/user/top_artists", {
       credentials: "include",
@@ -172,9 +212,36 @@ const Tops = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.top_artists);
+        //console.log(data.top_artists);
         setTopArtists(data.top_artists);
+        
       });
+
+
+      fetch("/user/top_artists_medium", {
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          //console.log(data.top_artists);
+          setTopArtistsMedium(data.top_artists);
+        });
+        
+        fetch("/user/top_artists_short", {
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            //console.log(data.top_artists);
+            setTopArtistsShort(data.top_artists);
+            setCurrentTopArtists(data.top_artists);
+          });
 
     fetch("/user/top_albums", {
       credentials: "include",
@@ -185,17 +252,79 @@ const Tops = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data.top_albums);
+        
         setTopAlbums(data.top_albums);
       });
+
+      fetch("/user/top_albums_medium", {
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.top_albums_medium);
+          setTopAlbumsMedium(data.top_albums_medium);
+        });
+
+        fetch("/user/top_albums_short", {
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data.top_albums_short);
+            setTopAlbumsShort(data.top_albums_short);
+            setCurrentTopAlbums(data.top_albums_short);
+          });
+
   }, []);
 
   return (
     <div>
       <h1>Your Top Lists</h1>
+      <h2>Current timeframe: {radio}</h2>
+      <form>
+        <div style={{marginLeft: "150px"}}>
+          <label>
+            short
+            <input type="radio" 
+                    value = "short"
+                    checked={radio==="short"}
+                    onChange={(e) => {setRadio(e.target.value);
+                    setCurrentTopTracks(topTracksShort);
+                    setCurrentTopArtists(topArtistsShort);
+                    setCurrentTopAlbums(topAlbumsShort);}}/>
+          </label>
+          <label>
+            medium
+            <input type="radio" 
+                    value = "medium"
+                    checked={radio==="medium"}
+                    onChange={(e) => {setRadio(e.target.value);
+                    setCurrentTopTracks(topTracksMedium);
+                    setCurrentTopArtists(topArtistsMedium);
+                    setCurrentTopAlbums(topAlbumsMedium);}}/>
+          </label>
+          <label>
+            long
+            <input type="radio" 
+                    value = "long"
+                    checked={radio==="long"}
+                    onChange={(e) => {setRadio(e.target.value);
+                    setCurrentTopTracks(topTracksLong);
+                    setCurrentTopArtists(topArtists);
+                    setCurrentTopAlbums(topAlbums)}}/>
+          </label>
+        </div>
+      </form>
       <Tabs>
         <div label="Tracks">
           <TracksContainer>
-            {topTracks.map((track, index) => {
+            {currentTopTracks.map((track, index) => {
               return (
                 <Track key={index} track={track} style={{ marginLeft: "25px" }}>
                   <TrackWrapper
@@ -226,7 +355,7 @@ const Tops = () => {
         </div>
         <div label="Artists">
           <ArtistContainer>
-            {topArtists.map((artist, index) => {
+            {currentTopArtists.map((artist, index) => {
               return (
                 <Artist key={index}>
                   <ArtistWrapper
@@ -255,7 +384,7 @@ const Tops = () => {
         </div>
         <div label="Albums">
           <AlbumContainer>
-            {topAlbums.map((album, index) => {
+            {currentTopAlbums.map((album, index) => {
               return (
                 <Album key={index}>
                   <AlbumWrapper
