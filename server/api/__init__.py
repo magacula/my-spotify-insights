@@ -7,7 +7,7 @@ from server.api.blueprints.main import main_bp
 from server.api.blueprints.admin import admin_bp
 from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
-from server.api.extensions import limiter, db, login_manager, bootstrap, moment
+from server.api.extensions import limiter, db, login_manager, bootstrap, moment, csrf
 from server.api.settings import website_config
 from server.api.utils import get_all_models
 from server.api.constants import NO_MAX_TABLES
@@ -160,6 +160,7 @@ def register_extensions(app):
     login_manager.init_app(app)
     bootstrap.init_app(app)
     moment.init_app(app)
+    csrf.init_app(app)
 
 
 
