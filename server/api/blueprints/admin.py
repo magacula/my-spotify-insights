@@ -110,7 +110,9 @@ def manage_website():
 
 
 
-    return render_template("manage_website.html", database_status=database_status(), website_histories=website_histories()
+    return render_template("manage_website.html",
+                           database_status=_database_status(),
+                           website_histories=website_histories()
                            )
 
 @login_required
@@ -125,10 +127,18 @@ def website_histories():
     return result
 
 
-# database status
+@admin_bp.route("/admin/database_status")
 @login_required
 @is_admin
 def database_status():
+    #{'tablename':{'count': N, 'limit': N}, 'tablename':{}}
+    #return _database_status()
+    return jsonify(html=render_template('_database_status.html', database_status=_database_status()))
+
+# database status
+@login_required
+@is_admin
+def _database_status():
 
     #{'count':num, 'total_rows':num,tables:{'one_table':row_num} }
     status = {}
@@ -187,6 +197,14 @@ def manage_users():
                            )
 
 
+
+#FIXME: temp
+@admin_bp.route("/admin/active_users")
+@limiter.limit("2 per second")
+@login_required
+@is_admin
+def active_users():
+    return top_active_users()
 
 
 @login_required

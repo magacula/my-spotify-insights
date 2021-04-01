@@ -1,0 +1,50 @@
+<div class="text-center">
+    <div class="database-status bar-rounded">
+        <div class="bold">
+            Total # of Tables
+        </div>
+        {{database_status['count']}}
+    </div>
+
+    <div class="database-status bar-rounded">
+        <div class="bold">
+            Total # of Rows
+        </div>
+        {{database_status['total_rows']}}
+    </div>
+
+    <div class="database-status bar-rounded">
+        <div class="bold">
+            Row Limit
+        </div>
+        10,000
+    </div>
+</div>
+
+<br>
+<div>
+    <table class="center">
+        <tr>
+            <th>Table Name</th>
+            <th>Row Count</th>
+            <th>Row Limit</th>
+        </tr>
+        {% for one_table_name in database_status['tables_details'] %}
+        <tr>
+            <td>{{one_table_name}} </td>
+            {% set row_count = database_status['tables_details'][one_table_name]['count']  %}
+            {% set row_limit = database_status['tables_details'][one_table_name]['limit']  %}
+            <td>{{row_count}}</td>
+            {% if row_limit > 0 %}
+            <td>{{row_limit}}</td>
+            {% else %}
+            <td>No Limit</td>
+            {% endif %}
+
+
+        </tr>
+        {%endfor%}
+
+
+    </table>
+</div>
