@@ -144,7 +144,7 @@ const AlbumName = styled.p`
 const AlbumCover = styled.img``;
 
 const Tops = () => {
-  const [radio, setRadio] = useState("short");
+  const [radio, setRadio] = useState("4 Weeks");
 
   const [topTracksShort, setTopTracksShort] = useState([]);
   const [topTracksMedium, setTopTracksMedium] = useState([]);
@@ -292,8 +292,8 @@ const Tops = () => {
           <label>
             short
             <input type="radio" 
-                    value = "short"
-                    checked={radio==="short"}
+                    value = "4 Weeks"
+                    checked={radio==="4 Weeks"}
                     onChange={(e) => {setRadio(e.target.value);
                     setCurrentTopTracks(topTracksShort);
                     setCurrentTopArtists(topArtistsShort);
@@ -302,8 +302,8 @@ const Tops = () => {
           <label>
             medium
             <input type="radio" 
-                    value = "medium"
-                    checked={radio==="medium"}
+                    value = "6 Months"
+                    checked={radio==="6 Months"}
                     onChange={(e) => {setRadio(e.target.value);
                     setCurrentTopTracks(topTracksMedium);
                     setCurrentTopArtists(topArtistsMedium);
@@ -312,8 +312,8 @@ const Tops = () => {
           <label>
             long
             <input type="radio" 
-                    value = "long"
-                    checked={radio==="long"}
+                    value = "Year(s)"
+                    checked={radio==="Year(s)"}
                     onChange={(e) => {setRadio(e.target.value);
                     setCurrentTopTracks(topTracksLong);
                     setCurrentTopArtists(topArtists);
