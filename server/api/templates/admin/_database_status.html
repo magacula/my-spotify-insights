@@ -6,11 +6,15 @@
         {{database_status['count']}}
     </div>
 
-    <div class="database-status bar-rounded">
-        <div class="bold">
-            Total # of Rows
-        </div>
+
+    <div class="database-status-progress-bar bar-rounded" >
+        <div class="text-center bold bar-rounded progress-bar" id="database-status-progress-bar" data-value="{{database_status['total_rows']}}"
+                    data-max="10000">
         {{database_status['total_rows']}}
+        <!-- <progress value="{{database_status['total_rows']}}" max="10000"></progress> -->
+        </div>
+
+
     </div>
 
     <div class="database-status bar-rounded">
@@ -24,20 +28,27 @@
 <br>
 <div>
     <table class="center">
-        <tr>
+        <tr class="text-center">
             <th>Table Name</th>
             <th>Row Count</th>
             <th>Row Limit</th>
         </tr>
         {% for one_table_name in database_status['tables_details'] %}
-        <tr>
+        <tr class="text-center">
             <td>{{one_table_name}} </td>
             {% set row_count = database_status['tables_details'][one_table_name]['count']  %}
             {% set row_limit = database_status['tables_details'][one_table_name]['limit']  %}
-            <td>{{row_count}}</td>
             {% if row_limit > 0 %}
+
+            <td>
+                {{row_count}}
+                <br>
+                <progress value="{{row_count}}" max="{{row_limit}}"></progress>
+            </td>
             <td>{{row_limit}}</td>
+
             {% else %}
+            <td>{{row_count}}</td>
             <td>No Limit</td>
             {% endif %}
 
@@ -48,3 +59,12 @@
 
     </table>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var elem = document.getElementById("database-status-progress-bar");
+        //elem.style.backgroundColor = "blue";
+        var percent = elem.getAttribute('data-value') / elem.getAttribute('data-max');
+        elem.style.width = percent + "%";
+    });
+</script>
