@@ -9,7 +9,7 @@ from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
 from server.api.extensions import limiter, db, login_manager, bootstrap, moment, csrf
 from server.api.settings import website_config
-from server.api.utils import get_all_models
+from server.api.utils import get_all_models, timestamp_to_str
 from server.api.constants import NO_MAX_TABLES
 from server.api.models import Flask_Statistics, User
 #import the file, so the bg_scheduler.start() will run automatically
@@ -67,61 +67,52 @@ def register_flask_stats(app):
 
     @app.teardown_request
     def my_teardown(my_response):
-        db_new_record = Flask_Statistics()
+
+        #one json history record per day
+        db_history = Flask_Statistics.query.filter(Flask_Statistics.timestamp_date == datetime.utcnow().date()).first()
+
+        if not db_history:
+            db_history = Flask_Statistics()
+            db.session.add(db_history)
+            db.session.commit()
 
         end_time = time.time()
 
-        request_stats_json = {}
+        db_new_json = {}
 
-        """
-        request_stats_json['response_time'] = end_time - g.start_time
-        request_stats_json['status_code'] = g.request_status_code
-        request_stats_json['size'] = g.request_content_size
-        request_stats_json['method'] = request.method
+        db_new_json['response_time'] = int(round(end_time - g.start_time, 3) * 1000)
+        db_new_json['status_code'] = g.request_status_code
+        db_new_json['size'] = g.request_content_size
+        db_new_json['method'] = request.method
         #FIXME: not sure about his
-        request_stats_json['remote_address'] = request.environ.get("HTTP_X_REAL_IP", request.remote_addr)
-        request_stats_json['path'] = request.path
-        request_stats_json['referrer'] = request.referrer
+        db_new_json['remote_address'] = request.environ.get("HTTP_X_REAL_IP", request.remote_addr)
+        db_new_json['path'] = request.path
+        db_new_json['referrer'] = request.referrer
 
-        request_stats_json["browser"] = "{browser} {version}".format(
+        db_new_json['browser'] = "{browser} {version}".format(
             browser=request.user_agent.browser,
             version=request.user_agent.version)
         # platform (e.g. windows)
-        request_stats_json["platform"] = request.user_agent.platform
+        db_new_json['platform'] = request.user_agent.platform
         # complete user agent string
-        request_stats_json["user_agent"] = request.user_agent.string
+        db_new_json['user_agent'] = request.user_agent.string
         # date when request was send
-        request_stats_json["date"] = g.request_date
+        #db_new_json['timestamp'] = g.request_date
+        db_new_json['timestamp'] = timestamp_to_str(datetime.now())
         # mimetype (e.g. text/html) of the response send to the client
-        request_stats_json["mimetype"] = g.mimetype
-        """
+        db_new_json['mimetype'] = g.mimetype
+        try:
+            db_new_json['user_name'] = current_user.user_name
+            db_new_json['user_id'] = current_user.user_id
+        except Exception as e:
+            db_new_json['user_name'] = "N/A"
+            db_new_json['user_id'] = -1
 
-        db_new_record.response_time = end_time - g.start_time
-        db_new_record.status_code = g.request_status_code
-        db_new_record.size = g.request_content_size
-        db_new_record.method = request.method
-        #FIXME: not sure about his
-        db_new_record.remote_address = request.environ.get("HTTP_X_REAL_IP", request.remote_addr)
-        db_new_record.path = request.path
-        db_new_record.referrer = request.referrer
+        db_history = Flask_Statistics.query.filter(Flask_Statistics.timestamp_date == datetime.utcnow().date()).first()
 
-        db_new_record.browser = "{browser} {version}".format(
-            browser=request.user_agent.browser,
-            version=request.user_agent.version)
-        # platform (e.g. windows)
-        db_new_record.platform = request.user_agent.platform
-        # complete user agent string
-        db_new_record.user_agent = request.user_agent.string
-        # date when request was send
-        db_new_record.timestamp = g.request_date
-        # mimetype (e.g. text/html) of the response send to the client
-        db_new_record.mimetype = g.mimetype
 
-        db.session.add(db_new_record)
-        db.session.commit()
-
-        print("----new history ")
-
+        #with commit in models.py
+        db_history.update_json_c(db_new_json)
 
 
 

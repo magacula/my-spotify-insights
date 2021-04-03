@@ -119,12 +119,18 @@ def manage_website():
 @is_admin
 def website_histories():
     result = []
-    all_histories = Flask_Statistics.query.order_by(Flask_Statistics.timestamp.desc()).all()
+    #all_histories = Flask_Statistics.query.order_by(Flask_Statistics.timestamp.desc()).all()
+    all_histories = Flask_Statistics.query.order_by(Flask_Statistics.timestamp_date.desc()).all()
 
     for one_history in all_histories:
-        result.append(one_history.get_json())
+        #result.append(one_history.get_json())
+        histories = one_history.get_json()
+        for one_api_call_idx in histories:
+            result.append(histories[one_api_call_idx])
+            print("adding history: ", histories[one_api_call_idx])
 
-    return result
+    #print("returning: ", result)
+    return result[::-1]
 
 
 @admin_bp.route("/admin/database_status")

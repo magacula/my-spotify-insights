@@ -329,46 +329,37 @@ class No_Max(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tablename = db.Column(db.String(20))
 
-
+#1 row == history for 1 day
 class Flask_Statistics(db.Model):
     __tablename__ = "flask_statistics"
 
-    index = db.Column(db.Integer, primary_key=True)
-    #timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
-    timestamp = db.Column(db.DateTime, index=True)
+    """
+        {
+            [timestamp]: {
+                "response_time": ...,
+                "method": ...,
+                "size": ...,
+                ...
+            },
+            [timestamp]: {
+            
+            }
+        }
+    """
 
-    response_time = db.Column(db.Float)
-    #date = db.Column(db.DateTime)
-    method = db.Column(db.String)
-    size = db.Column(db.Integer)
-    status_code = db.Column(db.Integer)
-    path = db.Column(db.String)
-    user_agent = db.Column(db.String)
-    remote_address = db.Column(db.String)
-    exception = db.Column(db.String)
-    referrer = db.Column(db.String)
-    browser = db.Column(db.String)
-    platform = db.Column(db.String)
-    mimetype = db.Column(db.String)
+    id = db.Column(db.Integer, primary_key=True)
+    counter = db.Column(db.Integer, default=0)
+    timestamp_date = db.Column(db.Date, index=True, default=datetime.utcnow().date)
+    histories_json = db.Column(MutableDict.as_mutable(JSON), default={})
 
     def get_json(self):
-        return {
-            "timestamp": self.timestamp,
-            "response_time": round(self.response_time * 1000),
-            "method": self.method,
-            "size": self.size,
-            "status_code": self.status_code,
-            "path": self.path,
-            "user_agent": self.user_agent,
-            "remote_address": self.remote_address,
-            "exception": self.exception,
-            "referrer": self.referrer,
-            "browser": self.browser,
-            "platform": self.platform,
-            "mimetype": self.mimetype
-        }
+        return self.histories_json
 
 
+    def update_json_c(self, new_json):
+        self.histories_json.update({str(self.counter): new_json})
+        self.counter += 1
+        db.session.commit()
 
 
 #test on after_insert

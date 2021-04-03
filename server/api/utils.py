@@ -4,8 +4,10 @@ from flask import url_for, session
 import spotipy
 from server.api.decorators import token_checked
 from server.api.extensions import db
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timezone
+import pytz
+from tzlocal import get_localzone
+
 
 # this file contains functions that are useful and used in many different places
 
@@ -88,3 +90,10 @@ def get_all_models():
             pass
 
     return all_models
+
+
+
+def timestamp_to_str(org_timestamp):
+    final_string = org_timestamp.strftime("%b %d, %Y %I:%M:%S %p")
+    final_string = org_timestamp.strftime("%b %d, %Y %I:%M %p")
+    return final_string
