@@ -1,8 +1,30 @@
-import React from "react";
+import React ,{ useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import themes from "../styles/themes";
+import { BiLockAlt, BiLockOpenAlt } from "react-icons/bi";
+
 const { colors } = themes;
+
+const Locked = styled(BiLockAlt)`
+  fill: white;
+  color: white;
+  font-size: 2.5rem;
+  width: 30px;
+  margin: 0.25rem 0;
+  position: absolute;
+  background-color:black;
+`;
+
+const Unlocked = styled(BiLockOpenAlt)`
+  fill: white;
+  color: white;
+  font-size: 2.5rem;
+  width: 30px;
+  margin: 0.25rem 0;
+  position: absolute;
+  background-color:black;
+`;
 
 const PlaylistContainer = styled(Link)`
   color: ${colors.white};
@@ -40,17 +62,12 @@ const PlaylistInfo = styled.div`
   width: 80%;
 `;
 
-const PlaylistName = styled.h5`
-  font-weight: 600;
-  font-size: 1.5rem;
-`;
+const PlaylistName = styled.h4``;
 
-const PlaylistOwner = styled.p`
-  margin-top: 0.5rem;
-  font-size: 1rem;
-`;
 
-const Playlist = ({ playlist }) => {
+
+const Playlist = ({ playlist, userID, index, lock_to_unlock, unlock_to_lock }) => {
+  //console.log(playlist_array);
   return (
     <PlaylistItem>
       <PlaylistContainer
@@ -62,16 +79,59 @@ const Playlist = ({ playlist }) => {
             cover: `${playlist.images[0].url}`,
             total: `${playlist.tracks.total}`,
             uri: `${playlist.uri}`,
-            owner: `${playlist.owner.display_name}`,
-            description: `${playlist.description}`,
           },
         }}>
         <PlaylistImage src={playlist.images[0].url} />
         <PlaylistInfo>
           <PlaylistName>{playlist.name}</PlaylistName>
-          <PlaylistOwner>{playlist.owner.display_name}</PlaylistOwner>
         </PlaylistInfo>
       </PlaylistContainer>
+      {userID == playlist.owner.id ? 
+      <div style={{position:"absolute"}}> 
+      {playlist.public == false ? 
+      <Locked onClick={() => {console.log("Lock was pressed");
+                                fetch("/user/set_playlist", {
+                                  method: "POST",
+                                  credentials:"include",
+                                  headers: {"Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                  playlistID: playlist.id,
+                                  privacy: "private",
+                                  user: userID,
+                                })
+                                })
+                                .then(response => response.json())
+                                .then(data => console.log(data))
+                                .catch(err => console.log(err))
+                                ;
+                              
+                              
+                              lock_to_unlock(index);
+                            } }/> :
+      <Unlocked onClick={() => {console.log("Lock was pressed");
+      fetch("/user/set_playlist", {
+        method: "POST",
+        credentials:"include",
+        headers: {"Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        playlistID: playlist.id,
+        privacy: "public",
+        user: userID,
+      })
+      })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(err => console.log(err))
+      ;
+    
+    
+    unlock_to_lock(index);
+  } }/>
+      }
+      </div>:
+      'Not owned'}
     </PlaylistItem>
   );
 };

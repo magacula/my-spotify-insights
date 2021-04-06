@@ -14,6 +14,7 @@ from datetime import datetime
 user_bp = Blueprint('user', __name__)
 
 
+
 @user_bp.route("/user/test")
 @login_required
 # @token_checked
@@ -561,6 +562,36 @@ def track_audio_analysis(track_id):
 
     return {'track_audio_analysis': audio_analysis}
 
+# Set playlist to public or private
+@user_bp.route("/user/set_playlist", methods=['POST'])
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def set_playlist():
+
+    sp = get_spotify_object()
+    print("This sets the playlist details")
+    if request.method == "POST":
+        print("POST method used")
+        data_json = request.get_json()
+        playlistID = data_json['playlistID']
+        privacy = data_json['privacy']
+        user = data_json['user']
+        print(playlistID)
+        print(privacy)
+        print(user)
+        
+        if privacy == 'private':
+            privacy = True
+        else:
+            privacy = False
+        
+        print(privacy)
+        print(sp.user_playlist_change_details(playlist_id=playlistID, public=privacy, user=user))
+        return None
+        
+    
+    #return None
 
 @user_bp.route("/user/my_profile")
 @limiter.limit("5 per second")
