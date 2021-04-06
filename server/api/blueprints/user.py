@@ -577,21 +577,14 @@ def set_playlist():
         playlistID = data_json['playlistID']
         privacy = data_json['privacy']
         user = data_json['user']
-        print(playlistID)
-        print(privacy)
-        print(user)
         
         if privacy == 'private':
             privacy = True
         else:
             privacy = False
         
-        print(privacy)
-        print(sp.user_playlist_change_details(playlist_id=playlistID, public=privacy, user=user))
-        return None
-        
-    
-    #return None
+        sp.user_playlist_change_details(playlist_id=playlistID, public=privacy, user=user)
+        return 
 
 @user_bp.route("/user/my_profile")
 @limiter.limit("5 per second")
