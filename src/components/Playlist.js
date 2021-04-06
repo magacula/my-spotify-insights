@@ -131,7 +131,8 @@ const Playlist = ({ playlist, userID, index, lock_to_unlock, unlock_to_lock }) =
   } }/>
       }
       </div>:
-      'Not owned'}
+      <label style={{backgroundColor:"black",fontFamily:"Arial", fontSize:"1.2" , position:"absolute"}}>Not Owned</label>
+      }
     </PlaylistItem>
   );
 };
