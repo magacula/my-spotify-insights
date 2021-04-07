@@ -24,6 +24,29 @@ const PlayButton = styled(HiPlay)`
   }
 `;
 
+const EditButton = styled.button`
+  display: none;
+  z-index: 0;
+  background: ${colors.lightBlue};
+  color: ${colors.white};
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  border-color: transparent;
+  text-transform: capitalize;
+  font-size: 1rem;
+  letter-spacing: 0.1rem;
+  transition: all 0.3s linear;
+  cursor: pointer;
+  margin: 0.25rem 0;
+  position: absolute;
+  transform: translate(-0%, -110%);
+
+  &:hover {
+    transition: 0.35s;
+    background: ${colors.pink};
+  }
+`;
+
 const TrackContainer = styled(Link)`
   color: ${colors.white};
   text-align: center;
@@ -39,31 +62,15 @@ const TrackContainer = styled(Link)`
   }
 `;
 
-const EditButton = styled.button`
-  display: inline-block;
-  background: ${colors.lightBlue};
-  color: ${colors.white};
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  border-color: transparent;
-  text-transform: capitalize;
-  font-size: 1rem;
-  letter-spacing: 0.1rem;
-  margin-top: 2rem;
-  margin-left: 120px;
-  margin-right: 0.5rem;
-  transition: all 0.3s linear;
-  cursor: pointer;
-
-  &:hover {
-    transition: 0.35s;
-    background: ${colors.pink};
-  }
-`;
-
 const TrackItem = styled.li`
   margin-top: 2rem;
   margin-bottom: 1rem;
+
+  &:hover ${EditButton} {
+    display: inline-block;
+    z-index: 100;
+    transition: 0.2s ease-in;
+  }
 `;
 
 const TrackImage = styled.img`
@@ -93,7 +100,6 @@ let soundPlay = (src) => {
 const Track = ({ track }) => {
   return (
     <TrackItem>
-      <EditButton> Edit </EditButton>
       <TrackContainer
         to={{
           pathname: `/track/${track.id}`,
@@ -125,6 +131,7 @@ const Track = ({ track }) => {
             }}></PlayButton>
         )}
       </TrackContainer>
+      <EditButton>Edit</EditButton>
     </TrackItem>
   );
 };
