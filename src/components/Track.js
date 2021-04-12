@@ -10,6 +10,8 @@ const { colors } = themes;
 // Component that gets all track info for a single track
 // Need to fetch from (/main/track_details/<track_id>)
 
+const EDIT_TRACK = "/EditTrack";
+
 const PlayButton = styled(HiPlay)`
   fill: grey;
   color: white;
@@ -98,41 +100,44 @@ let soundPlay = (src) => {
 };
 
 const Track = ({ track }) => {
+
   return (
-    <TrackItem>
-      <TrackContainer
-        to={{
-          pathname: `/track/${track.id}`,
-          state: {
-            id: `${track.id}`,
-            name: `${track.name}`,
-            artist: `${track.artists[0].name}`,
-            cover: `${track.album.images[1].url}`,
-            duration_ms: `${track.duration_ms}`,
-            popularity: `${track.popularity}`,
-            release_date: `${track.release_date}`,
-            genre: `${track.genre}`,
-            fromRecentlyPlayed: true,
-          },
-        }}>
-        <TrackImage src={track.album.images[0].url} />
-        <TrackInfo>
-          <TrackName>{track.name}</TrackName>
-          <ArtistName>{track.artists[0].name}</ArtistName>
-          <AlbumName>{track.album.name}</AlbumName>
-        </TrackInfo>
-        {track.preview_url == null ? (
-          <div></div>
-        ) : (
-          <PlayButton
-            onMouseEnter={() => soundPlay(track.preview_url)}
-            onMouseLeave={() => {
-              sound.stop();
-            }}></PlayButton>
-        )}
-      </TrackContainer>
-      <EditButton>Edit</EditButton>
-    </TrackItem>
+      <TrackItem>
+        <TrackContainer
+            to={{
+              pathname: `/track/${track.id}`,
+              state: {
+                id: `${track.id}`,
+                name: `${track.name}`,
+                artist: `${track.artists[0].name}`,
+                cover: `${track.album.images[1].url}`,
+                duration_ms: `${track.duration_ms}`,
+                popularity: `${track.popularity}`,
+                release_date: `${track.release_date}`,
+                genre: `${track.genre}`,
+                fromRecentlyPlayed: true,
+              },
+            }}>
+          <TrackImage src={track.album.images[0].url} />
+          <TrackInfo>
+            <TrackName>{track.name}</TrackName>
+            <ArtistName>{track.artists[0].name}</ArtistName>
+            <AlbumName>{track.album.name}</AlbumName>
+          </TrackInfo>
+          {track.preview_url == null ? (
+              <div></div>
+          ) : (
+              <PlayButton
+                  onMouseEnter={() => soundPlay(track.preview_url)}
+                  onMouseLeave={() => {
+                    sound.stop();
+                  }}></PlayButton>
+          )}
+        </TrackContainer>
+
+        <EditButton href={EDIT_TRACK}>Edit</EditButton>
+
+      </TrackItem>
   );
 };
 

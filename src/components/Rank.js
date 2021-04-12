@@ -5,7 +5,9 @@ import Loader from "./Loader";
 import themes from "../styles/themes";
 import { FaUserCircle } from "react-icons/fa";
 import { BiCrown } from "react-icons/bi";
+import { GiPaintBrush } from "react-icons/gi"
 import { RiPaintFill } from "react-icons/ri";
+import ChangeAccentColor from "./ChangeAccentColor";
 const { colors } = themes;
 
 const NoImage = styled(FaUserCircle)`
@@ -90,7 +92,21 @@ const ChangeBackgroundContainer = styled.div`
   margin-top: 4rem;
 `;
 
+const ChangeAccentContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  justify-items: center;
+  margin-top: 4rem;
+`;
+
 const Paint = styled(RiPaintFill)`
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-left: 1rem;
+`;
+
+const Accent = styled(GiPaintBrush)`
   font-size: 1.5rem;
   margin-top: 2rem;
   margin-left: 1rem;
@@ -167,7 +183,9 @@ const Rank = () => {
         <Loader />
       ) : (
         <div style={{ marginLeft: "110px", marginTop: "2rem" }}>
+
           <PageTitle>Your Rank</PageTitle>
+
           <RankContainer>
             {userInfo.map((item, index) => {
               return (
@@ -190,6 +208,7 @@ const Rank = () => {
               </Description>
             </RankStatus>
           </RankContainer>
+
           <ChangeBackgroundContainer>
             <HeadingWrapper>
               <SubHeading>Change Background Color</SubHeading>
@@ -197,6 +216,15 @@ const Rank = () => {
             </HeadingWrapper>
             <ChangeBackground />
           </ChangeBackgroundContainer>
+
+            <ChangeAccentContainer>
+                <HeadingWrapper>
+                    <SubHeading>Change Accent Color</SubHeading>
+                    <Accent />
+                </HeadingWrapper>
+                <ChangeAccentColor />
+            </ChangeAccentContainer>
+
         </div>
       )}
     </React.Fragment>
