@@ -27,13 +27,16 @@ const Container = styled.div`
 `;
 
 const TrackAudioFeatures = (props) => {
+  // get average value of audio features from a user playlist
+  const avg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
+
   useEffect(() => {
     const createDataset = (features) => {
       const dataset = {};
 
       audio_features.forEach((prop) => {
         dataset[prop] = features.length
-          ? Object.entries(features).map((feat) => feat && feat[prop])
+          ? avg(features.map((feat) => feat && feat[prop]))
           : features[prop];
       });
       console.log(dataset);
