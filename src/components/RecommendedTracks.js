@@ -32,14 +32,15 @@ const SpotifyLink = styled.a`
 const ButtonContainer = styled.div`
   margin-left: 110px;
   display: flex;
+  justify-content: center;
 `;
 
 const Button = styled.button`
   margin-top: 2rem;
   display: inline-block;
   background: ${colors.lightBlue};
-  padding: 0.75rem 2.5rem;
-  border-radius: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1.75rem;
   border-style: none;
   margin-right: 2rem;
   outline: none;
@@ -50,6 +51,11 @@ const Button = styled.button`
   &:hover {
     transition: 0.35s;
     background: ${colors.pink};
+  }
+
+  &:active {
+    transform: scale(0.9);
+    transition: 0.2s;
   }
 `;
 
