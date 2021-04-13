@@ -107,6 +107,7 @@ const PlaylistItem = (props) => {
 
   const [playlist, setPlaylist] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [playlistAudioFeatures, setPlaylistAudioFeatures] = useState({});
 
   useEffect(() => {
     setLoading(true);
@@ -116,6 +117,14 @@ const PlaylistItem = (props) => {
         console.log(data.playlist_tracks);
         setPlaylist(data.playlist_tracks);
         setLoading(false);
+      });
+
+    fetch(`/user/playlist_audio_features/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(id);
+        console.log(data);
+        setPlaylistAudioFeatures(data.playlist_audio_features);
       });
   }, []);
 
@@ -148,7 +157,7 @@ const PlaylistItem = (props) => {
             })}
           </PlaylistTrackList>
 
-          {/* <TrackAudioFeatures features={audioFeatures} /> */}
+          <TrackAudioFeatures features={playlistAudioFeatures} />
         </div>
       )}
     </React.Fragment>
