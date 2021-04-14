@@ -1,13 +1,6 @@
 {
   "short_name": "MySpotifyInsights",
   "name": "MySpotifyInsights",
-  "icons": [
-    {
-      "src": "MSI-logo_64x64.png",
-      "sizes": "64x64",
-      "type": "image/x-icon"
-    }
-  ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
