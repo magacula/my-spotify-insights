@@ -53,16 +53,16 @@ useEffect(() => {
       {currentlyPlaying != null ? 
       <div>
         
-        <img src={currentlyPlaying.images} style={{height:"400", width:"400px"}}/> 
+        <img src={currentlyPlaying.playback_json.item.album.images[0].url} style={{height:"400", width:"400px"}}/> 
           <Container>
             <P style={{fontWeight:"bold"}}>
-            {currentlyPlaying.track_name}
+            {currentlyPlaying.playback_json.item.name}
             </P>
             <P>
-              {currentlyPlaying.album_name}
+              {currentlyPlaying.playback_json.item.album.name}
             </P>
             <P>
-              {currentlyPlaying.artist_name}
+              {currentlyPlaying.playback_json.item.album.artists[0].name}
             </P>
             <div>
               {console.log((currentlyPlaying.progress/currentlyPlaying.total_length) * 100)}
