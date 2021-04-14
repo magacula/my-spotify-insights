@@ -81,7 +81,7 @@ const TrackAudioFeatures = (props) => {
           },
           title: {
             display: true,
-            text: `Track Audio Features`,
+            text: `Audio Features`,
             fontSize: 25,
             fontColor: "#ffffff",
             padding: 30,
