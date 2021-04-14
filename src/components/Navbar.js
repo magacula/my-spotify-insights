@@ -201,7 +201,11 @@ const Navbar = () => {
       <NavMenu>
         <NavMenuItem>
           <Link to="/home" title="Home" activeClassName="active-navlink">
-            <Logo src={logo} alt="My Spotify Insights Logo" />
+            <Logo
+              src={logo}
+              alt="My Spotify Insights Logo"
+              activeClassName="active-navlink"
+            />
           </Link>
         </NavMenuItem>
 
