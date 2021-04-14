@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
+import breakpoints from "../styles/breakpoints";
 
 const GuidelinesContent = styled.p`
   line-height: 1.3;
@@ -12,6 +13,10 @@ const GuidelinesHeader = styled.h1`
   margin-top: 4rem;
   margin-right: 2rem;
   margin-left: 4rem;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 1.5rem;
+  }
 `;
 
 const Guidelines = () => {

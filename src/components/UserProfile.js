@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Loader from "./Loader";
 import { FaUserCircle } from "react-icons/fa";
 import themes from "../styles/themes";
+import breakpoints from "../styles/breakpoints";
 const { colors } = themes;
 
 const NoImage = styled(FaUserCircle)`
@@ -13,9 +14,7 @@ const NoImage = styled(FaUserCircle)`
   border: 3px solid #f742df;
 `;
 
-const ProfileSection = styled.div`
-  /* border-bottom: 3px solid grey; */
-`;
+const ProfileSection = styled.div``;
 
 const ProfileContainer = styled.div`
   max-width: 850px;
@@ -24,14 +23,54 @@ const ProfileContainer = styled.div`
   justify-content: space-around;
   margin: 0px auto;
   padding: 0 2rem 2rem 1.5rem;
+
+  @media only screen and (${breakpoints.device.med}) {
+    flex-direction: column;
+  }
 `;
 
 const ImageContainer = styled.div`
   margin: auto 4rem;
+
+  @media only screen and (${breakpoints.device.med}) {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
+`;
+
+const ProfileImage = styled.img`
+  width: 220px;
+  height: 220px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 3px solid #f742df;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    width: 150px;
+    height: 150px;
+  }
 `;
 
 const UserDetails = styled.div`
   padding: 2rem 0;
+
+  @media only screen and (${breakpoints.device.med}) {
+    display: grid;
+    justify-content: center;
+    text-align: center;
+  }
+`;
+
+const UserName = styled.p`
+  font-size: xx-large;
+  font-weight: 600;
+`;
+
+const UserData = styled.p`
+  font-weight: 600;
+  font-size: medium;
+  line-height: 1.2;
 `;
 
 const UserProfile = () => {
@@ -63,37 +102,25 @@ const UserProfile = () => {
               <ProfileContainer>
                 <ImageContainer>
                   {profileImage ? (
-                    <img
-                      style={{
-                        width: "220px",
-                        height: "220px",
-                        aspectRatio: "1.0",
-                        borderRadius: "50%",
-                        border: "3px solid #f742df",
-                      }}
-                      src={item.images[0].url}
-                      alt="profile_pic"
-                    />
+                    <ProfileImage src={item.images[0].url} alt="profile_pic" />
                   ) : (
                     <NoImage />
                   )}
                 </ImageContainer>
                 <UserDetails>
-                  <h4 style={{ fontSize: "xx-large" }}>
-                    {item.display_name}'s Profile
-                  </h4>
+                  <UserName>{item.id}</UserName>
                   <div
                     style={{
                       display: "list",
                       fontSize: "x-large",
                       justifyContent: "space-between",
                       width: "108%",
+                      marginTop: "0.75rem",
                     }}>
-                    <h5>ID: {item.id}</h5>
-                    <h5>Followers: {item.followers.total}</h5>
-                    <h5>Email: {item.email}</h5>
-                    <h5>Subscription: {item.product}</h5>
-                    <h5>Country: {item.country}</h5>
+                    <UserData>Followers: {item.followers.total}</UserData>
+                    <UserData>{item.email}</UserData>
+                    <UserData>Subscription: {item.product}</UserData>
+                    <UserData>Country: {item.country}</UserData>
                   </div>
                 </UserDetails>
               </ProfileContainer>

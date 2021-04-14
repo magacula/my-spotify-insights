@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import themes from "../styles/themes";
 import UserProfile from "./UserProfile";
 import Guidelines from "./Guidelines";
+import breakpoints from "../styles/breakpoints";
 const { colors } = themes;
 
 const LOGOUT_USER = "/auth/logout";
@@ -34,12 +35,17 @@ const ContentContainer = styled.div`
   display: grid;
   justify-content: center;
   line-height: 1.3;
-  margin: 2rem 100px;
+  margin-top: 2rem;
+  margin-left: 100px;
 `;
 
 const WelcomeHeading = styled.h1`
   margin: 0 4rem;
   font-size: 3rem;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 2rem;
+  }
 `;
 
 const Welcome = styled.p`

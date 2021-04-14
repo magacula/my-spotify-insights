@@ -15,7 +15,7 @@ import { AiFillBug } from "react-icons/ai";
 import { AiFillGithub } from "react-icons/ai";
 import "../styles/App.css";
 import logo from "../styles/MSI-logo.png";
-
+import breakpoints from "../styles/breakpoints";
 const { colors } = themes;
 
 const NavContainer = styled.div``;
@@ -24,7 +24,7 @@ const NavMenu = styled.ul`
   list-style: none;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   position: fixed;
   top: 0px;
   left: 0px;
@@ -66,6 +66,10 @@ const Star = styled(FiStar)`
   font-size: 2.75rem;
   width: 100%;
   margin: 0.25rem 0;
+
+  @media only screen and (${breakpoints.device.md}) {
+    font-size: 2.65rem;
+  }
 `;
 
 const Fire = styled(AiFillFire)`
@@ -74,6 +78,10 @@ const Fire = styled(AiFillFire)`
   font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
+
+  @media only screen and (${breakpoints.device.md}) {
+    font-size: 2.65rem;
+  }
 `;
 
 const Film = styled(IoIosFilm)`
@@ -82,6 +90,10 @@ const Film = styled(IoIosFilm)`
   font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
+
+  @media only screen and (${breakpoints.device.md}) {
+    font-size: 2.65rem;
+  }
 `;
 
 const Crown = styled(FaCrown)`
@@ -90,6 +102,10 @@ const Crown = styled(FaCrown)`
   font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
+
+  @media only screen and (${breakpoints.device.md}) {
+    font-size: 2.65rem;
+  }
 `;
 
 const Clock = styled(HiClock)`
@@ -98,6 +114,10 @@ const Clock = styled(HiClock)`
   font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
+
+  @media only screen and (${breakpoints.device.md}) {
+    font-size: 2.65rem;
+  }
 `;
 
 const GraphUp = styled(BsGraphUp)`
@@ -106,6 +126,10 @@ const GraphUp = styled(BsGraphUp)`
   font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
+
+  @media only screen and (${breakpoints.device.md}) {
+    font-size: 2.65rem;
+  }
 `;
 
 const AudioFeatures = styled(SiAudioboom)`
@@ -114,6 +138,10 @@ const AudioFeatures = styled(SiAudioboom)`
   font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
+
+  @media only screen and (${breakpoints.device.md}) {
+    font-size: 2.65rem;
+  }
 `;
 
 const Playlists = styled(MdQueueMusic)`
@@ -122,6 +150,10 @@ const Playlists = styled(MdQueueMusic)`
   font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
+
+  @media only screen and (${breakpoints.device.md}) {
+    font-size: 2.65rem;
+  }
 `;
 
 const Bug = styled(AiFillBug)`
@@ -129,6 +161,10 @@ const Bug = styled(AiFillBug)`
   font-size: 2.5rem;
   width: 100%;
   margin: 0.25rem 0;
+
+  @media only screen and (${breakpoints.device.md}) {
+    font-size: 2.65rem;
+  }
 `;
 
 const Link = styled(NavLink)`
@@ -140,6 +176,10 @@ const GitHub = styled(AiFillGithub)`
   font-size: 2.75rem;
   width: 100%;
   margin: 0.25rem 0;
+
+  @media only screen and (${breakpoints.device.md}) {
+    font-size: 2.65rem;
+  }
 `;
 
 const NavText = styled.p`
