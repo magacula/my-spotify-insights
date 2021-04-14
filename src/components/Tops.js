@@ -5,6 +5,13 @@ import "../styles/App.css";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import themes from "../styles/themes";
+
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
 const { colors } = themes;
 
 const TracksContainer = styled.div`
@@ -75,22 +82,16 @@ const ArtistWrapper = styled(Link)`
 const ArtistInfo = styled.div`
   max-width: 350px;
   width: 100%;
-  justify-content: center;
-  display: grid;
 `;
 
 const ArtistName = styled.p`
-  margin-top: 1rem;
   font-size: 1.5rem;
   width: 100%;
   text-align: center;
 `;
 
 const ArtistPic = styled.img`
-  border-radius: 100%;
-  object-fit: cover;
-  width: 250px;
-  height: 250px;
+  border-radius: 50%;
   text-align: center;
   display: inline-flex;
   justify-content: center;
@@ -169,6 +170,28 @@ const Tops = () => {
   const [currentTopAlbums, setCurrentTopAlbums] = useState([]);
 
   const [loading, setLoading] = useState(false);
+
+  const handleChange = (event) => {
+    setRadio(event.target.value);
+
+    if (event.target.value == "4 Weeks"){
+      setCurrentTopTracks(topTracksShort);
+      setCurrentTopArtists(topArtistsShort);
+      setCurrentTopAlbums(topAlbumsShort);
+    }
+
+    if (event.target.value == "6 Months"){
+      setCurrentTopTracks(topTracksMedium);
+      setCurrentTopArtists(topArtistsMedium);
+      setCurrentTopAlbums(topAlbumsMedium);
+    }
+
+    if (event.target.value == "Year(s)"){
+      setCurrentTopTracks(topTracksLong);
+      setCurrentTopArtists(topArtists);
+      setCurrentTopAlbums(topAlbums);
+    }
+  }
 
   useEffect(() => {
     setLoading(true);
@@ -291,42 +314,22 @@ const Tops = () => {
 
   return (
     <div>
+
+      
       <h1>Your Top Lists</h1>
+
+
       <h2>Current timeframe: {radio}</h2>
-      <form>
-        <div style={{marginLeft: "150px"}}>
-          <label>
-            short
-            <input type="radio" 
-                    value = "4 Weeks"
-                    checked={radio==="4 Weeks"}
-                    onChange={(e) => {setRadio(e.target.value);
-                    setCurrentTopTracks(topTracksShort);
-                    setCurrentTopArtists(topArtistsShort);
-                    setCurrentTopAlbums(topAlbumsShort);}}/>
-          </label>
-          <label>
-            medium
-            <input type="radio" 
-                    value = "6 Months"
-                    checked={radio==="6 Months"}
-                    onChange={(e) => {setRadio(e.target.value);
-                    setCurrentTopTracks(topTracksMedium);
-                    setCurrentTopArtists(topArtistsMedium);
-                    setCurrentTopAlbums(topAlbumsMedium);}}/>
-          </label>
-          <label>
-            long
-            <input type="radio" 
-                    value = "Year(s)"
-                    checked={radio==="Year(s)"}
-                    onChange={(e) => {setRadio(e.target.value);
-                    setCurrentTopTracks(topTracksLong);
-                    setCurrentTopArtists(topArtists);
-                    setCurrentTopAlbums(topAlbums)}}/>
-          </label>
-        </div>
-      </form>
+      <div style={{marginLeft:"150px"}}>
+        <FormControl>
+          <RadioGroup value={radio} onChange={handleChange} row>
+            <FormControlLabel value="4 Weeks" control={<Radio />} label="Short"/>
+            <FormControlLabel value="6 Months" control={<Radio />} label="Medium"/>
+            <FormControlLabel value="Year(s)" control={<Radio />} label="Long"/>
+          </RadioGroup>
+        </FormControl>
+      </div>
+      
       <Tabs>
         <div label="Tracks">
           <TracksContainer>
