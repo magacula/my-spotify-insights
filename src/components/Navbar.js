@@ -32,6 +32,10 @@ const NavMenu = styled.ul`
   background-color: ${colors.sidePanelGray};
   text-align: center;
   z-index: 99;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    width: 85px;
+  }
 `;
 
 const NavMenuItem = styled.li`
@@ -199,11 +203,7 @@ const Navbar = () => {
       <NavMenu>
         <NavMenuItem>
           <Link to="/home" title="Home" activeClassName="active-navlink">
-            <Logo
-              src={logo}
-              alt="My Spotify Insights Logo"
-              activeClassName="active-navlink"
-            />
+            <Logo src={logo} alt="My Spotify Insights Logo" />
           </Link>
         </NavMenuItem>
 
