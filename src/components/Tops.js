@@ -6,11 +6,11 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import themes from "../styles/themes";
 
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 
 const { colors } = themes;
 
@@ -82,16 +82,22 @@ const ArtistWrapper = styled(Link)`
 const ArtistInfo = styled.div`
   max-width: 350px;
   width: 100%;
+  justify-content: center;
+  display: grid;
 `;
 
 const ArtistName = styled.p`
+  margin-top: 1rem;
   font-size: 1.5rem;
   width: 100%;
   text-align: center;
 `;
 
 const ArtistPic = styled.img`
-  border-radius: 50%;
+  border-radius: 100%;
+  object-fit: cover;
+  width: 250px;
+  height: 250px;
   text-align: center;
   display: inline-flex;
   justify-content: center;
@@ -156,11 +162,11 @@ const Tops = () => {
   const [topTracksShort, setTopTracksShort] = useState([]);
   const [topTracksMedium, setTopTracksMedium] = useState([]);
   const [topTracksLong, setTopTracksLong] = useState([]);
-  
+
   const [topAlbums, setTopAlbums] = useState([]);
   const [topAlbumsMedium, setTopAlbumsMedium] = useState([]);
   const [topAlbumsShort, setTopAlbumsShort] = useState([]);
-  
+
   const [topArtists, setTopArtists] = useState([]);
   const [topArtistsMedium, setTopArtistsMedium] = useState([]);
   const [topArtistsShort, setTopArtistsShort] = useState([]);
@@ -174,24 +180,24 @@ const Tops = () => {
   const handleChange = (event) => {
     setRadio(event.target.value);
 
-    if (event.target.value == "4 Weeks"){
+    if (event.target.value == "4 Weeks") {
       setCurrentTopTracks(topTracksShort);
       setCurrentTopArtists(topArtistsShort);
       setCurrentTopAlbums(topAlbumsShort);
     }
 
-    if (event.target.value == "6 Months"){
+    if (event.target.value == "6 Months") {
       setCurrentTopTracks(topTracksMedium);
       setCurrentTopArtists(topArtistsMedium);
       setCurrentTopAlbums(topAlbumsMedium);
     }
 
-    if (event.target.value == "Year(s)"){
+    if (event.target.value == "Year(s)") {
       setCurrentTopTracks(topTracksLong);
       setCurrentTopArtists(topArtists);
       setCurrentTopAlbums(topAlbums);
     }
-  }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -207,31 +213,30 @@ const Tops = () => {
         setTopTracksLong(data.top_tracks);
         setLoading(false);
       });
-    
-      fetch("/user/top_tracks_medium", {
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          //console.log(data.top_tracks);
-          setTopTracksMedium(data.top_tracks);
-          
-        });
-        fetch("/user/top_tracks_short", {
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            //console.log(data.top_tracks);
-            setTopTracksShort(data.top_tracks);
-            setCurrentTopTracks(data.top_tracks);
-          });
+
+    fetch("/user/top_tracks_medium", {
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data.top_tracks);
+        setTopTracksMedium(data.top_tracks);
+      });
+    fetch("/user/top_tracks_short", {
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data.top_tracks);
+        setTopTracksShort(data.top_tracks);
+        setCurrentTopTracks(data.top_tracks);
+      });
 
     fetch("/user/top_artists", {
       credentials: "include",
@@ -243,34 +248,32 @@ const Tops = () => {
       .then((data) => {
         //console.log(data.top_artists);
         setTopArtists(data.top_artists);
-        
       });
 
+    fetch("/user/top_artists_medium", {
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data.top_artists);
+        setTopArtistsMedium(data.top_artists);
+      });
 
-      fetch("/user/top_artists_medium", {
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          //console.log(data.top_artists);
-          setTopArtistsMedium(data.top_artists);
-        });
-        
-        fetch("/user/top_artists_short", {
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            //console.log(data.top_artists);
-            setTopArtistsShort(data.top_artists);
-            setCurrentTopArtists(data.top_artists);
-          });
+    fetch("/user/top_artists_short", {
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data.top_artists);
+        setTopArtistsShort(data.top_artists);
+        setCurrentTopArtists(data.top_artists);
+      });
 
     fetch("/user/top_albums", {
       credentials: "include",
@@ -281,55 +284,63 @@ const Tops = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data.top_albums);
-        
+
         setTopAlbums(data.top_albums);
       });
 
-      fetch("/user/top_albums_medium", {
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data.top_albums_medium);
-          setTopAlbumsMedium(data.top_albums_medium);
-        });
+    fetch("/user/top_albums_medium", {
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.top_albums_medium);
+        setTopAlbumsMedium(data.top_albums_medium);
+      });
 
-        fetch("/user/top_albums_short", {
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data.top_albums_short);
-            setTopAlbumsShort(data.top_albums_short);
-            setCurrentTopAlbums(data.top_albums_short);
-          });
-
+    fetch("/user/top_albums_short", {
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.top_albums_short);
+        setTopAlbumsShort(data.top_albums_short);
+        setCurrentTopAlbums(data.top_albums_short);
+      });
   }, []);
 
   return (
     <div>
-
-      
       <h1>Your Top Lists</h1>
 
-
       <h2>Current timeframe: {radio}</h2>
-      <div style={{marginLeft:"150px"}}>
+      <div style={{ marginLeft: "150px" }}>
         <FormControl>
           <RadioGroup value={radio} onChange={handleChange} row>
-            <FormControlLabel value="4 Weeks" control={<Radio />} label="Short"/>
-            <FormControlLabel value="6 Months" control={<Radio />} label="Medium"/>
-            <FormControlLabel value="Year(s)" control={<Radio />} label="Long"/>
+            <FormControlLabel
+              value="4 Weeks"
+              control={<Radio />}
+              label="Short"
+            />
+            <FormControlLabel
+              value="6 Months"
+              control={<Radio />}
+              label="Medium"
+            />
+            <FormControlLabel
+              value="Year(s)"
+              control={<Radio />}
+              label="Long"
+            />
           </RadioGroup>
         </FormControl>
       </div>
-      
+
       <Tabs>
         <div label="Tracks">
           <TracksContainer>
