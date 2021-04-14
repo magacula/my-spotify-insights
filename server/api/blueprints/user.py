@@ -620,7 +620,7 @@ def set_playlist():
 
         sp.user_playlist_change_details(
             playlist_id=playlistID, public=privacy, user=user)
-        return
+        return {}
 
 
 @user_bp.route("/user/my_profile")
