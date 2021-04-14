@@ -54,15 +54,13 @@ const NavMenuItem = styled.li`
 `;
 
 const Logo = styled.img`
-  font-size: 3;
+  font-size: 3rem;
   width: 100%;
-  height: 100%;
   margin: 0.25rem 0;
 
   @media only screen and (${breakpoints.device.sm}) {
     font-size: 3rem;
     width: 100%;
-    height: 100%;
   }
 `;
 
