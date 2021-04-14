@@ -59,10 +59,6 @@ const Logo = styled.img`
   height: 100%;
   margin: 0.25rem 0;
 
-  /* display: grid;
-  align-items: center;
-  justify-content: center; */
-
   @media only screen and (${breakpoints.device.sm}) {
     font-size: 3rem;
     width: 100%;
