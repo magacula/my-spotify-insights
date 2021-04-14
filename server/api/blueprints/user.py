@@ -14,7 +14,6 @@ from datetime import datetime
 user_bp = Blueprint('user', __name__)
 
 
-
 @user_bp.route("/user/test")
 @login_required
 # @token_checked
@@ -78,6 +77,8 @@ def top_tracks():
         return {"top_tracks": new_top_tracks_info.get_json()['items']}
 
 # Returns dictionary of user's top tracks (medium term)
+
+
 @user_bp.route("/user/top_tracks_medium")
 @limiter.limit("5 per second")
 @login_required
@@ -104,6 +105,8 @@ def top_tracks_medium():
         return {"top_tracks_medium": new_top_tracks_info.get_json()['items']}
 
 # Returns dictionary of user's top tracks (short term)
+
+
 @user_bp.route("/user/top_tracks_short")
 @limiter.limit("5 per second")
 @login_required
@@ -130,6 +133,8 @@ def top_tracks_short():
         return {"top_tracks_short": new_top_tracks_info.get_json()['items']}
 
 # Returns dictionary of user's top artists (long term)
+
+
 @user_bp.route("/user/top_artists")
 @limiter.limit("5 per second")
 @login_required
@@ -156,6 +161,8 @@ def top_artists():
         return {"top_artists": new_top_artists_info.get_json()['items']}
 
 # Returns dictionary of user's top tracks (short term)
+
+
 @user_bp.route("/user/top_artists_short")
 @limiter.limit("5 per second")
 @login_required
@@ -182,6 +189,8 @@ def top_artists_short():
         return {"top_artists": new_top_artists_info.get_json()['items']}
 
 # Returns dictionary of user's top tracks (medium term)
+
+
 @user_bp.route("/user/top_artists_medium")
 @limiter.limit("5 per second")
 @login_required
@@ -208,6 +217,8 @@ def top_artists_medium():
         return {"top_artists": new_top_artists_info.get_json()['items']}
 
 # --------------- top albums long range -------------------------
+
+
 @user_bp.route("/user/top_albums")
 @limiter.limit("5 per second")
 @login_required
@@ -240,7 +251,6 @@ def top_albums():
             break
 
     return {"top_albums": top_albums}
-
 
 
 @user_bp.route("/user/top_albums_medium")
@@ -548,6 +558,29 @@ def get_track_audio_features(track_id):
 
     return {'track_audio_features': audio_features}
 
+# Gets audio features for a playlist
+
+
+@user_bp.route("/user/playlist_audio_features/<playlist_id>", methods=['GET'])
+@limiter.limit("5 per second")
+@login_required
+@token_checked
+def get_playlist_audio_features(playlist_id):
+
+    sp = get_spotify_object()
+
+    playlist_track_ids = []
+
+    playlist_tracks = sp.playlist_tracks(playlist_id)
+
+    for track in playlist_tracks['items']:
+        one_track_id = track['track']['id']
+        playlist_track_ids.append(one_track_id)
+
+    audio_features = sp.audio_features(playlist_track_ids)
+
+    return {'playlist_audio_features': audio_features}
+
 
 # Get audio analysis for a track based upon its Spotify ID
 @user_bp.route("/user/track_audio_analysis/<track_id>", methods=['GET'])
@@ -563,6 +596,8 @@ def track_audio_analysis(track_id):
     return {'track_audio_analysis': audio_analysis}
 
 # Set playlist to public or private
+
+
 @user_bp.route("/user/set_playlist", methods=['POST'])
 @limiter.limit("5 per second")
 @login_required
@@ -577,14 +612,16 @@ def set_playlist():
         playlistID = data_json['playlistID']
         privacy = data_json['privacy']
         user = data_json['user']
-        
+
         if privacy == 'private':
             privacy = True
         else:
             privacy = False
-        
-        sp.user_playlist_change_details(playlist_id=playlistID, public=privacy, user=user)
-        return 
+
+        sp.user_playlist_change_details(
+            playlist_id=playlistID, public=privacy, user=user)
+        return
+
 
 @user_bp.route("/user/my_profile")
 @limiter.limit("5 per second")
