@@ -54,10 +54,20 @@ const NavMenuItem = styled.li`
 `;
 
 const Logo = styled.img`
-  font-size: 3rem;
+  font-size: 3;
   width: 100%;
   height: 100%;
   margin: 0.25rem 0;
+
+  /* display: grid;
+  align-items: center;
+  justify-content: center; */
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 3rem;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const Star = styled(FiStar)`
@@ -67,8 +77,8 @@ const Star = styled(FiStar)`
   width: 100%;
   margin: 0.25rem 0;
 
-  @media only screen and (${breakpoints.device.md}) {
-    font-size: 2.65rem;
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.75rem;
   }
 `;
 
@@ -79,8 +89,8 @@ const Fire = styled(AiFillFire)`
   width: 100%;
   margin: 0.25rem 0;
 
-  @media only screen and (${breakpoints.device.md}) {
-    font-size: 2.65rem;
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.75rem;
   }
 `;
 
@@ -91,8 +101,8 @@ const Film = styled(IoIosFilm)`
   width: 100%;
   margin: 0.25rem 0;
 
-  @media only screen and (${breakpoints.device.md}) {
-    font-size: 2.65rem;
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.75rem;
   }
 `;
 
@@ -103,8 +113,8 @@ const Crown = styled(FaCrown)`
   width: 100%;
   margin: 0.25rem 0;
 
-  @media only screen and (${breakpoints.device.md}) {
-    font-size: 2.65rem;
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.75rem;
   }
 `;
 
@@ -115,8 +125,8 @@ const Clock = styled(HiClock)`
   width: 100%;
   margin: 0.25rem 0;
 
-  @media only screen and (${breakpoints.device.md}) {
-    font-size: 2.65rem;
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.75rem;
   }
 `;
 
@@ -127,8 +137,8 @@ const GraphUp = styled(BsGraphUp)`
   width: 100%;
   margin: 0.25rem 0;
 
-  @media only screen and (${breakpoints.device.md}) {
-    font-size: 2.65rem;
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.75rem;
   }
 `;
 
@@ -139,8 +149,8 @@ const AudioFeatures = styled(SiAudioboom)`
   width: 100%;
   margin: 0.25rem 0;
 
-  @media only screen and (${breakpoints.device.md}) {
-    font-size: 2.65rem;
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.75rem;
   }
 `;
 
@@ -151,8 +161,8 @@ const Playlists = styled(MdQueueMusic)`
   width: 100%;
   margin: 0.25rem 0;
 
-  @media only screen and (${breakpoints.device.md}) {
-    font-size: 2.65rem;
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.75rem;
   }
 `;
 
@@ -162,8 +172,8 @@ const Bug = styled(AiFillBug)`
   width: 100%;
   margin: 0.25rem 0;
 
-  @media only screen and (${breakpoints.device.md}) {
-    font-size: 2.65rem;
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.75rem;
   }
 `;
 
@@ -177,8 +187,8 @@ const GitHub = styled(AiFillGithub)`
   width: 100%;
   margin: 0.25rem 0;
 
-  @media only screen and (${breakpoints.device.md}) {
-    font-size: 2.65rem;
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.75rem;
   }
 `;
 
