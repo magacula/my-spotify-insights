@@ -36,7 +36,7 @@ const ContentContainer = styled.div`
   justify-content: center;
   line-height: 1.3;
   margin-top: 2rem;
-  margin-left: 100px;
+  margin-left: 70px;
 `;
 
 const WelcomeHeading = styled.h1`
