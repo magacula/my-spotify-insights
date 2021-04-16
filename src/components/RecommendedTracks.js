@@ -2,8 +2,15 @@ import React, { useState, useEffect } from "react";
 import Track from "./Track";
 import styled from "styled-components";
 import themes from "../styles/themes";
+import breakpoints from "../styles/breakpoints";
 import { NavLink } from "react-router-dom";
 const { colors } = themes;
+
+const RecommendHeading = styled.h2`
+  @media only screen and (${breakpoints.device.med}) {
+    display: grid;
+  }
+`;
 
 const Link = styled(NavLink)`
   color: ${colors.lightBlue};
@@ -33,6 +40,10 @@ const ButtonContainer = styled.div`
   margin-left: 110px;
   display: flex;
   justify-content: center;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-left: 100px;
+  }
 `;
 
 const Button = styled.button`
@@ -56,6 +67,24 @@ const Button = styled.button`
   &:active {
     transform: scale(0.9);
     transition: 0.2s;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    padding: 2.5px 1.5rem;
+    border-radius: 4rem;
+    font-size: 0.25rem;
+  }
+`;
+
+const TrackList = styled.ul`
+  margin-left: 8rem;
+
+  @media only screen and (${breakpoints.device.med}) {
+    margin-left: 6rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-left: 4rem;
   }
 `;
 
@@ -121,9 +150,9 @@ const RecommendedTracks = () => {
 
   return (
     <React.Fragment>
-      <h2>
+      <RecommendHeading>
         Get Recommended Tracks Based on <Link to="/Tops">Your Top Tracks:</Link>
-      </h2>
+      </RecommendHeading>
       <h3>Then save tracks to a playlist on Spotify!</h3>
 
       <ButtonContainer>
@@ -148,13 +177,13 @@ const RecommendedTracks = () => {
         )}
       </ButtonContainer>
 
-      <ul style={{ marginLeft: "12rem" }}>
+      <TrackList>
         {recommendedTracks.map((track, index) => {
           return (
             <Track key={index} track={track} style={{ marginLeft: "150px" }} />
           );
         })}
-      </ul>
+      </TrackList>
     </React.Fragment>
   );
 };

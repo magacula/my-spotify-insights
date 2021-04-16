@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import breakpoints from "../styles/breakpoints";
 import { Link } from "react-router-dom";
 import themes from "../styles/themes";
 import { HiPlay } from "react-icons/hi";
@@ -15,14 +16,22 @@ const EDIT_TRACK = "/EditTrack";
 const PlayButton = styled(HiPlay)`
   fill: grey;
   color: white;
-  font-size: 3rem;
-  margin: 1rem;
-  width: 65%;
-  height: 90px;
+  font-size: 8rem;
+  margin: 0 3rem;
+  height: 100%;
 
   &:hover {
     fill: #65d36e;
     transition: 0.35s;
+  }
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 6rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 3rem;
+    margin: 0 1rem 0 0.5rem;
   }
 `;
 
@@ -77,10 +86,18 @@ const TrackItem = styled.li`
 
 const TrackImage = styled.img`
   width: 25%;
+
+  @media only screen and (${breakpoints.device.med}) {
+    width: 20%;
+  }
 `;
 
 const TrackInfo = styled.div`
   width: 80%;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 0.75rem;
+  }
 `;
 
 const TrackName = styled.h4``;
@@ -89,6 +106,10 @@ const TrackDetails = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 0.25rem;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 0.5rem;
+  }
 `;
 
 const ArtistName = styled.h4``;
