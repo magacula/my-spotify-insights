@@ -33,8 +33,12 @@ const NavMenu = styled.ul`
   text-align: center;
   z-index: 99;
 
+  @media only screen and (${breakpoints.device.med}) {
+    width: 70px;
+  }
+
   @media only screen and (${breakpoints.device.sm}) {
-    width: 85px;
+    width: 55px;
   }
 `;
 
@@ -195,6 +199,10 @@ const NavText = styled.p`
   text-align: center;
   margin: 0.25rem;
   color: ${colors.white};
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 0.5rem;
+  }
 `;
 
 const Navbar = () => {
