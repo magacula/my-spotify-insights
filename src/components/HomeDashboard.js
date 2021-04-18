@@ -62,7 +62,7 @@ const HomeDashboard = () => {
 
       <UserProfile />
       <ContentContainer>
-        <WelcomeHeading>Welcome to MySpotifyInsights!</WelcomeHeading>
+        <WelcomeHeading id = "accent">Welcome to MySpotifyInsights!</WelcomeHeading>
         <Welcome>
           Navigate through this web application to view your "tops" on Spotify,
           generate a playlist of recommended tracks for you, view your top

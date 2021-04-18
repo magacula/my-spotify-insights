@@ -200,7 +200,7 @@ const Rank = () => {
       ) : (
         <div style={{ marginLeft: "110px", marginTop: "2rem" }}>
 
-          <PageTitle>Your Rank</PageTitle>
+          <PageTitle id = "accent">Your Rank</PageTitle>
 
           <RankContainer>
             {userInfo.map((item, index) => {

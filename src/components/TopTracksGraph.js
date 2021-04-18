@@ -21,7 +21,7 @@ const FeatureDescription = styled.div`
 const TopTracksGraph = () => {
   return (
     <React.Fragment>
-      <h1>Audio Features from Top Tracks</h1>
+      <h1 id = "accent">Audio Features from Top Tracks</h1>
 
       <ChartContainer>
         <AudioFeatureChart />
