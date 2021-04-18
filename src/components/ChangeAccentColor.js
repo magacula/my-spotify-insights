@@ -42,23 +42,40 @@ const ChangeAccentColor = () => {
 
     //default
     const white = () => {
-        [...document.getElementsByTagName("h1", "h2", "h3", "h4", "a", "p")].forEach(
-            (x) => (x.style["color"] = "red")
-        );
+        document.getElementById("accent").style.color = "white";
     };
 
-    const black = () => {
-        [...document.getElementsByTagName("h1", "h2", "h3", "h4", "a", "p")].forEach(
-            (x) => (x.style["color"] = "black")
-        );
+    const pink = () => {
+
+        document.getElementById("accent").style.color = "#ec42f5";
+
+        /*
+        var accents = document.getElementById("accent")
+
+        for (var i = 0; i < accents.length; i++) {
+            accents[i].style.color = "#ec42f5";
+        }
+        */
     };
+
+    const blue = () => {
+
+        document.getElementById("accent").style.color = "#53cced";
+    };
+
+    const purple = () => {
+
+        document.getElementById("accent").style.color = "#a352ff";
+    }
 
 
     return (
         <React.Fragment>
             <ButtonContainer>
-                <ColorButton onClick={black}>Black</ColorButton>
                 <ColorButton onClick={white}>White</ColorButton>
+                <ColorButton onClick={pink}>Pink</ColorButton>
+                <ColorButton onClick={blue}>Blue</ColorButton>
+                <ColorButton onClick={purple}>Purple</ColorButton>
             </ButtonContainer>
         </React.Fragment>
     );
