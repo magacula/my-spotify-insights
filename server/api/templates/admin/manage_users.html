@@ -21,7 +21,7 @@
                 <br>
                 <div class="bold text-center">Reason</div>
                 <div class="text-center">
-                    {{banned_users[one_user_id]['reason']}}
+                    {{banned_users[one_user_id]['reason'] | safe}}
                 </div>
 
             </div>
@@ -58,8 +58,4 @@
 
     </section>
 
-    <button type="button" id="user-add">Click Me!</button>
-    <div id="user-more">
-        this is more...................haha
-    </div>
 {% endblock %}
