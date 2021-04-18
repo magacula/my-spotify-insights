@@ -210,7 +210,16 @@
             padding: 5px 20px;
         }
 
+        #website-histories{
+            overflow: auto;
+            height: 500px;
 
+        }
+
+        .flex-container{
+            display: flex;
+            flex-wrap: nowrap;
+        }
 
     </style>
 </head>
@@ -279,95 +288,11 @@
         {{bootstrap.load_js()}}
         {{moment.include_jquery()}}
         {{moment.include_moment()}}
+        <script src="https://cdn.ckeditor.com/4.10.0/standard/ckeditor.js"></script>
     {% endblock %}
     </script>
 
 
-        <script type="text/javascript">
-            $(document).ready(function() {
-
-                var csrf_token = "{{csrf_token() }}";
-                var active_users_url = "{{url_for('admin.active_users') }}";
-
-                $(document).ajaxError(function(event, request){
-                    var message = null;
-
-                    if (request.responseJSON && request.responseJSON.hasOwnProperty('message')){
-                        message = request.responseJSON.message;
-                    }else if (request.responseText){
-                        var IS_JSON = true;
-                        try{
-                            var data = JSON.parse(request.responseText);
-                        }catch(err){
-                            IS_JSON = false;
-                        }
-
-                        if (IS_JSON && data != undefined && data.hasOwnProperty('message')){
-                            message = JSON.parse(request.responseText).message;
-                        }else{
-                            message = default_error_message;
-                        }
-                    }else{
-                        message = default_error_message;
-                    }
-                    //output the message to the screen here
-                });
-
-
-                //set some default values
-                $.ajaxSetup({
-                    beforeSend: function (xhr, settings) {
-                        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-                            xhr.setRequestHeader('X-CSRFToken', csrf_token);
-                        }
-                    }
-                });
-
-
-                //$(document).on('click', '#user-add', add_user)
-                $(document).on('click', '#user-add', test_interval)
-
-                function add_user(){
-
-                    $.ajax({
-                        type: 'GET',
-                        url: active_users_url,
-                        success: function(data){
-                            //$('#user-more').hide().html(data).fadeIn(100);
-                            $('#user-more').hide().html("new data").fadeIn(100);
-                        }
-
-                    });
-
-                }
-
-                //call it once when load
-                update_database_status();
-                setInterval(update_database_status, 30000);
-
-
-            });
-
-
-            //outside doucment ready
-            function test_interval(){
-                alert("interval...");
-            }
-
-            //call and update database status
-            function update_database_status(){
-                $.ajax({
-                    type: 'GET',
-                    url: "{{url_for('admin.database_status') }}",
-                    success: function(data){
-                        $('#database_status').hide().html(data.html).fadeIn(500);
-                    }
-                });
-
-            }
-
-
-        </script>
 
     </div>
 </body>

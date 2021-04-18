@@ -32,7 +32,7 @@ def home():
 
     title = "Website Histories"
 
-    histories = website_histories()
+    histories = get_website_histories()
 
     x_axis = []
     y_axis  = []
@@ -110,14 +110,22 @@ def manage_website():
 
 
 
+    """
     return render_template("manage_website.html",
                            database_status=_database_status(),
                            website_histories=website_histories()
                            )
+    """
+
+    return render_template("manage_website.html",
+                           database_status=_database_status()
+                           )
+
+
 
 @login_required
 @is_admin
-def website_histories():
+def get_website_histories():
     result = []
     #all_histories = Flask_Statistics.query.order_by(Flask_Statistics.timestamp.desc()).all()
     all_histories = Flask_Statistics.query.order_by(Flask_Statistics.timestamp_date.desc()).all()
@@ -127,10 +135,17 @@ def website_histories():
         histories = one_history.get_json()
         for one_api_call_idx in histories:
             result.append(histories[one_api_call_idx])
-            print("adding history: ", histories[one_api_call_idx])
+            #print("adding history: ", histories[one_api_call_idx])
 
     #print("returning: ", result)
     return result[::-1]
+
+@admin_bp.route("/admin/all_website_histories")
+@limiter.limit("2 per second")
+@login_required
+@is_admin
+def all_website_histories():
+    return render_template("_website_histories_details.html", website_histories=get_website_histories())
 
 
 @admin_bp.route("/admin/database_status")
@@ -139,7 +154,8 @@ def website_histories():
 def database_status():
     #{'tablename':{'count': N, 'limit': N}, 'tablename':{}}
     #return _database_status()
-    return jsonify(html=render_template('_database_status.html', database_status=_database_status()))
+    #return jsonify(html=render_template('_database_status.html', database_status=_database_status()))
+    return render_template('_database_status.html', database_status=_database_status())
 
 # database status
 @login_required
