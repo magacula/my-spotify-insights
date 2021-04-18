@@ -7,7 +7,7 @@ from server.api.blueprints.main import main_bp
 from server.api.blueprints.admin import admin_bp
 from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
-from server.api.extensions import limiter, db, login_manager, bootstrap, moment, csrf
+from server.api.extensions import limiter, db, login_manager, bootstrap, moment, csrf, ckeditor
 from server.api.settings import website_config
 from server.api.utils import get_all_models, timestamp_to_str
 from server.api.constants import NO_MAX_TABLES
@@ -152,6 +152,7 @@ def register_extensions(app):
     bootstrap.init_app(app)
     moment.init_app(app)
     csrf.init_app(app)
+    ckeditor.init_app(app)
 
 
 
@@ -244,14 +245,14 @@ def register_command(app):
         if not(db_user):
             print("--No user found with email: ", email)
             return
-        if db_user.is_admin:
+        if not db_user.is_admin:
             print("--User is not admin!! ", email)
             return
 
         #else
         db_user.is_admin = False
         db.session.commit()
-        print("--Upgrade user to amdin!! ", email)
+        print("--removed admin!! ", email)
 
     @app.cli.command()
     def all_admins():

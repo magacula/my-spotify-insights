@@ -9,6 +9,7 @@ from flask_bootstrap import Bootstrap
 from datetime import datetime
 from flask_moment import Moment
 from flask_wtf.csrf import CSRFProtect
+from flask_ckeditor import CKEditor
 
 #extensions for the backend part
 #postgresql in heroku has restrctions on the numbers or rows, so if we have more than 10000 rows, use sqlalchemy
@@ -65,3 +66,5 @@ bootstrap = Bootstrap()
 moment = Moment()
 
 csrf =CSRFProtect()
+
+ckeditor = CKEditor()
