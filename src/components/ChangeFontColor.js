@@ -50,9 +50,18 @@ const ChangeFontColor = () => {
 
     const black = () => {
 
-        [...document.getElementsByTagName("*")].forEach(
-            (x) => (x.style["color"] = "black")
-        );
+
+        var tags = document.getElementsByTagName("h1");
+
+        for (var i = 0; i < tags.length; i++) {
+
+            tags[i].color = "red";
+        }
+
+
+
+
+
     };
 
     const pink = () => {
@@ -64,10 +73,9 @@ const ChangeFontColor = () => {
     };
 
     const blue = () => {
-        //#53cced
 
         [...document.getElementsByTagName("*")].forEach(
-            (x) => (x.style["color"] = "#00b3ff")
+            (x) => (x.style["color"] = "#0a78ff")
         );
     };
 
