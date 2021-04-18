@@ -44,54 +44,47 @@ const ChangeBackground = () => {
 
   //default
   const dark = () => {
+
     document.body.style.background = "#222222";
     document.getElementsByTagName("html")[0].style["background-color"] =
       "#222222";
-    [...document.getElementsByTagName("h1", "h2", "a", "p")].forEach(
-      (x) => (x.style["color"] = "white")
-    );
   };
 
   const light = () => {
+
     document.body.style.background = "#d6d6d6";
     document.getElementsByTagName("html")[0].style["background-color"] =
       "#d6d6d6";
-    [...document.getElementsByTagName("h1", "h2", "a", "p")].forEach(
-      (x) => (x.style["color"] = "white")
-    );
   };
 
   const wine = () => {
+
     document.body.style.background = "#bc2854";
     document.getElementsByTagName("html")[0].style["background-color"] =
       "#bc2854";
-    [...document.getElementsByTagName("h1", "h2", "a", "p")].forEach(
-      (x) => (x.style["color"] = "white")
-    );
   };
 
   const mango = () => {
+
     document.body.style.background = "#ff9952";
     document.getElementsByTagName("html")[0].style["background-color"] =
       "#ff9952";
-    [...document.getElementsByTagName("h1", "h2", "a", "p")].forEach(
-      (x) => (x.style["color"] = "white")
-    );
   };
 
   const plum = () => {
+
     document.body.style.background = "#1d1153";
     document.getElementsByTagName("html")[0].style["background-color"] =
       "#1d1153";
-    [...document.getElementsByTagName("h1", "h2", "a", "p")].forEach(
-      (x) => (x.style["color"] = "white")
-    );
   };
 
-  //Default
-  const changeDark = () => {
-    document.body.style.background = "#222222";
+  const navy = () => {
+
+    document.body.style.background = "#1f358c";
+    document.getElementsByTagName("html")[0].style["background-color"] =
+        "#1f358c";
   };
+
 
   //FIXME: Make so only accessible with certain rank(s)
   return (
@@ -102,6 +95,7 @@ const ChangeBackground = () => {
         <ColorButton onClick={wine}>Wine</ColorButton>
         <ColorButton onClick={mango}>Mango</ColorButton>
         <ColorButton onClick={plum}>Plum</ColorButton>
+        <ColorButton onClick={navy}>Navy</ColorButton>
       </ButtonContainer>
     </React.Fragment>
   );
