@@ -6,90 +6,112 @@
 {% block content %}
 {% from 'bootstrap/form.html' import render_form %}
 
-    <section  >
-        <div class="text-center">
-            <div class="database-status bar-rounded">
-                <div class="bold">
-                    Total # of Tables
-                </div>
-                {{database_status['count']}}
-            </div>
-
-            <div class="database-status bar-rounded">
-                <div class="bold">
-                    Total # of Rows
-                </div>
-                {{database_status['total_rows']}}
-            </div>
-
-            <div class="database-status bar-rounded">
-                <div class="bold">
-                    Row Limit
-                </div>
-                10,000
-            </div>
-        </div>
-
-        <br>
-        <div>
-            <table class="center">
-                <tr>
-                    <th>Table Name</th>
-                    <th>Row Count</th>
-                    <th>Row Limit</th>
-                </tr>
-                {% for one_table_name in database_status['tables_details'] %}
-                <tr>
-                    <td>{{one_table_name}} </td>
-                    {% set row_count = database_status['tables_details'][one_table_name]['count']  %}
-                    {% set row_limit = database_status['tables_details'][one_table_name]['limit']  %}
-                    <td>{{row_count}}</td>
-                    {% if row_limit > 0 %}
-                    <td>{{row_limit}}</td>
-                    {% else %}
-                    <td>No Limit</td>
-                    {% endif %}
-
-
-                </tr>
-                {%endfor%}
-
-
-            </table>
-        </div>
-
-
+    <section id="database-status">
     </section>
 
-    <section id="histories">
-        <h3 class="text-center bold">Histories</h3>
-        <table class="center">
-            <tr>
-                <th>Path</th>
-                <th>Method</th>
-                <th>Status Code</th>
-                <th>Response Time</th>
-                <th>Remote Address</th>
-                <th>Timestamp</th>
-            </tr>
-            <!--  [{}, {}, {}]-->
-            {% for one_history in website_histories %}
-            <tr>
-                <td>{{one_history['path']}}</td>
-                <td>{{one_history['method']}}</td>
-                <td>{{one_history['status_code']}}</td>
-                <td>{{one_history['response_time']}} ms</td>
-                <td>{{one_history['remote_address']}}</td>
-                <td>
-                    <small class="timestamp">
-                        {{moment(one_history['timestamp']).format('LLL')}}
-                    </small>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-
+    <section id="website-histories" >
     </section>
 
 
+
+<script type="text/javascript">
+            $(document).ready(function() {
+
+                var csrf_token = "{{csrf_token() }}";
+                var active_users_url = "{{url_for('admin.active_users') }}";
+
+                $(document).ajaxError(function(event, request){
+                    var message = null;
+
+                    if (request.responseJSON && request.responseJSON.hasOwnProperty('message')){
+                        message = request.responseJSON.message;
+                    }else if (request.responseText){
+                        var IS_JSON = true;
+                        try{
+                            var data = JSON.parse(request.responseText);
+                        }catch(err){
+                            IS_JSON = false;
+                        }
+
+                        if (IS_JSON && data != undefined && data.hasOwnProperty('message')){
+                            message = JSON.parse(request.responseText).message;
+                        }else{
+                            message = default_error_message;
+                        }
+                    }else{
+                        message = default_error_message;
+                    }
+                    //output the message to the screen here
+                });
+
+
+                //set some default values
+                $.ajaxSetup({
+                    beforeSend: function (xhr, settings) {
+                        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader('X-CSRFToken', csrf_token);
+                        }
+                    }
+                });
+
+
+                //$(document).on('click', '#user-add', add_user)
+                $(document).on('click', '#user-add', test_interval)
+
+                function add_user(){
+
+                    $.ajax({
+                        type: 'GET',
+                        url: active_users_url,
+                        success: function(data){
+                            //$('#user-more').hide().html(data).fadeIn(100);
+                            $('#user-more').hide().html("new data").fadeIn(100);
+                        }
+
+                    });
+
+                }
+
+                //call it once when load
+                update_database_status();
+                update_website_histories();
+
+                setInterval(update_database_status, 30000);
+                setInterval(update_website_histories, 30000);
+
+
+
+            });
+
+
+            //outside doucment ready
+            function test_interval(){
+                alert("interval...");
+            }
+
+            //call and update database status
+            function update_database_status(){
+                $.ajax({
+                    type: 'GET',
+                    url: "{{url_for('admin.database_status') }}",
+                    success: function(data){
+                        //$('#database-status').hide().html(data.html).fadeIn(500);
+                        $('#database-status').hide().html(data).fadeIn(100);
+                    }
+                });
+
+            }
+
+            function update_website_histories(){
+                $.ajax({
+                    type: 'GET',
+                    url: "{{url_for('admin.all_website_histories') }}",
+                    success: function(data){
+                        $('#website-histories').hide().html(data).fadeIn(100);
+                    }
+                });
+
+            }
+
+        </script>
 {% endblock %}
