@@ -66,7 +66,7 @@ const Playlists = () => {
 //playlists[12].public = true;
   return (
     <React.Fragment>
-      <h1>Your Playlists</h1>
+      <h1 id = "accent">Your Playlists</h1>
       
       <PlaylistsContainer>
         {playlists.map((playlist, index) => {

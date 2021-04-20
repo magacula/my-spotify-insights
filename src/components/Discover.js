@@ -5,7 +5,7 @@ import RecommendedTracks from "./RecommendedTracks";
 const Discover = () => {
   return (
     <React.Fragment>
-      <h1>Discover Page</h1>
+      <h1 id = "accent">Discover Page</h1>
       <RecommendedTracks />
     </React.Fragment>
   );

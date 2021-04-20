@@ -316,7 +316,7 @@ const Tops = () => {
 
   return (
     <div>
-      <h1>Your Top Lists</h1>
+      <h1 id = "accent">Your Top Lists</h1>
 
       <h2>Current timeframe: {radio}</h2>
       <div style={{ marginLeft: "150px" }}>

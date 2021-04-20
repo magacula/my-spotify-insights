@@ -29,7 +29,7 @@ const ColorButton = styled.button`
   }
 `;
 
-const ChangeAccentColor = () => {
+const ChangeFontColor = () => {
     const [backgrounds, setBackgrounds] = useState([]);
     const [showButton, setShowButton] = useState(false);
 
@@ -42,30 +42,49 @@ const ChangeAccentColor = () => {
 
     //default
     const white = () => {
-        document.getElementById("accent").style.color = "white";
+
+        [...document.getElementsByTagName("*")].forEach(
+            (x) => (x.style["color"] = "white")
+        );
+    };
+
+    const black = () => {
+
+
+        var tags = document.getElementsByTagName("h1");
+
+        for (var i = 0; i < tags.length; i++) {
+
+            tags[i].color = "red";
+        }
+
+
+
+
+
     };
 
     const pink = () => {
+        //#ec42f5
 
-        document.getElementById("accent").style.color = "#ec42f5";
-
-        /*
-        var accents = document.getElementById("accent")
-
-        for (var i = 0; i < accents.length; i++) {
-            accents[i].style.color = "#ec42f5";
-        }
-        */
+        [...document.getElementsByTagName("*")].forEach(
+            (x) => (x.style["color"] = "#ec42f5")
+        );
     };
 
     const blue = () => {
 
-        document.getElementById("accent").style.color = "#53cced";
+        [...document.getElementsByTagName("*")].forEach(
+            (x) => (x.style["color"] = "#0a78ff")
+        );
     };
 
     const purple = () => {
+        //#a352ff
 
-        document.getElementById("accent").style.color = "#a352ff";
+        [...document.getElementsByTagName("*")].forEach(
+            (x) => (x.style["color"] = "#a352ff")
+        );
     }
 
 
@@ -73,6 +92,7 @@ const ChangeAccentColor = () => {
         <React.Fragment>
             <ButtonContainer>
                 <ColorButton onClick={white}>White</ColorButton>
+                <ColorButton onClick={black}>Black</ColorButton>
                 <ColorButton onClick={pink}>Pink</ColorButton>
                 <ColorButton onClick={blue}>Blue</ColorButton>
                 <ColorButton onClick={purple}>Purple</ColorButton>
@@ -81,4 +101,4 @@ const ChangeAccentColor = () => {
     );
 };
 
-export default ChangeAccentColor;
+export default ChangeFontColor;

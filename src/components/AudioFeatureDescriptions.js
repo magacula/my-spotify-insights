@@ -3,7 +3,7 @@ import React from "react";
 const AudioFeatureDescriptions = () => {
   return (
     <div>
-      <h2 style={{ margin: 0 }}>What are audio features?</h2>
+      <h2 id = "accent" style={{ margin: 0 }}>What are audio features?</h2>
       <br></br>
       <body>
         <p>
