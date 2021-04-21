@@ -205,6 +205,11 @@
             border-radius: 15px;
         }
 
+        .bar-rounded-colored{
+            border-radius: 15px;
+            background-color: #ddd;
+        }
+
         #database-status-progress-bar {
             background-color: #7fffd4;
             padding: 5px 20px;
@@ -220,6 +225,34 @@
             display: flex;
             flex-wrap: nowrap;
         }
+
+        #website-histories-table{
+        }
+
+        .styled-table{
+            border-collapse: collapse;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .styled-table th tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+
 
     </style>
 </head>
@@ -261,8 +294,10 @@
 
         {% block content%}
             <section id="histories-charts">
+                <!--
                 <script type="text/javascript" src="http://kozea.github.com/pygal.js/javascripts/svg.jquery.js"></script>
                 <script type="text/javascript" src="http://kozea.github.com/pygal.js/javascripts/pygal-tooltips.js"></script>
+                -->
 
                 <section id="bar-chart">
                     {{ histories_bar_chart.render()|safe }}
@@ -288,8 +323,8 @@
         {{bootstrap.load_js()}}
         {{moment.include_jquery()}}
         {{moment.include_moment()}}
-        <script src="https://cdn.ckeditor.com/4.10.0/standard/ckeditor.js"></script>
     {% endblock %}
+
     </script>
 
 
