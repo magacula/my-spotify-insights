@@ -7,7 +7,8 @@ from server.api.blueprints.main import main_bp
 from server.api.blueprints.admin import admin_bp
 from server.api.blueprints.user import user_bp
 from server.api.blueprints.auth import auth_bp
-from server.api.extensions import limiter, db, login_manager, bootstrap, moment, csrf, ckeditor
+#from server.api.extensions import limiter, db, login_manager, bootstrap, moment, csrf, ckeditor
+from server.api.extensions import limiter, db, login_manager, bootstrap, moment, ckeditor
 from server.api.settings import website_config
 from server.api.utils import get_all_models, timestamp_to_str
 from server.api.constants import NO_MAX_TABLES
@@ -80,7 +81,13 @@ def register_flask_stats(app):
 
         db_new_json = {}
 
-        db_new_json['response_time'] = int(round(end_time - g.start_time, 3) * 1000)
+
+        try:
+            db_new_json['response_time'] = int(round(end_time - g.start_time, 3) * 1000)
+        except:
+            db_new_json['response_time'] = 0
+
+        #db_new_json['response_time'] = int(round(end_time - end_time, 3) * 1000)
         db_new_json['status_code'] = g.request_status_code
         db_new_json['size'] = g.request_content_size
         db_new_json['method'] = request.method
@@ -130,7 +137,7 @@ def register_error_handler(app):
 
     @app.errorhandler(403)
     def permission_denied(e):
-        return "You don't have the permission.. 403"
+        return "You don't have the permission.. 403", 403
 
     #when path not in backend, check frontend
     #FIXME: frontend need to take care of 404 error if it does not have the page either
@@ -151,7 +158,7 @@ def register_extensions(app):
     login_manager.init_app(app)
     bootstrap.init_app(app)
     moment.init_app(app)
-    csrf.init_app(app)
+    #csrf.init_app(app)
     ckeditor.init_app(app)
 
 
