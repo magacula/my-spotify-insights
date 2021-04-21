@@ -9,6 +9,8 @@
     <section id="database-status">
     </section>
 
+    <br>
+
     <section id="website-histories" >
     </section>
 
@@ -17,7 +19,6 @@
 <script type="text/javascript">
             $(document).ready(function() {
 
-                var csrf_token = "{{csrf_token() }}";
                 var active_users_url = "{{url_for('admin.active_users') }}";
 
                 $(document).ajaxError(function(event, request){
@@ -49,7 +50,7 @@
                 $.ajaxSetup({
                     beforeSend: function (xhr, settings) {
                         if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-                            xhr.setRequestHeader('X-CSRFToken', csrf_token);
+                            //xhr.setRequestHeader('X-CSRFToken', csrf_token);
                         }
                     }
                 });
