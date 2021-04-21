@@ -30,55 +30,51 @@ const ColorButton = styled.button`
 `;
 
 const ChangeAccentColor = () => {
-    const [backgrounds, setBackgrounds] = useState([]);
-    const [showButton, setShowButton] = useState(false);
+  const [backgrounds, setBackgrounds] = useState([]);
+  const [showButton, setShowButton] = useState(false);
 
-    const fetchData = async () => {
-        try {
-        } catch (error) {
-            console.log(error);
-        }
-    };
+  const fetchData = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    //default
-    const white = () => {
-        document.getElementById("accent").style.color = "white";
-    };
+  //default
+  const white = () => {
+    document.getElementById("accent").style.color = "white";
+  };
 
-    const pink = () => {
+  const pink = () => {
+    document.getElementById("accent").style.color = "#ec42f5";
 
-        document.getElementById("accent").style.color = "#ec42f5";
-
-        /*
+    /*
         var accents = document.getElementById("accent")
 
         for (var i = 0; i < accents.length; i++) {
             accents[i].style.color = "#ec42f5";
         }
         */
-    };
+  };
 
-    const blue = () => {
+  const blue = () => {
+    document.getElementById("accent").style.color = "#53cced";
+  };
 
-        document.getElementById("accent").style.color = "#53cced";
-    };
+  const purple = () => {
+    document.getElementById("accent").style.color = "#a352ff";
+  };
 
-    const purple = () => {
-
-        document.getElementById("accent").style.color = "#a352ff";
-    }
-
-
-    return (
-        <React.Fragment>
-            <ButtonContainer>
-                <ColorButton onClick={white}>White</ColorButton>
-                <ColorButton onClick={pink}>Pink</ColorButton>
-                <ColorButton onClick={blue}>Blue</ColorButton>
-                <ColorButton onClick={purple}>Purple</ColorButton>
-            </ButtonContainer>
-        </React.Fragment>
-    );
+  return (
+    <React.Fragment>
+      <ButtonContainer>
+        <ColorButton onClick={white}>White</ColorButton>
+        <ColorButton onClick={pink}>Pink</ColorButton>
+        <ColorButton onClick={blue}>Blue</ColorButton>
+        <ColorButton onClick={purple}>Purple</ColorButton>
+      </ButtonContainer>
+    </React.Fragment>
+  );
 };
 
 export default ChangeAccentColor;

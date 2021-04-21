@@ -22,7 +22,7 @@ const GuidelinesHeader = styled.h1`
 const Guidelines = () => {
   return (
     <React.Fragment>
-      <GuidelinesHeader id = "accent">Community Guidelines</GuidelinesHeader>
+      <GuidelinesHeader id="accent">Community Guidelines</GuidelinesHeader>
       <GuidelinesContent>
         Any content uploaded to the MySpotifyInsights web application is
         expected to follow community guidelines. Uploaded content that threatens

@@ -1,4 +1,4 @@
-import React ,{ useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import themes from "../styles/themes";
@@ -13,7 +13,7 @@ const Locked = styled(BiLockAlt)`
   width: 30px;
   margin: 0.25rem 0;
   position: absolute;
-  background-color:black;
+  background-color: black;
 `;
 
 const Unlocked = styled(BiLockOpenAlt)`
@@ -23,7 +23,7 @@ const Unlocked = styled(BiLockOpenAlt)`
   width: 30px;
   margin: 0.25rem 0;
   position: absolute;
-  background-color:black;
+  background-color: black;
 `;
 
 const PlaylistContainer = styled(Link)`
@@ -64,9 +64,13 @@ const PlaylistInfo = styled.div`
 
 const PlaylistName = styled.h4``;
 
-
-
-const Playlist = ({ playlist, userID, index, lock_to_unlock, unlock_to_lock }) => {
+const Playlist = ({
+  playlist,
+  userID,
+  index,
+  lock_to_unlock,
+  unlock_to_lock,
+}) => {
   //console.log(playlist_array);
   return (
     <PlaylistItem>
@@ -86,53 +90,63 @@ const Playlist = ({ playlist, userID, index, lock_to_unlock, unlock_to_lock }) =
           <PlaylistName>{playlist.name}</PlaylistName>
         </PlaylistInfo>
       </PlaylistContainer>
-      {userID == playlist.owner.id ? 
-      <div style={{position:"absolute"}}> 
-      {playlist.public == false ? 
-      <Locked onClick={() => {console.log("Lock was pressed");
-                                fetch("/user/set_playlist", {
-                                  method: "POST",
-                                  credentials:"include",
-                                  headers: {"Content-Type": "application/json",
-                                },
-                                body: JSON.stringify({
-                                  playlistID: playlist.id,
-                                  privacy: "private",
-                                  user: userID,
-                                })
-                                })
-                                .then(response => response.json())
-                                .then(data => console.log(data))
-                                .catch(err => console.log(err))
-                                ;
-                              
-                              
-                              lock_to_unlock(index);
-                            } }/> :
-      <Unlocked onClick={() => {console.log("Lock was pressed");
-      fetch("/user/set_playlist", {
-        method: "POST",
-        credentials:"include",
-        headers: {"Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        playlistID: playlist.id,
-        privacy: "public",
-        user: userID,
-      })
-      })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(err => console.log(err))
-      ;
-    
-    
-    unlock_to_lock(index);
-  } }/>
-      }
-      </div>:
-      <label style={{backgroundColor:"black",fontFamily:"Arial", fontSize:"1.2" , position:"absolute"}}>Not Owned</label>
-      }
+      {userID == playlist.owner.id ? (
+        <div style={{ position: "absolute" }}>
+          {playlist.public == false ? (
+            <Locked
+              onClick={() => {
+                console.log("Lock was pressed");
+                fetch("/user/set_playlist", {
+                  method: "POST",
+                  credentials: "include",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    playlistID: playlist.id,
+                    privacy: "private",
+                    user: userID,
+                  }),
+                })
+                  .then((response) => response.json())
+                  .then((data) => console.log(data))
+                  .catch((err) => console.log(err));
+
+                lock_to_unlock(index);
+              }}
+            />
+          ) : (
+            <Unlocked
+              onClick={() => {
+                console.log("Lock was pressed");
+                fetch("/user/set_playlist", {
+                  method: "POST",
+                  credentials: "include",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    playlistID: playlist.id,
+                    privacy: "public",
+                    user: userID,
+                  }),
+                })
+                  .then((response) => response.json())
+                  .then((data) => console.log(data))
+                  .catch((err) => console.log(err));
+
+                unlock_to_lock(index);
+              }}
+            />
+          )}
+        </div>
+      ) : (
+        <label
+          style={{
+            backgroundColor: "black",
+            fontFamily: "Arial",
+            fontSize: "1.2",
+            position: "absolute",
+          }}>
+          Not Owned
+        </label>
+      )}
     </PlaylistItem>
   );
 };
