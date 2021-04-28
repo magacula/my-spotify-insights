@@ -56,6 +56,11 @@ const EditButton = styled.button`
     transition: 0.35s;
     background: ${colors.pink};
   }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 0.5rem;
+    padding: 0.15rem 0.5rem;
+  }
 `;
 
 const TrackContainer = styled(Link)`
