@@ -95,7 +95,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <div style={{ marginLeft: "100px" }}>
+      <div style={{ marginLeft: "70px" }}>
         {userInfo.map((item, index) => {
           return (
             <ProfileSection key={index}>
