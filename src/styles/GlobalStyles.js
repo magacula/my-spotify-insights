@@ -21,7 +21,11 @@ a {
 
 h1, h2 {
   margin-top: 2rem;
-  margin-left:110px;
+  margin-left: 110px;
+
+  @media only screen and (max-width: 768px) {
+    margin-left: 90px;
+  } 
 
   @media only screen and (max-width: 450px) {
     font-size: 1.5rem;
@@ -32,12 +36,11 @@ h1, h2 {
 
 h3 {
   margin-top: 0.5rem;
-  margin-left:110px;
+  margin-left: 110px;
 
-  @media only screen and (max-width: 450px) {
-    margin-left: 70px;
-    font-size: 1rem;
-  }
+  @media only screen and (max-width: 768px) {
+    margin-left: 90px;
+  } 
 }
 
 
