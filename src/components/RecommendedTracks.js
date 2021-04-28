@@ -29,10 +29,17 @@ const SpotifyLink = styled.a`
   font-weight: bold;
   font-size: 0.8rem;
   cursor: pointer;
+  text-align: center;
 
   &:hover {
     transition: 0.35s;
     background: #65d36e;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    padding: 2.5px 1.5rem;
+    border-radius: 4rem;
+    font-size: 0.5rem;
   }
 `;
 
@@ -42,7 +49,7 @@ const ButtonContainer = styled.div`
   justify-content: center;
 
   @media only screen and (${breakpoints.device.sm}) {
-    margin-left: 100px;
+    margin-left: 70px;
   }
 `;
 
@@ -70,9 +77,9 @@ const Button = styled.button`
   }
 
   @media only screen and (${breakpoints.device.sm}) {
-    padding: 2.5px 1.5rem;
+    padding: 0.5rem 1rem;
     border-radius: 4rem;
-    font-size: 0.25rem;
+    font-size: 0.5rem;
   }
 `;
 
