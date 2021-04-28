@@ -3,9 +3,20 @@ import styled from "styled-components";
 import Track from "./Track";
 import Loader from "./Loader";
 import themes from "../styles/themes";
+import breakpoints from "../styles/breakpoints";
 const { colors } = themes;
 
-// TODO: Create separate track component later to allow a clickable for more info
+const PageContent = styled.ul`
+  margin-left: 200px;
+
+  @media only screen and (${breakpoints.device.med}) {
+    margin-left: 100px;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-left: 70px;
+  }
+`;
 
 const RecentlyPlayed = () => {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
@@ -44,14 +55,14 @@ const RecentlyPlayed = () => {
 
   return (
     <React.Fragment>
-      <h1 id = "accent">Your Recently Played Tracks</h1>
-      <ul style={{ marginLeft: "200px" }}>
+      <h1 id="accent">Your Recently Played Tracks</h1>
+      <PageContent>
         {filtered.map((track, index) => {
           return (
             <Track key={index} track={track} style={{ marginLeft: "150px" }} />
           );
         })}
-      </ul>
+      </PageContent>
       {/* uses conditional rendering to render our loading component */}
       {loading && <Loader />}
     </React.Fragment>
