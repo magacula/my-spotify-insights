@@ -5,10 +5,7 @@ const { colors } = themes;
 
 //const Background = styled(NavLink)``;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  space: 2;
-`;
+const ButtonContainer = styled.div``;
 
 const ColorButton = styled.button`
   margin-top: 2rem;

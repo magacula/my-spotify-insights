@@ -5,11 +5,12 @@ import Loader from "./Loader";
 import themes from "../styles/themes";
 import { FaUserCircle } from "react-icons/fa";
 import { BiCrown } from "react-icons/bi";
-import { GiPaintBrush } from "react-icons/gi"
+import { GiPaintBrush } from "react-icons/gi";
 import { RiPaintFill } from "react-icons/ri";
-import { AiOutlineFontColors } from "react-icons/ai"
+import { AiOutlineFontColors } from "react-icons/ai";
 import ChangeAccentColor from "./ChangeAccentColor";
 import ChangeFontColor from "./ChangeFontColor";
+import breakpoints from "../styles/breakpoints";
 const { colors } = themes;
 
 const NoImage = styled(FaUserCircle)`
@@ -21,7 +22,11 @@ const NoImage = styled(FaUserCircle)`
 `;
 
 const PageTitle = styled.h1`
-  margin-left: 0;
+  margin-left: 110px;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-left: 70px;
+  }
 `;
 
 const SubHeading = styled.h2`
@@ -46,12 +51,23 @@ const ProfilePic = styled.img`
   margin-top: 1.5rem;
   margin-left: 2rem;
   margin-right: 2.5rem;
+
+  @media only screen and (${breakpoints.device.med}) {
+    width: 150px;
+    height: 150px;
+    margin-left: 0;
+  }
 `;
 
 const UserName = styled.p`
   margin-top: 1rem;
   font-size: 1.5rem;
   font-weight: 600;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-top: -6rem;
+    margin-left: -3rem;
+  }
 `;
 
 const RankStatus = styled.div`
@@ -59,6 +75,10 @@ const RankStatus = styled.div`
   margin-left: 3.5rem;
   margin-top: auto;
   margin-bottom: auto;
+
+  @media only screen and (${breakpoints.device.med}) {
+    margin-left: 0;
+  }
 `;
 
 const RankTitle = styled.div`
@@ -114,22 +134,48 @@ const Paint = styled(RiPaintFill)`
   font-size: 1.5rem;
   margin-top: 2rem;
   margin-left: 1rem;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 4rem;
+    margin-left: 0;
+  }
 `;
 
 const FontColor = styled(AiOutlineFontColors)`
   font-size: 1.5rem;
   margin-top: 2rem;
   margin-left: 1rem;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 4rem;
+    margin-left: 0;
+  }
 `;
 
 const Accent = styled(GiPaintBrush)`
   font-size: 1.5rem;
   margin-top: 2rem;
   margin-left: 1rem;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 4rem;
+    margin-left: 0;
+  }
 `;
 
 const HeadingWrapper = styled.div`
   display: flex;
+`;
+
+const PageContent = styled.div`
+  margin-top: 2rem;
+  margin-left: 110px;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    padding-left: 150px;
+    margin-left: 50px;
+    margin-top: 2rem;
+  }
 `;
 
 const Rank = () => {
@@ -195,13 +241,11 @@ const Rank = () => {
 
   return (
     <React.Fragment>
+      <PageTitle id="accent">Your Rank</PageTitle>
       {loading ? (
         <Loader />
       ) : (
-        <div style={{ marginLeft: "110px", marginTop: "2rem" }}>
-
-          <PageTitle id = "accent">Your Rank</PageTitle>
-
+        <PageContent>
           <RankContainer>
             {userInfo.map((item, index) => {
               return (
@@ -233,23 +277,22 @@ const Rank = () => {
             <ChangeBackground />
           </ChangeBackgroundContainer>
 
-            <ChangeFontColorContainer>
-                <HeadingWrapper>
-                    <SubHeading>Change Font Color</SubHeading>
-                    <FontColor />
-                </HeadingWrapper>
-                <ChangeFontColor />
-            </ChangeFontColorContainer>
+          <ChangeFontColorContainer>
+            <HeadingWrapper>
+              <SubHeading>Change Font Color</SubHeading>
+              <FontColor />
+            </HeadingWrapper>
+            <ChangeFontColor />
+          </ChangeFontColorContainer>
 
-            <ChangeAccentContainer>
-                <HeadingWrapper>
-                    <SubHeading>Change Accent Color</SubHeading>
-                    <Accent />
-                </HeadingWrapper>
-                <ChangeAccentColor />
-            </ChangeAccentContainer>
-
-        </div>
+          <ChangeAccentContainer>
+            <HeadingWrapper>
+              <SubHeading>Change Accent Color</SubHeading>
+              <Accent />
+            </HeadingWrapper>
+            <ChangeAccentColor />
+          </ChangeAccentContainer>
+        </PageContent>
       )}
     </React.Fragment>
   );

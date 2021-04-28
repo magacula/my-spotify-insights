@@ -7,10 +7,7 @@ const { colors } = themes;
 
 //const Background = styled(NavLink)``;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  space: 2;
-`;
+const ButtonContainer = styled.div``;
 
 const ColorButton = styled.button`
   margin-top: 2rem;
@@ -44,47 +41,40 @@ const ChangeBackground = () => {
 
   //default
   const dark = () => {
-
     document.body.style.background = "#222222";
     document.getElementsByTagName("html")[0].style["background-color"] =
       "#222222";
   };
 
   const light = () => {
-
     document.body.style.background = "#d6d6d6";
     document.getElementsByTagName("html")[0].style["background-color"] =
       "#d6d6d6";
   };
 
   const wine = () => {
-
     document.body.style.background = "#bc2854";
     document.getElementsByTagName("html")[0].style["background-color"] =
       "#bc2854";
   };
 
   const mango = () => {
-
     document.body.style.background = "#ff9952";
     document.getElementsByTagName("html")[0].style["background-color"] =
       "#ff9952";
   };
 
   const plum = () => {
-
     document.body.style.background = "#1d1153";
     document.getElementsByTagName("html")[0].style["background-color"] =
       "#1d1153";
   };
 
   const navy = () => {
-
     document.body.style.background = "#1f358c";
     document.getElementsByTagName("html")[0].style["background-color"] =
-        "#1f358c";
+      "#1f358c";
   };
-
 
   //FIXME: Make so only accessible with certain rank(s)
   return (

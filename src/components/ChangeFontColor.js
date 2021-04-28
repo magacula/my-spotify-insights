@@ -5,10 +5,7 @@ const { colors } = themes;
 
 //const Background = styled(NavLink)``;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  space: 2;
-`;
+const ButtonContainer = styled.div``;
 
 const ColorButton = styled.button`
   margin-top: 2rem;
@@ -30,75 +27,64 @@ const ColorButton = styled.button`
 `;
 
 const ChangeFontColor = () => {
-    const [backgrounds, setBackgrounds] = useState([]);
-    const [showButton, setShowButton] = useState(false);
+  const [backgrounds, setBackgrounds] = useState([]);
+  const [showButton, setShowButton] = useState(false);
 
-    const fetchData = async () => {
-        try {
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    //default
-    const white = () => {
-
-        [...document.getElementsByTagName("*")].forEach(
-            (x) => (x.style["color"] = "white")
-        );
-    };
-
-    const black = () => {
-
-
-        var tags = document.getElementsByTagName("h1");
-
-        for (var i = 0; i < tags.length; i++) {
-
-            tags[i].color = "red";
-        }
-
-
-
-
-
-    };
-
-    const pink = () => {
-        //#ec42f5
-
-        [...document.getElementsByTagName("*")].forEach(
-            (x) => (x.style["color"] = "#ec42f5")
-        );
-    };
-
-    const blue = () => {
-
-        [...document.getElementsByTagName("*")].forEach(
-            (x) => (x.style["color"] = "#0a78ff")
-        );
-    };
-
-    const purple = () => {
-        //#a352ff
-
-        [...document.getElementsByTagName("*")].forEach(
-            (x) => (x.style["color"] = "#a352ff")
-        );
+  const fetchData = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-
-    return (
-        <React.Fragment>
-            <ButtonContainer>
-                <ColorButton onClick={white}>White</ColorButton>
-                <ColorButton onClick={black}>Black</ColorButton>
-                <ColorButton onClick={pink}>Pink</ColorButton>
-                <ColorButton onClick={blue}>Blue</ColorButton>
-                <ColorButton onClick={purple}>Purple</ColorButton>
-            </ButtonContainer>
-        </React.Fragment>
+  //default
+  const white = () => {
+    [...document.getElementsByTagName("*")].forEach(
+      (x) => (x.style["color"] = "white")
     );
+  };
+
+  const black = () => {
+    var tags = document.getElementsByTagName("h1");
+
+    for (var i = 0; i < tags.length; i++) {
+      tags[i].color = "red";
+    }
+  };
+
+  const pink = () => {
+    //#ec42f5
+
+    [...document.getElementsByTagName("*")].forEach(
+      (x) => (x.style["color"] = "#ec42f5")
+    );
+  };
+
+  const blue = () => {
+    [...document.getElementsByTagName("*")].forEach(
+      (x) => (x.style["color"] = "#0a78ff")
+    );
+  };
+
+  const purple = () => {
+    //#a352ff
+
+    [...document.getElementsByTagName("*")].forEach(
+      (x) => (x.style["color"] = "#a352ff")
+    );
+  };
+
+  return (
+    <React.Fragment>
+      <ButtonContainer>
+        <ColorButton onClick={white}>White</ColorButton>
+        <ColorButton onClick={black}>Black</ColorButton>
+        <ColorButton onClick={pink}>Pink</ColorButton>
+        <ColorButton onClick={blue}>Blue</ColorButton>
+        <ColorButton onClick={purple}>Purple</ColorButton>
+      </ButtonContainer>
+    </React.Fragment>
+  );
 };
 
 export default ChangeFontColor;
