@@ -322,14 +322,12 @@ def top_albums_short():
     return {"top_albums_short": top_albums}
 
 
-# Returns dictionary of a user's recently played tracks
+#--api Returns dictionary of a user's recently played tracks
 @user_bp.route("/user/recently_played_tracks")
 @limiter.limit("5 per second")
 @login_required
 @token_checked
 def recently_played_tracks():
-    sp = get_spotify_object()
-    #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
     # database query
@@ -348,15 +346,16 @@ def recently_played_tracks():
 
         return {'recent_tracks': [one_track_raw['track'] for one_track_raw in new_recent_tracks_info.get_json()['items']]}
 
-# FIXME: need database support
 
 
+#--api: function related to playlist
+#----get: return the playlist of current user
+#----post: create a new playlist based on given json
 @user_bp.route("/user/playlists", methods=['GET', 'POST'])
-@limiter.limit("2 per second")
+@limiter.limit("5 per second")
 @login_required
 @token_checked
 def playlists():
-
     sp = get_spotify_object()
 
     # if request is get, return all the playlists current user has
@@ -378,7 +377,7 @@ def playlists():
 
         return {"playlists": user_playlists}
 
-    # -----else if request is post, create a new playlist
+    # -----else if request is post, create a new playlist based on the json given
     if request.method == "POST":
         data_json = request.get_json()
         #user_id = session['USER_ID']
@@ -396,11 +395,11 @@ def playlists():
         return sp.user_playlist_add_tracks(
             user=user_id, playlist_id=playlist_id, tracks=tracks)
 
-# Gets tracks from a user's playlist
 
 
+#--api: Gets tracks from a user's playlist
 @user_bp.route("/user/playlist/<playlist_id>", methods=['GET'])
-@limiter.limit("2 per second")
+@limiter.limit("5 per second")
 @login_required
 @token_checked
 def get_user_playlist(playlist_id):
@@ -417,8 +416,9 @@ def get_user_playlist(playlist_id):
 
 
 # FIXME: need to verify if this works
+# FIXME: may discard this feature...
+"""
 # user can save their downloaded tracks' path, so they can play through this website
-
 @user_bp.route("/user/local_tracks", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 # @login_required
@@ -452,7 +452,7 @@ def local_tracks():
         db.session.commit()
 
     return {}
-
+"""
 
 # FIXME: I don't think there is a way to get recently played playlist, may delete this part later
 # FIXME: check if spotify api gives indicators of recently played / created playlists
