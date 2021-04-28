@@ -38,6 +38,7 @@ def get_rank_progress():
 
 
 # FIXME: testing only, will delete later
+"""
 @user_bp.route("/user/increment_rank_progress")
 @limiter.limit("5 per second")
 @login_required
@@ -48,7 +49,7 @@ def increment_rank_progress():
     db_user.increment_rank_progress_c(10)
 
     return {}
-
+"""
 
 # Returns dictionary of user's top tracks (long term)
 @user_bp.route("/user/top_tracks")
@@ -90,7 +91,7 @@ def top_tracks_medium():
 
     # database query
     db_top_tracks_info = Top_Tracks_Info_medium.query.filter(
-        Top_Tracks_Info.user_id == cur_user_id).first()
+        Top_Tracks_Info_medium.user_id == cur_user_id).first()
     if db_top_tracks_info:
         # database will update the data according to the time interval set
         return {'top_tracks': db_top_tracks_info.get_json()['items']}
@@ -118,7 +119,7 @@ def top_tracks_short():
 
     # database query
     db_top_tracks_info = Top_Tracks_Info_short.query.filter(
-        Top_Tracks_Info.user_id == cur_user_id).first()
+        Top_Tracks_Info_short.user_id == cur_user_id).first()
     if db_top_tracks_info:
         # database will update the data according to the time interval set
         return {'top_tracks': db_top_tracks_info.get_json()['items']}
@@ -174,7 +175,7 @@ def top_artists_short():
 
     # database query
     db_top_artists_info = Top_Artists_Info_short.query.filter(
-        Top_Artists_Info.user_id == cur_user_id).first()
+        Top_Artists_Info_short.user_id == cur_user_id).first()
     if db_top_artists_info:
         # database will update the data according to the time interval set
         return {'top_artists': db_top_artists_info.get_json()['items']}
@@ -202,7 +203,7 @@ def top_artists_medium():
 
     # database query
     db_top_artists_info = Top_Artists_Info_medium.query.filter(
-        Top_Artists_Info.user_id == cur_user_id).first()
+        Top_Artists_Info_medium.user_id == cur_user_id).first()
     if db_top_artists_info:
         # database will update the data according to the time interval set
         return {'top_artists': db_top_artists_info.get_json()['items']}
