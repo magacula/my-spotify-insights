@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Loader from "./Loader";
+import breakpoints from "../styles/breakpoints";
 
 const TrackContainer = styled.div`
   text-align: center;
@@ -25,14 +26,41 @@ const TrackImage = styled.img`
 const IndexStyling = styled.p`
   font-weight: bold;
   padding-top: 19px;
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: 25px;
+  padding-right: 25px;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 0.8rem;
+  }
 `;
 
 const TextItem = styled.p`
   padding-top: 19px;
   display: flex;
   justify-content: space-evenly;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 0.9rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 0.75rem;
+  }
+`;
+
+const PageContent = styled.div`
+  margin-left: 100px;
+  margin-top: 30px;
+
+  @media only screen and (${breakpoints.device.med}) {
+    margin-left: 70px;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-left: 50px;
+  }
 `;
 
 const PopularArtists = () => {
@@ -59,7 +87,7 @@ const PopularArtists = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div style={{ marginLeft: "100px", marginTop: "30px" }}>
+        <PageContent>
           <div style={{ display: "flex" }}>
             <h4 style={{ marginLeft: "165px", padding: "5px 5px" }}>Track</h4>
           </div>
@@ -83,7 +111,7 @@ const PopularArtists = () => {
               </div>
             );
           })}
-        </div>
+        </PageContent>
       )}
     </div>
   );
