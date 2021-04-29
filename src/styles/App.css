@@ -1,4 +1,5 @@
-.tab-list {  border-bottom: 1px solid #ccc;
+.tab-list {
+  border-bottom: 1px solid #ccc;
   margin-left: 105px;
   margin-top: 1rem;
 }
@@ -15,15 +16,18 @@
   background-color: grey;
   border: solid #ccc;
   border-width: 1px 1px 0 1px;
-
 }
 
-.tab-content{
+.tab-content {
   margin-left: 100px;
+
+  @media screen only (max-width: 425px) {
+    margin-left: 50px;
+  }
 }
 
 .active-navlink {
-  background-color:#EE3EC9;
+  background-color: #ee3ec9;
   display: grid;
   align-items: center;
   justify-content: center;
@@ -31,4 +35,20 @@
   padding: 0.5 0;
   font-size: 3rem;
   width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+  .tab-list {
+    margin-left: 80px;
+  }
+
+  .tab-content {
+    margin-left: 50px;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .tab-list {
+    margin-left: 60px;
+  }
 }

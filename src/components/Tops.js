@@ -5,6 +5,7 @@ import "../styles/App.css";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import themes from "../styles/themes";
+import breakpoints from "../styles/breakpoints";
 
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -22,6 +23,10 @@ const TracksContainer = styled.div`
   display: grid;
   gap: 3rem;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+  @media only screen and (${breakpoints.device.med}) {
+    margin-left: 50px;
+  }
 `;
 
 const TrackWrapper = styled(Link)`
@@ -122,17 +127,31 @@ const Album = styled.div`
     cursor: pointer;
     background-color: rgba(23, 23, 23, 0.8);
   }
+  @media only screen and (${breakpoints.device.med}) {
+    &:hover {
+      transform: scale(1);
+      filter: brightness(100%);
+      cursor: pointer;
+      background-color: rgba(23, 23, 23, 0.8);
+    }
+  }
 `;
 
 const AlbumWrapper = styled(Link)`
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   color: ${colors.white};
+
+  @media only screen and (${breakpoints.device.med}) {
+    padding: 0 3rem;
+  }
 `;
 
 const AlbumInfo = styled.div`
   width: 100%;
+  height: 100%;
   display: grid;
   align-content: center;
   justify-content: center;
@@ -144,6 +163,14 @@ const ArtistTitle = styled.p`
   text-align: center;
   display: flex;
   justify-content: center;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 1rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 0.75rem;
+  }
 `;
 
 const AlbumName = styled.p`
@@ -152,9 +179,37 @@ const AlbumName = styled.p`
   text-align: center;
   display: flex;
   justify-content: center;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 1.5rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1rem;
+  }
 `;
 
-const AlbumCover = styled.img``;
+const AlbumCoverWrapper = styled.div`
+  display: grid;
+  align-content: center;
+`;
+
+const AlbumCover = styled.img`
+  width: 100%;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    width: 90%;
+    padding-left: 2.5rem;
+  }
+`;
+
+const TimeFrame = styled.div`
+  margin-left: 150px;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-left: 100px;
+  }
+`;
 
 const Tops = () => {
   const [radio, setRadio] = useState("4 Weeks");
@@ -319,7 +374,7 @@ const Tops = () => {
       <h1 id="accent">Your Top Lists</h1>
 
       <h2>Current timeframe: {radio}</h2>
-      <div style={{ marginLeft: "150px" }}>
+      <TimeFrame>
         <FormControl>
           <RadioGroup value={radio} onChange={handleChange} row>
             <FormControlLabel
@@ -339,7 +394,7 @@ const Tops = () => {
             />
           </RadioGroup>
         </FormControl>
-      </div>
+      </TimeFrame>
 
       <Tabs>
         <div label="Tracks">
@@ -423,7 +478,9 @@ const Tops = () => {
                       <AlbumName>{album.name}</AlbumName>
                       <ArtistTitle>{album.artists[0].name}</ArtistTitle>
                     </AlbumInfo>
-                    <AlbumCover src={album.images[1].url} />
+                    <AlbumCoverWrapper>
+                      <AlbumCover src={album.images[1].url} />
+                    </AlbumCoverWrapper>
                   </AlbumWrapper>
                 </Album>
               );

@@ -19,7 +19,7 @@ a {
   text-decoration: none;
 }
 
-h1, h2 {
+h1 {
   margin-top: 2rem;
   margin-left: 110px;
 
@@ -29,6 +29,21 @@ h1, h2 {
 
   @media only screen and (max-width: 450px) {
     font-size: 1.5rem;
+    margin-left: 70px;
+    margin-right: 1rem;
+  }
+}
+
+h2 {
+  margin-top: 2rem;
+  margin-left: 110px;
+
+  @media only screen and (max-width: 768px) {
+    margin-left: 90px;
+  } 
+
+  @media only screen and (max-width: 450px) {
+    font-size: 1rem;
     margin-left: 70px;
     margin-right: 1rem;
   }
