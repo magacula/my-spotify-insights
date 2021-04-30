@@ -1,3 +1,6 @@
+
+#--file: includes some constants that are used in other part of the program
+
 #for rank level
 LV_ZERO = 0
 LV_ONE = 50
