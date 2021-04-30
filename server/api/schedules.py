@@ -1,29 +1,21 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from flask import current_app
 from server.api.extensions import db
 from server.api.utils import get_all_models
 from server.api.constants import MAX_ROWS
 from server.api.models import No_Max
 import os
-import flask
+
+#--file: this file contains schedules that will run automatically periodically
 
 
 
-
-def test_job():
-    print("----------this is background job")
-
-
-
+#--schedule: get database stats, remove some rows if exceed the limit
 def watch_database():
-    #----------------------
     #need app to work with database
     from server.api import create_app
     my_app = create_app(os.getenv('PROJECT_MODE', "production"))
     my_app.app_context().push()
     #----------------------
-
-    total_rows = 0
 
     #get all the models (tables) in the database
     all_models = get_all_models()
@@ -68,27 +60,10 @@ def watch_database():
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 bg_scheduler = BackgroundScheduler()
 
-#example
-#bg_scheduler.add_job(test_job, 'interval', minutes=1)
-
 #watch database
-bg_scheduler.add_job(watch_database, 'interval', minutes=1)
+bg_scheduler.add_job(watch_database, 'interval', minutes=5)
 
 #put it here, so when imported by __init__, it will run automatically
 bg_scheduler.start()
