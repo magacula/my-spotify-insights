@@ -1,37 +1,27 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { GiMusicalNotes } from "react-icons/gi";
 
-const bgStyle = {
-
-    size: '1em',
+const LyricsContainer = styled.div`
+    size: '3em',
     color: 'white',
-    padding: '15em'
-};
-
-const Notes = styled(GiMusicalNotes)`
-  fill: white;
-  color: white;
-  font-size: 2.75rem;
-  width: 100%;
-  margin: 0.25rem 0;
+    margin-top: 400px;
+    margin-bottom: 80px;
+    margin-left: 100px;
+    margin-right: 100px;
 `;
 
 const SampleBG = () => {
     return (
         <React.Fragment>
-
-            <div style= {bgStyle}>
-                <Notes />
-                <h1> Background Information </h1>
-                <h3>
+            <LyricsContainer>
+                <h2> Background Information </h2>
+                <h4>
                     <p> ● recorded in 1995-1996 </p>
                     <p> ● released in 1997 </p>
                     <p> ● written in E Major </p>
                     <p> ● featured in The Spongebob SquarePants Movie </p>
-                </h3>
-            </div>
-
+                </h4>
+            </LyricsContainer>
         </React.Fragment>
     );
 };
