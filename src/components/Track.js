@@ -119,6 +119,8 @@ const Divider = styled.p`
 const AlbumName = styled.p``;
 
 var sound;
+var lyrics;
+var bg;
 let soundPlay = (src) => {
   sound = new Howl({
     src,
@@ -126,6 +128,14 @@ let soundPlay = (src) => {
   });
   sound.play();
   sound.fade(0.0, 1.0, 5000);
+};
+
+const updateLyrics = (lyrics) => {
+  this.setState({lyrics: lyrics})
+};
+
+const updatebg = (bg) => {
+  this.setState({bg: bg})
 };
 
 const Track = ({ track }) => {
@@ -144,6 +154,8 @@ const Track = ({ track }) => {
             release_date: `${track.release_date}`,
             genre: `${track.genre}`,
             fromRecentlyPlayed: true,
+            lyrics: lyrics,
+            bg: bg
           },
         }}>
         <TrackImage src={track.album.images[0].url} />
@@ -166,7 +178,9 @@ const Track = ({ track }) => {
         )}
       </TrackContainer>
       <Link to="/EditTrack">
-        <EditButton>Edit</EditButton>
+        <EditButton trackId = {this.state.id}>Edit</EditButton>
+        updateLyrics();
+        updateBG();
       </Link>
     </TrackItem>
   );
