@@ -11,8 +11,6 @@ const { colors } = themes;
 // Component that gets all track info for a single track
 // Need to fetch from (/main/track_details/<track_id>)
 
-const EDIT_TRACK = "/EditTrack";
-
 const PlayButton = styled(HiPlay)`
   fill: grey;
   color: white;
@@ -167,7 +165,9 @@ const Track = ({ track }) => {
             }}></PlayButton>
         )}
       </TrackContainer>
-      <EditButton href={EDIT_TRACK}>Edit</EditButton>
+      <Link to="/EditTrack">
+        <EditButton>Edit</EditButton>
+      </Link>
     </TrackItem>
   );
 };
