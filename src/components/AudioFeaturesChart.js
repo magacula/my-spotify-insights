@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import { Bar } from "react-chartjs-2";
+
+const CanvasContainer = styled.div`
+  height: 40vh;
+  width: 100%;
+  margin: 0 auto;
+`;
 
 const AudioFeaturesChart = () => {
   const [chartData, setChartData] = useState({});
@@ -81,10 +88,11 @@ const AudioFeaturesChart = () => {
   }, []);
 
   return (
-    <div style={{ marginLeft: "110px" }}>
+    <CanvasContainer>
       <Bar
         data={chartData.data}
         options={{
+          maintainAspectRatio: false,
           legend: {
             display: false,
           },
@@ -121,7 +129,7 @@ const AudioFeaturesChart = () => {
           },
         }}
       />
-    </div>
+    </CanvasContainer>
   );
 };
 
