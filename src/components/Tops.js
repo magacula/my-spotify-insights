@@ -212,7 +212,7 @@ const TimeFrame = styled.div`
 `;
 
 const Tops = () => {
-  const [radio, setRadio] = useState("4 Weeks");
+  const [radio, setRadio] = useState("Last 4 Weeks");
 
   const [topTracksShort, setTopTracksShort] = useState([]);
   const [topTracksMedium, setTopTracksMedium] = useState([]);
@@ -235,19 +235,19 @@ const Tops = () => {
   const handleChange = (event) => {
     setRadio(event.target.value);
 
-    if (event.target.value == "4 Weeks") {
+    if (event.target.value == "Last 4 Weeks") {
       setCurrentTopTracks(topTracksShort);
       setCurrentTopArtists(topArtistsShort);
       setCurrentTopAlbums(topAlbumsShort);
     }
 
-    if (event.target.value == "6 Months") {
+    if (event.target.value == "Last 6 Months") {
       setCurrentTopTracks(topTracksMedium);
       setCurrentTopArtists(topArtistsMedium);
       setCurrentTopAlbums(topAlbumsMedium);
     }
 
-    if (event.target.value == "Year(s)") {
+    if (event.target.value == "All-Time") {
       setCurrentTopTracks(topTracksLong);
       setCurrentTopArtists(topArtists);
       setCurrentTopAlbums(topAlbums);
@@ -373,24 +373,24 @@ const Tops = () => {
     <div>
       <h1 id="accent">Your Top Lists</h1>
 
-      <h2>Current timeframe: {radio}</h2>
+      <h2>{radio}</h2>
       <TimeFrame>
         <FormControl>
           <RadioGroup value={radio} onChange={handleChange} row>
             <FormControlLabel
-              value="4 Weeks"
+              value="Last 4 Weeks"
               control={<Radio />}
-              label="Short"
+              label="4 weeks"
             />
             <FormControlLabel
-              value="6 Months"
+              value="Last 6 Months"
               control={<Radio />}
-              label="Medium"
+              label="6 months"
             />
             <FormControlLabel
-              value="Year(s)"
+              value="All-Time"
               control={<Radio />}
-              label="Long"
+              label="All-Time"
             />
           </RadioGroup>
         </FormControl>
