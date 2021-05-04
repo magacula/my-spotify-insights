@@ -57,12 +57,6 @@ const User = () => {
           <Route path="/Playlists">
             <Playlists />
           </Route>
-          <Route path="/EditTrack">
-            <EditTrack />
-          </Route>
-          <Route path="/SampleTrack">
-            <SampleTrack />
-          </Route>
 
           <Route path="/track/:trackId" component={TrackItem} />
           <Route path="/artist/:artistId" component={ArtistItem} />
