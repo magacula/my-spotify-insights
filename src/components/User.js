@@ -70,7 +70,6 @@ const User = () => {
           <Route path="/playlist/:playlistId" component={PlaylistItem} />
           <Route path="/EditTrack/:trackId" component={EditTrack} />
           <Route path="/SampleTrack/:trackId" component={SampleTrack} />
-
         </div>
       </Switch>
     </Router>

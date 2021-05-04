@@ -136,11 +136,11 @@ let soundPlay = (src) => {
 };
 
 const updateLyrics = (lyrics) => {
-  this.setState({lyrics: lyrics})
+  this.setState({ lyrics: lyrics });
 };
 
-const updatebg = (bg) => {
-  this.setState({bg: bg})
+const updateBG = (bg) => {
+  this.setState({ bg: bg });
 };
 
 const Track = ({ track }) => {
@@ -160,7 +160,7 @@ const Track = ({ track }) => {
             genre: `${track.genre}`,
             fromRecentlyPlayed: true,
             lyrics: lyrics,
-            bg: bg
+            bg: bg,
           },
         }}>
         <TrackImage src={track.album.images[0].url} />
@@ -182,10 +182,16 @@ const Track = ({ track }) => {
             }}></PlayButton>
         )}
       </TrackContainer>
-      <Link to="/EditTrack">
-        <EditButton trackId = {this.state.id}>Edit</EditButton>
-        updateLyrics();
-        updateBG();
+      <Link
+        to={{
+          pathname: `/EditTrack/${track.id}`,
+          state: {
+            trackId: `${track.id}`,
+          },
+        }}>
+        <EditButton>Edit</EditButton>
+        {/* {updateLyrics()}
+        {updateBG()} */}
       </Link>
     </TrackItem>
   );
