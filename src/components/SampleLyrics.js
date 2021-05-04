@@ -1,31 +1,21 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { GiPencil } from "react-icons/gi";
 
-const lyricStyle = {
-
-    size: '1em',
+const LyricsContainer = styled.div`
+    size: '3em',
     color: 'white',
-    padding: '10em'
-};
-
-const Pencil = styled(GiPencil)`
-  fill: white;
-  color: white;
-  font-size: 2.75rem;
-  width: 100%;
-  margin: 0.25rem 0;
+    margin-top: 400px;
+    margin-bottom: 80px;
+    margin-left: 100px;
+    margin-right: 100px;
 `;
-
 
 const SampleLyrics = () => {
     return (
         <React.Fragment>
-
-            <div style= {lyricStyle}>
-                <Pencil />
-                <h1> Lyrics </h1>
-                <h3>
+            <LyricsContainer>
+                <h2> Lyrics </h2>
+                <h4>
                     <p> Ocean man, take me by the hand </p>
                     <p> Lead me to the land that you understand </p>
                     <p> Ocean man, the voyage to the corner of the globe </p>
@@ -54,9 +44,8 @@ const SampleLyrics = () => {
                     <p> Ocean man, the sequence of a life form braised in the sand </p>
                     <p> Soaking up the thirst of the land </p>
                     <p> Ocean Man </p>
-                </h3>
-            </div>
-
+                </h4>
+            </LyricsContainer>
         </React.Fragment>
     );
 };

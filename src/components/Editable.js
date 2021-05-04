@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 
+var text;
+
+const sendInput = () => {
+    this.props.send(text);
+}
 
 const Editable = ({
                       text,

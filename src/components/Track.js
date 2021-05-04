@@ -11,8 +11,6 @@ const { colors } = themes;
 // Component that gets all track info for a single track
 // Need to fetch from (/main/track_details/<track_id>)
 
-const EDIT_TRACK = "/EditTrack";
-
 const PlayButton = styled(HiPlay)`
   fill: grey;
   color: white;
@@ -126,6 +124,8 @@ const Divider = styled.p`
 const AlbumName = styled.p``;
 
 var sound;
+var lyrics;
+var bg;
 let soundPlay = (src) => {
   sound = new Howl({
     src,
@@ -133,6 +133,14 @@ let soundPlay = (src) => {
   });
   sound.play();
   sound.fade(0.0, 1.0, 5000);
+};
+
+const updateLyrics = (lyrics) => {
+  this.setState({lyrics: lyrics})
+};
+
+const updatebg = (bg) => {
+  this.setState({bg: bg})
 };
 
 const Track = ({ track }) => {
@@ -151,6 +159,8 @@ const Track = ({ track }) => {
             release_date: `${track.release_date}`,
             genre: `${track.genre}`,
             fromRecentlyPlayed: true,
+            lyrics: lyrics,
+            bg: bg
           },
         }}>
         <TrackImage src={track.album.images[0].url} />
@@ -172,7 +182,11 @@ const Track = ({ track }) => {
             }}></PlayButton>
         )}
       </TrackContainer>
-      <EditButton href={EDIT_TRACK}>Edit</EditButton>
+      <Link to="/EditTrack">
+        <EditButton trackId = {this.state.id}>Edit</EditButton>
+        updateLyrics();
+        updateBG();
+      </Link>
     </TrackItem>
   );
 };

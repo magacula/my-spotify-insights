@@ -2,14 +2,25 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import themes from "../styles/themes";
 import Editable from "./Editable";
+import { GiMusicalNotes } from "react-icons/gi";
 const { colors } = themes;
 
-const lyricStyle = {
+const Notes = styled(GiMusicalNotes)`
+  fill: white;
+  color: white;
+  font-size: 2.75rem;
+  width: 100%;
+  margin-top: 70px;
+`;
 
-    size: '1em',
+const LyricsContainer = styled.div`
+    size: '3em',
     color: 'white',
-    padding: '15em'
-};
+    margin-top: 400px;
+    margin-bottom: 100px;
+    margin-left: 300px;
+    margin-right: 300px;
+`;
 
 
 const Lyrics = () => {
@@ -18,11 +29,10 @@ const Lyrics = () => {
 
     return (
         <React.Fragment>
-
-            <div style= {lyricStyle}>
-
-                <h1> Track Lyrics </h1>
-                <Editable
+            <LyricsContainer>
+                <Notes />
+                <h1 id="accent" align="center"> Track Lyrics </h1>
+                <Editable align="center"
                     text={task}
                     placeholder="No lyrics for track provided by user."
                     type="input"
@@ -35,8 +45,7 @@ const Lyrics = () => {
                         onChange={e => setTask(e.target.value)}
                     />
                 </Editable>
-
-            </div>
+            </LyricsContainer>
         </React.Fragment>
     );
 };
