@@ -7,7 +7,7 @@ import breakpoints from "../styles/breakpoints";
 const { colors } = themes;
 
 const PageContent = styled.ul`
-  margin-left: 200px;
+  margin-left: 150px;
 
   @media only screen and (${breakpoints.device.med}) {
     margin-left: 100px;
