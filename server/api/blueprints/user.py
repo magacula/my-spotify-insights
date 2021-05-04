@@ -1,31 +1,18 @@
 from flask import Blueprint, session, render_template, jsonify, make_response, request
-#from server.api.decorators import login_required, token_checked
 from flask_login import login_required, current_user
 from server.api.decorators import token_checked, rank_progress_above
 from server.api.constants import LV_ZERO, LV_ONE, LV_TWO, LV_THREE
 from server.api.extensions import limiter, db
 from server.api.models import Top_Artists_Info_medium, Top_Artists_Info_short, Top_Tracks_Info, Top_Tracks_Info_medium, Top_Artists_Info, Recent_Tracks_Info, Top_Tracks_Info_short, User, Bug_Report
 from server.api.utils import get_spotify_object
-import sys
-from datetime import datetime
 
-# this file contains routes for specific user (information)
+#--file: this file contains routes for specific user (information)
 
 user_bp = Blueprint('user', __name__)
 
 
-@user_bp.route("/user/test")
-@login_required
-# @token_checked
-def test():
-    response = make_response(
-        jsonify(
-            {'recent_tracks': "temp"}
-        )
-    )
-    return response
 
-
+#--api: return the rank progress
 @user_bp.route("/user/rank_progress")
 @limiter.limit("5 per second")
 @login_required
@@ -38,6 +25,7 @@ def get_rank_progress():
 
 
 # FIXME: testing only, will delete later
+"""
 @user_bp.route("/user/increment_rank_progress")
 @limiter.limit("5 per second")
 @login_required
@@ -48,16 +36,15 @@ def increment_rank_progress():
     db_user.increment_rank_progress_c(10)
 
     return {}
+"""
 
-
-# Returns dictionary of user's top tracks (long term)
+#FIXME: I tried to make them stored in one table.. but the apis are called at the same time, which cause race conditon, so I undo the changes...
+#--api: Returns dictionary of user's top tracks (long term)
 @user_bp.route("/user/top_tracks")
 @limiter.limit("5 per second")
 @login_required
 @token_checked
 def top_tracks():
-    sp = get_spotify_object()
-    #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
     # database query
@@ -76,21 +63,18 @@ def top_tracks():
 
         return {"top_tracks": new_top_tracks_info.get_json()['items']}
 
-# Returns dictionary of user's top tracks (medium term)
 
-
+#--api: Returns dictionary of user's top tracks (medium term)
 @user_bp.route("/user/top_tracks_medium")
 @limiter.limit("5 per second")
 @login_required
 @token_checked
 def top_tracks_medium():
-    sp = get_spotify_object()
-    #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
     # database query
     db_top_tracks_info = Top_Tracks_Info_medium.query.filter(
-        Top_Tracks_Info.user_id == cur_user_id).first()
+        Top_Tracks_Info_medium.user_id == cur_user_id).first()
     if db_top_tracks_info:
         # database will update the data according to the time interval set
         return {'top_tracks': db_top_tracks_info.get_json()['items']}
@@ -104,21 +88,18 @@ def top_tracks_medium():
 
         return {"top_tracks_medium": new_top_tracks_info.get_json()['items']}
 
-# Returns dictionary of user's top tracks (short term)
 
-
+#--api: Returns dictionary of user's top tracks (short term)
 @user_bp.route("/user/top_tracks_short")
 @limiter.limit("5 per second")
 @login_required
 @token_checked
 def top_tracks_short():
-    sp = get_spotify_object()
-    #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
     # database query
     db_top_tracks_info = Top_Tracks_Info_short.query.filter(
-        Top_Tracks_Info.user_id == cur_user_id).first()
+        Top_Tracks_Info_short.user_id == cur_user_id).first()
     if db_top_tracks_info:
         # database will update the data according to the time interval set
         return {'top_tracks': db_top_tracks_info.get_json()['items']}
@@ -132,16 +113,13 @@ def top_tracks_short():
 
         return {"top_tracks_short": new_top_tracks_info.get_json()['items']}
 
-# Returns dictionary of user's top artists (long term)
 
-
+#--api: Returns dictionary of user's top artists (long term)
 @user_bp.route("/user/top_artists")
 @limiter.limit("5 per second")
 @login_required
 @token_checked
 def top_artists():
-    sp = get_spotify_object()
-    #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
     # database query
@@ -160,21 +138,18 @@ def top_artists():
 
         return {"top_artists": new_top_artists_info.get_json()['items']}
 
-# Returns dictionary of user's top tracks (short term)
 
-
+#--api: Returns dictionary of user's top tracks (short term)
 @user_bp.route("/user/top_artists_short")
 @limiter.limit("5 per second")
 @login_required
 @token_checked
 def top_artists_short():
-    sp = get_spotify_object()
-    #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
     # database query
     db_top_artists_info = Top_Artists_Info_short.query.filter(
-        Top_Artists_Info.user_id == cur_user_id).first()
+        Top_Artists_Info_short.user_id == cur_user_id).first()
     if db_top_artists_info:
         # database will update the data according to the time interval set
         return {'top_artists': db_top_artists_info.get_json()['items']}
@@ -188,21 +163,18 @@ def top_artists_short():
 
         return {"top_artists": new_top_artists_info.get_json()['items']}
 
-# Returns dictionary of user's top tracks (medium term)
 
-
+#--api: Returns dictionary of user's top tracks (medium term)
 @user_bp.route("/user/top_artists_medium")
 @limiter.limit("5 per second")
 @login_required
 @token_checked
 def top_artists_medium():
-    sp = get_spotify_object()
-    #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
     # database query
     db_top_artists_info = Top_Artists_Info_medium.query.filter(
-        Top_Artists_Info.user_id == cur_user_id).first()
+        Top_Artists_Info_medium.user_id == cur_user_id).first()
     if db_top_artists_info:
         # database will update the data according to the time interval set
         return {'top_artists': db_top_artists_info.get_json()['items']}
@@ -216,9 +188,8 @@ def top_artists_medium():
 
         return {"top_artists": new_top_artists_info.get_json()['items']}
 
-# --------------- top albums long range -------------------------
 
-
+#--api: return top albums, long term
 @user_bp.route("/user/top_albums")
 @limiter.limit("5 per second")
 @login_required
@@ -253,6 +224,7 @@ def top_albums():
     return {"top_albums": top_albums}
 
 
+#--api: return top albums: medium term
 @user_bp.route("/user/top_albums_medium")
 @limiter.limit("5 per second")
 @login_required
@@ -287,6 +259,7 @@ def top_albums_medium():
     return {"top_albums_medium": top_albums}
 
 
+#--api: return top albums: short term
 @user_bp.route("/user/top_albums_short")
 @limiter.limit("5 per second")
 @login_required
@@ -321,14 +294,12 @@ def top_albums_short():
     return {"top_albums_short": top_albums}
 
 
-# Returns dictionary of a user's recently played tracks
+#--api Returns dictionary of a user's recently played tracks
 @user_bp.route("/user/recently_played_tracks")
 @limiter.limit("5 per second")
 @login_required
 @token_checked
 def recently_played_tracks():
-    sp = get_spotify_object()
-    #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
     # database query
@@ -347,15 +318,16 @@ def recently_played_tracks():
 
         return {'recent_tracks': [one_track_raw['track'] for one_track_raw in new_recent_tracks_info.get_json()['items']]}
 
-# FIXME: need database support
 
 
+#--api: function related to playlist
+#----get: return the playlist of current user
+#----post: create a new playlist based on given json
 @user_bp.route("/user/playlists", methods=['GET', 'POST'])
-@limiter.limit("2 per second")
+@limiter.limit("5 per second")
 @login_required
 @token_checked
 def playlists():
-
     sp = get_spotify_object()
 
     # if request is get, return all the playlists current user has
@@ -377,10 +349,9 @@ def playlists():
 
         return {"playlists": user_playlists}
 
-    # -----else if request is post, create a new playlist
+    # -----else if request is post, create a new playlist based on the json given
     if request.method == "POST":
         data_json = request.get_json()
-        #user_id = session['USER_ID']
         user_id = current_user.user_id
         playlist_name = data_json['name']
         public = data_json['public']
@@ -395,11 +366,11 @@ def playlists():
         return sp.user_playlist_add_tracks(
             user=user_id, playlist_id=playlist_id, tracks=tracks)
 
-# Gets tracks from a user's playlist
 
 
+#--api: Gets tracks from a user's playlist
 @user_bp.route("/user/playlist/<playlist_id>", methods=['GET'])
-@limiter.limit("2 per second")
+@limiter.limit("5 per second")
 @login_required
 @token_checked
 def get_user_playlist(playlist_id):
@@ -416,8 +387,9 @@ def get_user_playlist(playlist_id):
 
 
 # FIXME: need to verify if this works
+# FIXME: may discard this feature... checked ok: 1 time
+"""
 # user can save their downloaded tracks' path, so they can play through this website
-
 @user_bp.route("/user/local_tracks", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 # @login_required
@@ -451,10 +423,10 @@ def local_tracks():
         db.session.commit()
 
     return {}
+"""
 
-
-# FIXME: I don't think there is a way to get recently played playlist, may delete this part later
-# FIXME: check if spotify api gives indicators of recently played / created playlists
+#FIXME: may delete this part later, checked ok: 1 time
+"""
 @user_bp.route("/user/playlists", methods=['GET', 'POST'])
 @limiter.limit("2 per second")
 @login_required
@@ -482,10 +454,13 @@ def recent_playlists():
                 break
 
         return {"playlists": user_playlists}
+"""
 
 
+
+#--api: get recommended tracks for a user based on the user's top 5 tracks
 @user_bp.route("/user/recommended_tracks")
-@limiter.limit("2 per second")
+@limiter.limit("5 per second")
 @login_required
 @token_checked
 def recommended_tracks():
@@ -509,7 +484,7 @@ def recommended_tracks():
     return {"recommended_tracks": result, "uris": track_uris}
 
 
-# Takes an array of a user's top tracks and returns an array of common seperated strings of track ID(s)
+#--helper: Takes an array of a user's top tracks and returns an array of common seperated strings of track ID(s)
 @login_required
 @token_checked
 def get_track_ids():
@@ -526,7 +501,7 @@ def get_track_ids():
     return ids
 
 
-# Takes track ID(s) and returns a dictionary of the audio feature objects
+#--api: Takes track ID(s) and returns a dictionary of the audio feature objects
 @user_bp.route("/user/top_audio_features")
 @limiter.limit("5 per second")
 @login_required
@@ -542,7 +517,7 @@ def top_tracks_audio_features():
     return {'top_tracks_audio_features': audio_features}
 
 
-# Gets audio features for a track
+#--api: Gets audio features for a track
 @user_bp.route("/user/track_audio_features/<track_id>", methods=['GET'])
 @limiter.limit("5 per second")
 @login_required
@@ -558,9 +533,8 @@ def get_track_audio_features(track_id):
 
     return {'track_audio_features': audio_features}
 
-# Gets audio features for a playlist
 
-
+#--api: Gets audio features for a playlist
 @user_bp.route("/user/playlist_audio_features/<playlist_id>", methods=['GET'])
 @limiter.limit("5 per second")
 @login_required
@@ -582,7 +556,7 @@ def get_playlist_audio_features(playlist_id):
     return {'playlist_audio_features': audio_features}
 
 
-# Get audio analysis for a track based upon its Spotify ID
+#--api: Get audio analysis for a track based upon its Spotify ID
 @user_bp.route("/user/track_audio_analysis/<track_id>", methods=['GET'])
 @login_required
 @token_checked
@@ -595,9 +569,8 @@ def track_audio_analysis(track_id):
 
     return {'track_audio_analysis': audio_analysis}
 
-# Set playlist to public or private
 
-
+#--api: Set playlist to public or private
 @user_bp.route("/user/set_playlist", methods=['POST'])
 @limiter.limit("5 per second")
 @login_required
@@ -605,9 +578,7 @@ def track_audio_analysis(track_id):
 def set_playlist():
 
     sp = get_spotify_object()
-    print("This sets the playlist details")
     if request.method == "POST":
-        print("POST method used")
         data_json = request.get_json()
         playlistID = data_json['playlistID']
         privacy = data_json['privacy']
@@ -623,17 +594,15 @@ def set_playlist():
         return {}
 
 
+#--api: get user profile
 @user_bp.route("/user/my_profile")
 @limiter.limit("5 per second")
 @login_required
 @token_checked
 def my_profile():
-
-    #cur_user_id = session['USER_ID']
     cur_user_id = current_user.user_id
 
     # database query
-    #db_user_info = User_Info.query.filter(User_Info.user_id == cur_user_id).first()
     db_user_info = User.query.filter(User.user_id == cur_user_id).first()
     if db_user_info:
         # database will update the data according to the time interval set
@@ -671,8 +640,10 @@ def playback_current():
             }
 
 
-# FIXME: may not need it
+# FIXME: may not need it, checked ok: 1 time
+# FIXME: also duplicate with the one in admin.py
 # post bug report
+"""
 @user_bp.route("/user/report_bugs", methods=['POST'])
 @limiter.limit("2 per second")
 @login_required
@@ -687,7 +658,10 @@ def report_bugs():
     db.session.commit()
 
     return {}
+"""
 
+
+#-----FIXME: sample code for lv requirements on api calls
 
 # FIXME: demo can pass with low rank
 @user_bp.route("/user/test_rank_low")

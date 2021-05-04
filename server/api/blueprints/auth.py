@@ -1,29 +1,24 @@
-from flask import Blueprint, url_for, session, redirect, request, jsonify
-import spotipy
+from flask import Blueprint, url_for, session, redirect, request, jsonify, abort
 from flask_login import login_user, login_required, current_user, logout_user
-#FIXME:
-#from server.api.decorators import login_required
-# from server.api.decorators import db, db_cursor
 from server.api.utils import get_spotify_oauth, get_token_info, get_spotify_object, refresh_token_info
 from server.api.extensions import limiter, db
 from server.api.models import User, Bug_Report
 
-# routes relate to authentication
+#--file: routes relate to authentication
 
 auth_bp = Blueprint('auth', __name__)
 
 
+#--api: log user out
 @auth_bp.route("/auth/logout")
 @login_required
 def logout():
-    #session['LOGGED_IN'] = False
-    #FIXME:
     logout_user()
-
     #refer to index
     return redirect("/")
 
 
+#--api: log user in
 @auth_bp.route("/auth/login",  methods=['GET'])
 @limiter.limit("2 per second")
 def login():
@@ -37,8 +32,8 @@ def login():
     return redirect(auth_url)
 
 
-# the page that returns to after user get authentication from spotify
-@ auth_bp.route("/auth/redirect")
+#--api: the page that returns to after user get authentication from spotify
+@auth_bp.route("/auth/redirect")
 def redirect_page():
     sp_oauth = get_spotify_oauth()
     session.clear()
@@ -51,8 +46,7 @@ def redirect_page():
         try:
             del session['TOKEN_INFO']
         finally:
-            # FIXME: need a page I guess
-            return 'Authorization failed'
+            return redirect("/", 403)
 
     # get token info (access token included) with the code
     token_info = sp_oauth.get_access_token(code, check_cache=False)
@@ -86,12 +80,8 @@ def redirect_page():
         elif db_user.banned:
             return "You are banned",403
 
-        #FIXME:
+        #login user
         login_user(db_user)
-
-        #session['LOGGED_IN'] = True
-        #session['USER_NAME'] = cur_user_name
-        #session['USER_ID'] = cur_user_id
 
     except Exception as e:
         print(e)
@@ -99,16 +89,17 @@ def redirect_page():
     #refer to the /home in front end route
     return redirect("/home")
 
-# FIXME: if you want to have a html page for this
+
+#--api: this is triggered when the authentication token is expired
 @ auth_bp.route("/auth/token_expired")
 def token_expired():
     return "Your access token is expired, please go to login page to refresh the access token"
 
 
 # FIXME: react will not redirect to the login page
+#--api: for situation when user is denied for access
 @ auth_bp.route("/auth/access_denied")
 def access_denied():
-    #return "You don't have the permission for this operation" , 404
     #supposedly, this should redirect to the login page
     return redirect("/", 403)
 

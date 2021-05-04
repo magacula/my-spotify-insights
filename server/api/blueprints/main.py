@@ -1,18 +1,16 @@
 from flask import Blueprint, render_template, current_app, request, session
-import requests
 from flask_login import login_required
 from server.api.extensions import limiter, db
-#from server.api.decorators import login_required, token_checked
 from server.api.decorators import token_checked
 from server.api.utils import get_spotify_oauth, get_token_info, get_spotify_object, refresh_token_info
 from server.api.models import Track_Info, Album_Info, Artist_Info
 
-# -------this file contains routes for public (not specific to a user)---------------
+#--file: -------this file contains routes for public (not specific to a user)---------------
 
 main_bp = Blueprint('main', __name__)
 
 
-# first route being called in heroku
+#--api: first route being called in heroku
 @main_bp.route("/")
 @limiter.limit("5 per second")
 def index():
@@ -21,15 +19,11 @@ def index():
     return current_app.send_static_file('index.html')
 
 
-# FIXME: delete later
-@main_bp.route("/testlimit")
-@limiter.limit("1 per second")
-def test_limit():
-    return "this is the testing limit page..current limit: 1 per second"
 
-
+#FIXME: this api is not being called
+#--api: return json info about the artist
 @main_bp.route("/main/artist_details/<artist_id>", methods=['GET', 'POST'])
-@limiter.limit("2 per second")
+@limiter.limit("5 per second")
 @login_required
 @token_checked
 def artist_details(artist_id):
@@ -70,10 +64,12 @@ def artist_details(artist_id):
     return {}
 
 
+#FIXME: this api is not being called
+#--api: return json info about the track
 @main_bp.route("/main/track_details/<track_id>", methods=['GET', 'POST'])
-# @login_required
-# @token_checked
-@limiter.limit("2 per second")
+@login_required
+@token_checked
+@limiter.limit("5 per second")
 def track_details(track_id):
     db_track_info = Track_Info.query.filter(
         Track_Info.track_id == track_id).first()
@@ -119,13 +115,14 @@ def track_details(track_id):
     return {}
 
 
+#FIXME: this api doesn't seem to be called, but i will keep it just in case, most other api will have url inclued
+#--api: return the track_preview_url for the track if there is one
 @main_bp.route("/main/track_preview_url/<track_id>")
-@limiter.limit("2 per second")
+@limiter.limit("5 per second")
 @login_required
 @token_checked
 def track_preview_url(track_id):
     sp = get_spotify_object()
-    # FIXME: should search in database, if none call api
     track_details = sp.track(track_id)
     track_preview_link = track_details['preview_url']
 
@@ -136,8 +133,10 @@ def track_preview_url(track_id):
     return track_preview_link
 
 
+#FIXME: this api is not being called
+#--api: return json info about the album
 @main_bp.route("/main/album_details/<album_id>", methods=['GET', 'POST'])
-@limiter.limit("2 per second")
+@limiter.limit("5 per second")
 @login_required
 @token_checked
 def album_details(album_id):
@@ -179,8 +178,10 @@ def album_details(album_id):
     return {}
 
 
+#FIXME: this doesn't seem to be called, since the info for user playlist comes with details
+#--api: return the json info for the playlist
 @main_bp.route("/main/playlist_details/<playlist_id>")
-@limiter.limit("2 per second")
+@limiter.limit("5 per second")
 @login_required
 @token_checked
 def playlist_details(playlist_id):
@@ -192,8 +193,10 @@ def playlist_details(playlist_id):
 
 
 # FIXME: place holder...
+#FIXME: may delete this part later
+"""
 @main_bp.route("/main/top_100_artists")
-@limiter.limit("2 per second")
+@limiter.limit("5 per second")
 @login_required
 def top_100_artists():
     #url = "https://api.chartmetric.com/api/artist/anr/by/social-index"
@@ -208,3 +211,4 @@ def top_100_artists():
     print("---resp: ", resp)
 
     return resp.json()
+"""

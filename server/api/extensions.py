@@ -1,5 +1,3 @@
-#import mysql.connector
-import os
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_sqlalchemy import SQLAlchemy
@@ -11,15 +9,16 @@ from flask_moment import Moment
 from flask_wtf.csrf import CSRFProtect
 from flask_ckeditor import CKEditor
 
-#extensions for the backend part
-#postgresql in heroku has restrctions on the numbers or rows, so if we have more than 10000 rows, use sqlalchemy
-db =SQLAlchemy()
+#--file: extensions for the backend part
 
+
+#database
+db =SQLAlchemy()
 
 #limiter used to limiter the visit rate according to remote address
 limiter = Limiter(key_func=get_remote_address, default_limits=["5 per second"])
 
-
+#user login related extension
 login_manager = LoginManager()
 
 #this function will be called whenever check "login_required" decorator
@@ -61,10 +60,14 @@ class Guest(AnonymousUserMixin):
 
 login_manager.anonymous_user = Guest
 
+#for some html rendering
 bootstrap = Bootstrap()
 
+#for displaying time in proper format
 moment = Moment()
 
+#for crosssite protection when doing post
 csrf =CSRFProtect()
 
+#for editor in html
 ckeditor = CKEditor()

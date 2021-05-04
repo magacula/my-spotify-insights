@@ -2,6 +2,7 @@ from flask import Flask, session, g, request
 from flask_login import current_user
 import click
 import time
+import os
 from datetime import datetime
 from server.api.blueprints.main import main_bp
 from server.api.blueprints.admin import admin_bp
@@ -13,41 +14,34 @@ from server.api.settings import website_config
 from server.api.utils import get_all_models, timestamp_to_str
 from server.api.constants import NO_MAX_TABLES
 from server.api.models import Flask_Statistics, User
+
 #import the file, so the bg_scheduler.start() will run automatically
 import server.api.schedules
 
-
-import os
-
-
+#--facotor method that returns the app object
 def create_app(config_name='production'):
     print("------config name: ", config_name)
 
 
-    #point static folder to the build folder
-    #app = Flask('api', static_folder='build', static_url_path='/', template_folder='server/api/templates')
+    #point static folder to the build folder, so the root path point to the index html
     app = Flask('api', static_folder='build', static_url_path='/', template_folder='server/api/templates/admin')
 
     #load configurations
     app.config.from_object(website_config[config_name])
 
 
-
-    # FIXME: for now, more to add later
-
+    #register all kinds of mudules
     register_blueprints(app)
     register_extensions(app)
     register_error_handler(app)
     register_command(app)
-
     register_flask_stats(app)
-
-
 
 
     return app
 
 
+#--module that monitors the website access histories
 def register_flask_stats(app):
     @app.before_request
     def my_before():
@@ -82,12 +76,12 @@ def register_flask_stats(app):
         db_new_json = {}
 
 
+        #in case it doesn't go over the whole befre-after-teardown steps
         try:
             db_new_json['response_time'] = int(round(end_time - g.start_time, 3) * 1000)
         except:
             db_new_json['response_time'] = 0
 
-        #db_new_json['response_time'] = int(round(end_time - end_time, 3) * 1000)
         db_new_json['status_code'] = g.request_status_code
         db_new_json['size'] = g.request_content_size
         db_new_json['method'] = request.method
@@ -124,19 +118,20 @@ def register_flask_stats(app):
 
 
 
-
+#--error handlers, different actions correspond to different error code
 def register_error_handler(app):
     # FIXME: change this to the actual file path of the html status file path in front end
 
     # return this error code if user exceed the rate limit
     @app.errorhandler(429)
     def rate_limit_reached(e):
-        return "your rate limited reached.. 429 ... Change me in api.__init__ file"
+        #FIXME: can add violation count here..
+        return "your rate limited reached.. 429 ... Change me in api.__init__ file", 429
 
     # no permission error
-
     @app.errorhandler(403)
     def permission_denied(e):
+        #FIXME: can add violation count here..
         return "You don't have the permission.. 403", 403
 
     #when path not in backend, check frontend
@@ -145,6 +140,7 @@ def register_error_handler(app):
     def route_to_frontend(e):
         return app.send_static_file('index.html')
 
+#--modules that have all the routes backend provides
 def register_blueprints(app):
     app.register_blueprint(main_bp)
     app.register_blueprint(admin_bp, prefix='/admin')
@@ -152,6 +148,7 @@ def register_blueprints(app):
     app.register_blueprint(user_bp, prefix='/user')
 
 
+#--modules that have all kinds of flask extensions
 def register_extensions(app):
     limiter.init_app(app)
     db.init_app(app)
@@ -164,9 +161,10 @@ def register_extensions(app):
 
 
 
+#--command module, have all kinds of flask commands
 def register_command(app):
 
-    #command to initialize database, use will care...
+    #command to initialize database, use with care...
     @app.cli.command()
     @click.option("--drop", is_flag=True, help="drop the tables")
     def init_db(drop):
@@ -177,9 +175,6 @@ def register_command(app):
         """
         if drop:
             click.confirm("this will drop all the tables, are you sure? ", abort=True)
-            #do not delete, if drop_all() failed, uncomment one of them to see if it works
-            #db.reflect()
-            #db.session.commit()
             db.drop_all()
             print("---dropped all tables...")
 
@@ -212,18 +207,6 @@ def register_command(app):
         for one_table in results:
             print("--tablename: ", one_table.tablename)
 
-    #FIXME: remove later, seems useless
-    @app.cli.command()
-    def show_stats():
-        from server.api.models import Flask_Statistics
-        results = Flask_Statistics.query.all()
-        print("---stats: ")
-        for one_stat in results:
-            print("--")
-            print("path: ", one_stat.path)
-            print("method: ", one_stat.method)
-            print("date: ", one_stat.timestamp)
-            print("#####")
 
     @app.cli.command()
     @click.argument("email")

@@ -1,7 +1,7 @@
 import os
 import sys
 
-# -----This file contains the configuration settings for app ----
+#--file: This file contains the configuration settings for app ----
 
 #get the abs path of the root folder
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))

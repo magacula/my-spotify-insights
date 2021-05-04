@@ -19,7 +19,6 @@
 <script type="text/javascript">
             $(document).ready(function() {
 
-                var active_users_url = "{{url_for('admin.active_users') }}";
 
                 $(document).ajaxError(function(event, request){
                     var message = null;
@@ -56,22 +55,8 @@
                 });
 
 
-                //$(document).on('click', '#user-add', add_user)
                 $(document).on('click', '#user-add', test_interval)
 
-                function add_user(){
-
-                    $.ajax({
-                        type: 'GET',
-                        url: active_users_url,
-                        success: function(data){
-                            //$('#user-more').hide().html(data).fadeIn(100);
-                            $('#user-more').hide().html("new data").fadeIn(100);
-                        }
-
-                    });
-
-                }
 
                 //call it once when load
                 update_database_status();

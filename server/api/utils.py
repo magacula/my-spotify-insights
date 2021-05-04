@@ -5,15 +5,12 @@ import spotipy
 from server.api.decorators import token_checked
 from server.api.extensions import db
 from datetime import datetime, timezone
-import pytz
-from tzlocal import get_localzone
 
 
-# this file contains functions that are useful and used in many different places
+#--file: this file contains functions that are useful and used in many different places
+
 
 # return spotify oauth object that takes care of the oauth, including access key and refresh key, etc
-
-
 def get_spotify_oauth():
     sp_oauth = SpotifyOAuth(
         client_id=os.getenv("CLIENT_ID"),
@@ -64,6 +61,7 @@ def get_token_info():
     return session['TOKEN_INFO']
 
 
+#compare datatime with the interval that is expected to be new
 def is_new(db_datetime, expire_after_time_delta):
     if not db_datetime:
         return False
@@ -77,6 +75,7 @@ def is_new(db_datetime, expire_after_time_delta):
     return True
 
 
+#get all models in the database
 #https://stackoverflow.com/questions/26514823/get-all-models-from-flask-sqlalchemy-db
 def get_all_models():
     all_models = []
@@ -92,8 +91,7 @@ def get_all_models():
     return all_models
 
 
-
+#convert timestamp to formatted string
 def timestamp_to_str(org_timestamp):
-    final_string = org_timestamp.strftime("%b %d, %Y %I:%M:%S %p")
     final_string = org_timestamp.strftime("%b %d, %Y %I:%M %p")
     return final_string

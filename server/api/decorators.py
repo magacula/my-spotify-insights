@@ -2,35 +2,11 @@ from functools import wraps
 from flask import session, redirect, url_for, abort
 from flask_login import current_user
 import time
-import spotipy
 
-# this file contains all kinds of decorators we are going to use
-
-# used as a decorator, under the route decorator, check if user is logged in
+# ----this file contains all kinds of decorators we are going to use
 
 
-#backup if flask_login failed for some case
-"""
-def login_required(func):
-
-    @wraps(func)
-    def decorated_function(*args, **kwargs):
-        # print("-------current session: ", session)
-        # if logged_in value not exist or false, then user is not logged in
-        try:
-            if not session['LOGGED_IN']:
-                return redirect(url_for('auth.access_denied'))
-        except Exception as e:
-            print("session now: ", session)
-            print("---------logged in Exception: ", e)
-
-            return redirect(url_for('auth.access_denied'))
-
-        return func(*args, **kwargs)
-
-    return decorated_function
-"""
-
+#--decorator: check if user is admin
 def is_admin(func):
 
     @wraps(func)
@@ -45,12 +21,12 @@ def is_admin(func):
 
             return redirect(url_for('auth.access_denied'))
 
-
         return func(*args, **kwargs)
 
     return decorated_function
 
-# check if token still valid or exist
+
+#--decorator: check if token still valid or exist
 def token_checked(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
@@ -69,6 +45,7 @@ def token_checked(func):
     return decorated_function
 
 
+#FIXME: this decorator may not being used, thinking about delete it
 # check if user has certain privileges
 # 3 layers will enable it to accept parameters in the decorator
 def permission_required(permission_name):

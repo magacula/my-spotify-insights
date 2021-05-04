@@ -1,17 +1,16 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
-#from server.api.decorators import permission_required, login_required
 from server.api.decorators import permission_required, is_admin
 from server.api.extensions import limiter, db
 from server.api.models import *
 from server.api.forms.admin import Ban_Reason_Form
 from server.api.utils import get_all_models
 from server.api.constants import NO_MAX_TABLES, MAX_ROWS
-#from server.api.utils import connect_to_database, init_db
-#routes for admin related works
 import random
 import pygal
 from pygal.style import DarkSolarizedStyle, LightSolarizedStyle
+
+#--file: this file has routes for admin related apis
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -23,7 +22,7 @@ admin_bp = Blueprint('admin', __name__)
 def admin_test():
     return "this is admin test..."
 
-@admin_bp.route("/admin/home")
+#--api: home of admin page
 @admin_bp.route("/admin")
 @admin_bp.route("/admin/")
 @login_required
@@ -40,6 +39,7 @@ def home():
     count = {}
     total_cnt = 0
 
+    #get the count for each api access history
     for one_history in histories:
         path = one_history['path']
         try:
@@ -53,8 +53,7 @@ def home():
         x_axis.append(one_path)
         y_axis.append(count[one_path])
 
-
-
+    #bar chart for website histories
     histories_bar_chart = pygal.Bar(width=1200, height=600,
                                     explicit_size=True, title=title,
                                     #style=DarkSolarizedStyle,
@@ -63,7 +62,7 @@ def home():
     histories_bar_chart.x_labels=x_axis
     histories_bar_chart.add("visit count", y_axis)
 
-    #------------ pie chart
+    #pie chart for website histories
     histories_pie_chart = pygal.Pie(width=1200, height=600,
                                     explicit_size=True, title=title,
                                     #style=DarkSolarizedStyle,
@@ -86,6 +85,7 @@ def home():
 
 
 #FIXME: may not need it
+"""
 @admin_bp.route("/admin/bug_reports")
 @limiter.limit("2 per second")
 @login_required
@@ -100,46 +100,38 @@ def bug_reports():
         return_json[idx] = all_bug_reports[idx].get_json()
 
     return return_json
+"""
 
-
+#--api: manage website page
 @admin_bp.route("/admin/manage_website")
 @limiter.limit("2 per second")
 @login_required
 @is_admin
 def manage_website():
-
-
-
-    """
-    return render_template("manage_website.html",
-                           database_status=_database_status(),
-                           website_histories=website_histories()
-                           )
-    """
-
     return render_template("manage_website.html",
                            database_status=_database_status()
                            )
 
 
 
+#--helper: function to get the website histories in terms of a list of access histories
 @login_required
 @is_admin
 def get_website_histories():
     result = []
-    #all_histories = Flask_Statistics.query.order_by(Flask_Statistics.timestamp.desc()).all()
-    all_histories = Flask_Statistics.query.order_by(Flask_Statistics.timestamp_date.desc()).all()
+    all_histories = Flask_Statistics.query.order_by(Flask_Statistics.timestamp_date.desc()).limit(7).all()
+    all_histories = all_histories[::-1]
 
     for one_history in all_histories:
-        #result.append(one_history.get_json())
         histories = one_history.get_json()
         for one_api_call_idx in histories:
             result.append(histories[one_api_call_idx])
-            #print("adding history: ", histories[one_api_call_idx])
 
-    #print("returning: ", result)
+    #reverse, so the most recent is on the left
     return result[::-1]
 
+
+#--api: return a html piece (a table in this case) shows the website api call histories
 @admin_bp.route("/admin/all_website_histories")
 @limiter.limit("2 per second")
 @login_required
@@ -148,20 +140,17 @@ def all_website_histories():
     return render_template("_website_histories_details.html", website_histories=get_website_histories())
 
 
+#--api: return a html piece (a table) shows the database status
 @admin_bp.route("/admin/database_status")
 @login_required
 @is_admin
 def database_status():
-    #{'tablename':{'count': N, 'limit': N}, 'tablename':{}}
-    #return _database_status()
-    #return jsonify(html=render_template('_database_status.html', database_status=_database_status()))
     return render_template('_database_status.html', database_status=_database_status())
 
-# database status
+#--helper: function to get database status
 @login_required
 @is_admin
 def _database_status():
-
     #{'count':num, 'total_rows':num,tables:{'one_table':row_num} }
     status = {}
 
@@ -171,8 +160,6 @@ def _database_status():
     total_rows = 0
     #{'tablename':{'count': N, 'limit': N}, 'tablename':{}}
     tables_details = {}
-
-
 
     #get all the models (tables) in the database
     all_models = get_all_models()
@@ -194,20 +181,13 @@ def _database_status():
             pass
 
 
-
-
     status['total_rows'] = total_rows
     status['tables_details'] = tables_details
-
-
-    #FIXME: not done
 
     return status
 
 
-
-
-
+#--api: manage users page
 @admin_bp.route("/admin/manage_users")
 @limiter.limit("2 per second")
 @login_required
@@ -220,15 +200,17 @@ def manage_users():
 
 
 
-#FIXME: temp
+#FIXME: check: if no error, then delete later: checked once
+"""
 @admin_bp.route("/admin/active_users")
 @limiter.limit("2 per second")
 @login_required
 @is_admin
 def active_users():
     return top_active_users()
+"""
 
-
+#--helper: function to get top active users
 @login_required
 @is_admin
 def top_active_users(count=100):
@@ -236,7 +218,6 @@ def top_active_users(count=100):
     status = {}
 
     db_users = User.query.filter(User.banned == False).order_by(User.timestamp.desc()).limit(count).all()
-    #db_users = User.query.limit(count).all()
 
     for one_user in db_users:
         temp_dict = {}
@@ -249,6 +230,7 @@ def top_active_users(count=100):
 
     return status
 
+#--helper function:  to get the list of banned user
 @login_required
 @is_admin
 def banned_users(count=100):
@@ -268,7 +250,9 @@ def banned_users(count=100):
     return status
 
 
-#FIXME: change to post request
+#--api: to ban user given the user id
+#----get returns the ckeditor to input reasons,
+#----post gives the backend the input in the input ckeditor
 @admin_bp.route("/admin/manage_users/ban/<user_id>", methods=['GET','POST'])
 @limiter.limit("1 per second")
 @login_required
@@ -299,7 +283,7 @@ def ban_user(user_id):
 
 
 
-
+#--api: unban user given the user id
 @admin_bp.route("/admin/manage_users/unban/<user_id>")
 @limiter.limit("1 per second")
 @login_required
