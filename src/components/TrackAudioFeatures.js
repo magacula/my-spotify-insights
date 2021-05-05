@@ -19,10 +19,14 @@ const Container = styled.div`
   align-content: center;
   justify-items: center;
   margin: 6rem 4rem 4rem 4rem;
+  height: 100%;
+  width: 100%;
 
   #chart {
     margin: 0 auto;
     max-width: 50vw;
+    height: 40vh;
+    width: 100%;
   }
 `;
 
@@ -71,6 +75,7 @@ const TrackAudioFeatures = (props) => {
           ],
         },
         options: {
+          maintainAspectRatio: false,
           layout: {
             padding: {
               left: 0,

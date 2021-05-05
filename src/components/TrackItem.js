@@ -5,7 +5,17 @@ import themes from "../styles/themes";
 import Loader from "./Loader";
 import { NavLink } from "react-router-dom";
 import TrackAudioFeatures from "./TrackAudioFeatures";
+import breakpoints from "../styles/breakpoints";
 const { colors } = themes;
+
+const PageContent = styled.div`
+  margin-left: 100px;
+  margin-top: 4rem;
+
+  @media only screen and (${breakpoints.device.med}) {
+    margin-left: 50px;
+  }
+`;
 
 const Button = styled(NavLink)`
   display: inline-block;
@@ -57,6 +67,14 @@ const ImageContainer = styled.div`
 
 const TrackCover = styled.img`
   width: 400px;
+
+  @media only screen and (${breakpoints.device.med}) {
+    width: 200px;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    width: 100px;
+  }
 `;
 
 const TrackName = styled.p`
@@ -65,12 +83,22 @@ const TrackName = styled.p`
   font-weight: 600;
   margin-left: 2rem;
   max-width: 500px;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 1.5rem;
+    margin-left: 0;
+  }
 `;
 
 const Artist = styled.p`
   font-size: 1.5rem;
   margin-left: 2.5rem;
   margin-top: 0.5rem;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 1rem;
+    margin-left: 0;
+  }
 `;
 
 const TrackInfo = styled.div`
@@ -85,26 +113,66 @@ const TrackInfo = styled.div`
 const Duration = styled.p`
   font-size: 2rem;
   font-weight: 600;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 1.5rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1rem;
+  }
 `;
 
 const Popularity = styled.p`
   font-size: 2rem;
   font-weight: 600;
-`;
 
-const Tempo = styled.p`
-  font-size: 1.5rem;
-  font-weight: 600;
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 1.5rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1rem;
+  }
 `;
 
 const Beats = styled.p`
   font-size: 1.5rem;
   font-weight: 600;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 1.25rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1rem;
+  }
 `;
 
 const Bars = styled.p`
   font-size: 1.5rem;
   font-weight: 600;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 1.25rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1rem;
+  }
+`;
+
+const Tempo = styled.p`
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 1.25rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 0.75rem;
+  }
 `;
 
 const TrackItem = (props) => {
@@ -175,7 +243,7 @@ const TrackItem = (props) => {
       {loading ? (
         <Loader />
       ) : (
-        <div style={{ marginLeft: "100px", marginTop: "4rem" }}>
+        <PageContent>
           <TrackContainer>
             <ImageContainer>
               <TrackCover src={cover} alt="" />
@@ -194,7 +262,7 @@ const TrackItem = (props) => {
           </TrackInfo>
 
           <TrackAudioFeatures features={audioFeatures} />
-        </div>
+        </PageContent>
       )}
     </React.Fragment>
   );
