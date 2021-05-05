@@ -15,6 +15,10 @@ const PageContent = styled.div`
   @media only screen and (${breakpoints.device.med}) {
     margin-left: 50px;
   }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-left: 25px;
+  }
 `;
 
 const Button = styled(NavLink)`
