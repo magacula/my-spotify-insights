@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Playlist from "./Playlist";
 import Loader from "./Loader";
 import themes from "../styles/themes";
+import breakpoints from "../styles/breakpoints";
 const { colors } = themes;
 
 const PlaylistsContainer = styled.div`
@@ -14,6 +15,14 @@ const PlaylistsContainer = styled.div`
   justify-items: center;
   grid-template-columns: 1fr 1fr;
   grid-row-gap: 1.5rem;
+
+  @media only screen and (${breakpoints.device.med}) {
+    margin-left: 100px;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-left: 80px;
+  }
 `;
 
 const Playlists = () => {
