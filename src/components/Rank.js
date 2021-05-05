@@ -172,8 +172,8 @@ const PageContent = styled.div`
   margin-left: 110px;
 
   @media only screen and (${breakpoints.device.sm}) {
-    padding-left: 150px;
-    margin-left: 50px;
+    padding-left: 15px;
+    margin-left: 80px;
     margin-top: 2rem;
   }
 `;
