@@ -11,7 +11,6 @@ const Locked = styled(BiLockAlt)`
   color: white;
   font-size: 2.5rem;
   width: 30px;
-  margin: 0.25rem 0;
   position: absolute;
   background-color: black;
 `;
@@ -21,7 +20,6 @@ const Unlocked = styled(BiLockOpenAlt)`
   color: white;
   font-size: 2.5rem;
   width: 30px;
-  margin: 0.25rem 0;
   position: absolute;
   background-color: black;
 `;
