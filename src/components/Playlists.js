@@ -74,7 +74,7 @@ const Playlists = () => {
       <h1 id="accent">Your Playlists</h1>
       <PlaylistsContainer>
         {playlists.map((playlist, index) => {
-          return (
+          return userID[0].id != null ? (
             <Playlist
               key={index}
               playlist={playlist}
@@ -83,6 +83,8 @@ const Playlists = () => {
               lock_to_unlock={lock_to_unlock}
               unlock_to_lock={unlock_to_lock}
             />
+          ) : (
+            {}
           );
         })}
       </PlaylistsContainer>
