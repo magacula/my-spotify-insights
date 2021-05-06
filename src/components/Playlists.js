@@ -50,20 +50,20 @@ const Playlists = () => {
   };
   useEffect(() => {
     setLoading(true);
-    fetch("/user/playlists")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.playlists);
-        setPlaylists(data.playlists);
-      })
-      .catch((error) => console.log(error));
-
     fetch("/user/my_profile")
       .then((res) => res.json())
       .then((data) => {
         //console.log(data.user);
         setUserID(data.user);
         setLoading(false);
+      })
+      .catch((error) => console.log(error));
+
+    fetch("/user/playlists")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.playlists);
+        setPlaylists(data.playlists);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -74,7 +74,7 @@ const Playlists = () => {
       <h1 id="accent">Your Playlists</h1>
       <PlaylistsContainer>
         {playlists.map((playlist, index) => {
-          return userID[0].id != null ? (
+          return (
             <Playlist
               key={index}
               playlist={playlist}
@@ -83,8 +83,6 @@ const Playlists = () => {
               lock_to_unlock={lock_to_unlock}
               unlock_to_lock={unlock_to_lock}
             />
-          ) : (
-            {}
           );
         })}
       </PlaylistsContainer>
