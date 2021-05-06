@@ -62,23 +62,6 @@ const Playlists = () => {
       .catch((error) => {
         console.log(error);
       });
-
-    // fetch("/user/my_profile")
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     //console.log(data.user);
-    //     setUserID(data.user);
-    //   })
-    //   .catch((error) => console.log(error));
-
-    // fetch("/user/playlists")
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log(data.playlists);
-    //     setPlaylists(data.playlists);
-    //     setLoading(false);
-    //   })
-    //   .catch((error) => console.log(error));
   }, []);
 
   //playlists[12].public = true;
