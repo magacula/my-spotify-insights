@@ -88,7 +88,7 @@ const Playlist = ({
           <PlaylistName>{playlist.name}</PlaylistName>
         </PlaylistInfo>
       </PlaylistContainer>
-      {userID[0].id == playlist.owner.id ? (
+      {userID[0].id == playlist.owner.id && userID[0].id != null ? (
         <div style={{ position: "absolute" }}>
           {playlist.public == false ? (
             <Locked
