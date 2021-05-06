@@ -88,7 +88,7 @@ const Playlist = ({
           <PlaylistName>{playlist.name}</PlaylistName>
         </PlaylistInfo>
       </PlaylistContainer>
-      {userID[0].id == playlist.owner.id ? (
+      {userID == playlist.owner.id ? (
         <div style={{ position: "absolute" }}>
           {playlist.public == false ? (
             <Locked
@@ -101,7 +101,7 @@ const Playlist = ({
                   body: JSON.stringify({
                     playlistID: playlist.id,
                     privacy: "private",
-                    user: userID[0].id,
+                    user: userID,
                   }),
                 })
                   .then((response) => response.json())
@@ -122,7 +122,7 @@ const Playlist = ({
                   body: JSON.stringify({
                     playlistID: playlist.id,
                     privacy: "public",
-                    user: userID[0].id,
+                    user: userID,
                   }),
                 })
                   .then((response) => response.json())
