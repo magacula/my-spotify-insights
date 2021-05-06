@@ -50,22 +50,35 @@ const Playlists = () => {
   };
   useEffect(() => {
     setLoading(true);
-    fetch("/user/my_profile")
-      .then((res) => res.json())
-      .then((data) => {
-        //console.log(data.user);
-        setUserID(data.user);
+
+    Promise.all([fetch("/user/my_profile"), fetch("/user/playlists")])
+      .then(async ([res1, res2]) => {
+        const data1 = await res1.json();
+        setUserID(data1.user);
+        const data2 = await res2.json();
+        setPlaylists(data2.playlists);
         setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+      });
 
-    fetch("/user/playlists")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.playlists);
-        setPlaylists(data.playlists);
-      })
-      .catch((error) => console.log(error));
+    // fetch("/user/my_profile")
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     //console.log(data.user);
+    //     setUserID(data.user);
+    //   })
+    //   .catch((error) => console.log(error));
+
+    // fetch("/user/playlists")
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log(data.playlists);
+    //     setPlaylists(data.playlists);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => console.log(error));
   }, []);
 
   //playlists[12].public = true;
