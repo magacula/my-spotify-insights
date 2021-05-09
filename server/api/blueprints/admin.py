@@ -16,11 +16,6 @@ admin_bp = Blueprint('admin', __name__)
 
 
 
-#FIXME: test if permission decorator works
-@admin_bp.route("/admin/test")
-@permission_required("no")
-def admin_test():
-    return "this is admin test..."
 
 #--api: home of admin page
 @admin_bp.route("/admin")
@@ -80,27 +75,6 @@ def home():
                             histories_pie_chart=histories_pie_chart
                            )
 
-
-
-
-
-#FIXME: may not need it
-"""
-@admin_bp.route("/admin/bug_reports")
-@limiter.limit("2 per second")
-@login_required
-@is_admin
-def bug_reports():
-    all_bug_reports = Bug_Report.query.all()
-
-    return_json = {}
-
-    #{0:{author_id, author_name, report}, 1:{}, 2:{}}
-    for idx in range(len(all_bug_reports)):
-        return_json[idx] = all_bug_reports[idx].get_json()
-
-    return return_json
-"""
 
 #--api: manage website page
 @admin_bp.route("/admin/manage_website")
@@ -199,16 +173,6 @@ def manage_users():
                            )
 
 
-
-#FIXME: check: if no error, then delete later: checked once
-"""
-@admin_bp.route("/admin/active_users")
-@limiter.limit("2 per second")
-@login_required
-@is_admin
-def active_users():
-    return top_active_users()
-"""
 
 #--helper: function to get top active users
 @login_required
