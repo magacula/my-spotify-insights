@@ -1,1 +1,0 @@
-1. if user has no playlist, error, may need to look at backend to check what I should return
