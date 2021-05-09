@@ -83,7 +83,7 @@ const PopularArtists = () => {
 
   return (
     <div>
-      <h1 id="accent">50 Most Popular Songs Page</h1>
+      <h1 id="accent">50 Most Popular Songs</h1>
       {loading ? (
         <Loader />
       ) : (
