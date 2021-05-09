@@ -24,19 +24,6 @@ def get_rank_progress():
     return {'rank_progress': db_user.rank_progress}
 
 
-# FIXME: testing only, will delete later
-"""
-@user_bp.route("/user/increment_rank_progress")
-@limiter.limit("5 per second")
-@login_required
-def increment_rank_progress():
-    db_user = User.query.filter(User.user_id == current_user.user_id).first()
-    if not db_user:
-        return {}
-    db_user.increment_rank_progress_c(10)
-
-    return {}
-"""
 
 #FIXME: I tried to make them stored in one table.. but the apis are called at the same time, which cause race conditon, so I undo the changes...
 #--api: Returns dictionary of user's top tracks (long term)
@@ -386,77 +373,6 @@ def get_user_playlist(playlist_id):
     return {'playlist_tracks': user_playlist}
 
 
-# FIXME: need to verify if this works
-# FIXME: may discard this feature... checked ok: 1 time
-"""
-# user can save their downloaded tracks' path, so they can play through this website
-@user_bp.route("/user/local_tracks", methods=['GET', 'POST'])
-@limiter.limit("2 per second")
-# @login_required
-# @token_checked
-def local_tracks():
-
-    #db_user = User.query.filter(User.user_id == current_user.user_id).first()
-    user_id = "31t5sil2muy6y4hktuaca3qmlrke"
-    db_user = User.query.filter(User.user_id == user_id).first()
-
-    # FIXME
-    if not db_user:
-        return "user not found"
-
-    # if request is get
-    if request.method == 'GET':
-        # make sure name is unique
-        # FIXME: {'name_timestamp':'path','name_timestamp':'path', ....}
-        db_local_tracks_json = db_user.local_tracks_json
-        print("----local_tracks.json: ", db_local_tracks_json)
-        if db_local_tracks_json:
-            return db_local_tracks_json
-
-        #case: empty
-        return {}
-
-    # -----else if request is post
-    if request.method == "POST":
-        data_json = request.get_json()
-        db_user.local_tracks_json.update(data_json)
-        db.session.commit()
-
-    return {}
-"""
-
-#FIXME: may delete this part later, checked ok: 1 time
-"""
-@user_bp.route("/user/playlists", methods=['GET', 'POST'])
-@limiter.limit("2 per second")
-@login_required
-@token_checked
-def recent_playlists():
-
-    sp = get_spotify_object()
-
-    # returns users playlists
-    if request.method == 'GET':
-
-        user_playlists = []
-        offset_count = 0
-        limit_count = 10
-
-        while(True):
-            user_playlists_raw = sp.current_user_playlists(
-                limit=limit_count, offset=offset_count)
-            offset_count += limit_count
-
-            for one_playlist in user_playlists_raw['items']:
-                user_playlists.append(one_playlist)
-
-            if len(user_playlists_raw['items']) < limit_count:
-                break
-
-        return {"playlists": user_playlists}
-"""
-
-
 
 #--api: get recommended tracks for a user based on the user's top 5 tracks
 @user_bp.route("/user/recommended_tracks")
@@ -639,26 +555,6 @@ def playback_current():
             "playback_json": raw_data_json
             }
 
-
-# FIXME: may not need it, checked ok: 1 time
-# FIXME: also duplicate with the one in admin.py
-# post bug report
-"""
-@user_bp.route("/user/report_bugs", methods=['POST'])
-@limiter.limit("2 per second")
-@login_required
-@token_checked
-def report_bugs():
-    data_json = request.get_json()
-    author_id = current_user.user_id
-
-    report = data_json['report']
-
-    db.session.add(Bug_Report(report=report, author_id=author_id))
-    db.session.commit()
-
-    return {}
-"""
 
 
 #-----FIXME: sample code for lv requirements on api calls
