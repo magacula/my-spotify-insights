@@ -18,7 +18,7 @@ const Container = styled.div`
   align-items: center;
   align-content: center;
   justify-items: center;
-  margin: 6rem 4rem 4rem 4rem;
+  margin: 6rem 0 4rem 0;
   height: 100%;
   width: 100%;
 

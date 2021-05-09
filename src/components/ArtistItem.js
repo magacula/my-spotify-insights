@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import themes from "../styles/themes";
 import { NavLink } from "react-router-dom";
+import breakpoints from "../styles/breakpoints";
 const { colors } = themes;
 
 const Button = styled(NavLink)`
@@ -39,13 +40,27 @@ const ArtistContainer = styled.div`
 `;
 
 const ArtistImg = styled.img`
-  border-radius: 70%;
+  border-radius: 50%;
+
+  @media only screen and (${breakpoints.device.med}) {
+    width: 250px;
+    height: 250px;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    width: 200px;
+    height: 200px;
+  }
 `;
 
 const ArtistName = styled.h2`
   font-size: 4rem;
   margin-top: 2rem;
   margin-left: 0;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 3rem;
+  }
 `;
 
 const ArtistInfo = styled.div`
@@ -55,22 +70,34 @@ const ArtistInfo = styled.div`
   align-items: center;
   align-content: center;
   justify-items: center;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 2rem;
+  }
 `;
 
 const Popularity = styled.p`
   font-size: 2.5rem;
   font-weight: 600;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.5rem;
+  }
 `;
 
 const Followers = styled.p`
   font-size: 2.5rem;
   font-weight: 600;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.5rem;
+  }
 `;
 
 const Genres = styled.ul`
   font-size: 1.5rem;
   font-weight: 600;
-  margin-top: 1rem;
+  margin-top: 2rem;
   text-align: center;
   width: 100%;
   display: grid;
@@ -82,6 +109,24 @@ const Genres = styled.ul`
 const GenreType = styled.li`
   font-size: 2.5rem;
   font-weight: 600;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 2rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.5rem;
+  }
+`;
+
+const PageContent = styled.div`
+  margin-left: 100px;
+  margin-top: 2rem;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-left: 50px;
+    margin-top: 6rem;
+  }
 `;
 
 const ArtistItem = (props) => {
@@ -99,7 +144,7 @@ const ArtistItem = (props) => {
   return (
     <React.Fragment>
       <Button to="/Tops/Artists">Go Back</Button>
-      <div style={{ marginLeft: "100px", marginTop: "2rem" }}>
+      <PageContent>
         <ArtistContainer>
           <ArtistImg src={image} alt="" />
           <ArtistName>{name}</ArtistName>
@@ -118,7 +163,7 @@ const ArtistItem = (props) => {
             })}
           </Genres>
         </ArtistInfo>
-      </div>
+      </PageContent>
     </React.Fragment>
   );
 };

@@ -5,7 +5,7 @@ const FilmMaker = () => {
   return (
     <div>
       <div>
-        <h1>Track Lyrics Page</h1>
+        <h1>Current Playback</h1>
       </div>
       <div>
         <CurrentlyPlaying />

@@ -238,10 +238,10 @@ const Navbar = () => {
         <NavMenuItem>
           <Link
             to="/track_lyrics"
-            title="Lyrics"
+            title="Playback"
             activeClassName="active-navlink">
             <Film />
-            <NavText>Lyrics</NavText>
+            <NavText>Playback</NavText>
           </Link>
         </NavMenuItem>
 
