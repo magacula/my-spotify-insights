@@ -1,1 +1,0 @@
-1. the purpose for this folder is to hold testing html pages for backend before we start connecting it to the front end
