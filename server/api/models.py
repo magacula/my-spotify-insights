@@ -7,10 +7,7 @@ from sqlalchemy.ext.mutable import MutableDict
 from datetime import datetime
 from datetime import timedelta
 
-# ---- This file store model/definitions for database tables
-
-# valid for a week
-
+#--file: This file store model/definitions for database tables
 
 class User(db.Model, UserMixin):
     __tablename__ = "user"
@@ -25,10 +22,12 @@ class User(db.Model, UserMixin):
     info_json = db.Column(JSON)
     update_datetime = db.Column(db.DateTime)
 
+    #FIXME: may delete this part later
     # local tracks
     # {'name_timestamp':'path', 'name_timestamp':'path', ....}
     local_tracks_json = db.Column(MutableDict.as_mutable(JSON), default={})
 
+    #FIXME: may delete this part later
     bug_reports = db.relationship(
         'Bug_Report', back_populates='author', cascade='all, delete-orphan')
 
@@ -42,8 +41,8 @@ class User(db.Model, UserMixin):
     def get_id(self):
         # award rank progress if login in different date
         if not (self.timestamp.date() == datetime.utcnow().date()):
-            print("-----add 10 to rank progress")
-            self.increment_rank_progress_c(10)
+            print("-----add 50 to rank progress")
+            self.increment_rank_progress_c(50)
 
         return self.user_id
 
@@ -385,6 +384,7 @@ class Album_Info(db.Model):
         return self.info_json
 
 
+#FIXME: may delete this part...
 class Bug_Report(db.Model):
     __tablename__ = "bug_report"
     id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -405,6 +405,7 @@ class Bug_Report(db.Model):
         }
 
 
+#FIXME: may delete this part later
 # ips that go banned
 class Banned_IP(db.Model):
     __tablename__ = "banned_ip"
@@ -453,9 +454,3 @@ class Flask_Statistics(db.Model):
         db.session.commit()
 
 
-#test on after_insert
-def after_insert_listener(mapper, connection, target):
-    #'target' is the inserted object
-    print("-------database insert event...")
-
-event.listen(Top_Tracks_Info, 'after_insert', after_insert_listener)

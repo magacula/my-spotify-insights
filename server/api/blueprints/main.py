@@ -191,24 +191,3 @@ def playlist_details(playlist_id):
 
     return playlist_details_raw
 
-
-# FIXME: place holder...
-#FIXME: may delete this part later
-"""
-@main_bp.route("/main/top_100_artists")
-@limiter.limit("5 per second")
-@login_required
-def top_100_artists():
-    #url = "https://api.chartmetric.com/api/artist/anr/by/social-index"
-    url = "https://api.spotify.com/v1/me/playlists"
-    access_token = session['TOKEN_INFO']['access_token']
-    print("--token: ", access_token)
-    headers = {"Authorization": "Bearer " + access_token,
-               "Accept": "application/json",
-               "Content-Type": "application/json"
-               }
-    resp = requests.get(url=url, headers=headers)
-    print("---resp: ", resp)
-
-    return resp.json()
-"""
