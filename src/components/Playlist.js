@@ -77,6 +77,7 @@ const Playlist = ({
           pathname: `/playlist/${playlist.id}`,
           state: {
             id: `${playlist.id}`,
+            owner: `${playlist.owner.id}`,
             name: `${playlist.name}`,
             cover: `${playlist.images[0].url}`,
             total: `${playlist.tracks.total}`,
