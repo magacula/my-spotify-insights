@@ -17,11 +17,19 @@ const PlaylistsContainer = styled.div`
   grid-row-gap: 1.5rem;
 
   @media only screen and (${breakpoints.device.med}) {
-    margin-left: 100px;
+    margin-left: 90px;
   }
 
   @media only screen and (${breakpoints.device.sm}) {
-    margin-left: 80px;
+    margin-left: 110px;
+  }
+
+  @media only screen and (max-width: 375px) {
+    margin-left: 110px;
+  }
+
+  @media only screen and (${breakpoints.device.xs}) {
+    margin-left: 150px;
   }
 `;
 

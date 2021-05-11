@@ -1,6 +1,7 @@
 import React from "react";
 import themes from "../styles/themes";
 import styled from "styled-components";
+import breakpoints from "../styles/breakpoints";
 import { Link } from "react-router-dom";
 import { HiPlay } from "react-icons/hi";
 import { Howl } from "howler";
@@ -16,7 +17,6 @@ const TrackLeft = styled.span`
 const TrackRight = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 6rem;
 `;
 
 const TrackArtwork = styled.div`

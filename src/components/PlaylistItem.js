@@ -6,6 +6,7 @@ import Loader from "./Loader";
 import { NavLink } from "react-router-dom";
 import TrackAudioFeatures from "./TrackAudioFeatures";
 import PlaylistTrack from "./PlaylistTrack";
+import breakpoints from "../styles/breakpoints";
 const { colors } = themes;
 
 const Button = styled(NavLink)`
@@ -21,7 +22,7 @@ const Button = styled(NavLink)`
   text-transform: capitalize;
   font-size: 1rem;
   letter-spacing: 0.1rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-top: 2rem;
   margin-right: 2rem;
   transition: all 0.3s linear;
@@ -38,6 +39,11 @@ const PlaylistTrackList = styled.ul`
   justify-content: center;
   margin-right: 2rem;
   margin-left: 2rem;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-right: 1rem;
+    margin-left: 0;
+  }
 `;
 
 const PlaylistContainer = styled.div`
@@ -45,11 +51,17 @@ const PlaylistContainer = styled.div`
   display: flex;
   align-items: center;
   align-content: center;
-  justify-content: center;
   column-gap: 4rem;
-  margin-right: 2rem;
-  margin-left: 2rem;
-  margin-bottom: 4rem;
+  margin: 0 auto 4rem auto;
+  justify-content: center;
+
+  @media only screen and (${breakpoints.device.med}) {
+    justify-content: flex-start;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    column-gap: 0;
+  }
 `;
 
 const PlaylistInfo = styled.div`
@@ -63,6 +75,11 @@ const PlaylistTitle = styled.p`
   font-size: 3rem;
   margin-left: 2.5rem;
   text-align: center;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1.5rem;
+    margin-left: 1.5rem;
+  }
 `;
 
 const PlaylistOwner = styled.p`
@@ -71,6 +88,11 @@ const PlaylistOwner = styled.p`
   margin-top: 0.5rem;
   margin-bottom: 1.5rem;
   text-align: center;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1rem;
+    margin-left: 1.5rem;
+  }
 `;
 
 const PlaylistDescription = styled.p`
@@ -86,11 +108,36 @@ const PlaylistTotal = styled.p`
   margin-left: 2.5rem;
   margin-top: 0.5rem;
   text-align: center;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 1rem;
+    margin-left: 1.5rem;
+  }
 `;
 
 const PlaylistCover = styled.img`
-  width: 400px;
-  /* margin-left: 8rem; */
+  width: 300px;
+
+  @media only screen and (${breakpoints.device.med}) {
+    width: 200px;
+  }
+
+  @media only screen and (${breakpoints.device.med}) {
+    width: 150px;
+  }
+`;
+
+const PageContent = styled.div`
+  margin-left: 150px;
+  margin-top: 4rem;
+
+  @media only screen and (${breakpoints.device.med}) {
+    margin-left: 110px;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-left: 90px;
+  }
 `;
 
 const PlaylistItem = (props) => {
@@ -134,12 +181,7 @@ const PlaylistItem = (props) => {
       {loading ? (
         <Loader />
       ) : (
-        <div
-          style={{
-            marginLeft: "100px",
-            marginRight: "100px",
-            marginTop: "4rem",
-          }}>
+        <PageContent>
           <PlaylistContainer>
             <PlaylistCover src={cover} alt="" />
             <PlaylistInfo>
@@ -158,7 +200,7 @@ const PlaylistItem = (props) => {
           </PlaylistTrackList>
 
           <TrackAudioFeatures features={playlistAudioFeatures} />
-        </div>
+        </PageContent>
       )}
     </React.Fragment>
   );
