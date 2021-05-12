@@ -95,6 +95,12 @@ const TrackList = styled.ul`
   }
 `;
 
+const LowerHeading = styled.h3`
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-left: 70px;
+  }
+`;
+
 const RecommendedTracks = () => {
   const [recommendedTracks, setRecommendedTracks] = useState([]);
   const [trackURIS, setTrackURIS] = useState([]);
@@ -160,7 +166,7 @@ const RecommendedTracks = () => {
       <RecommendHeading>
         Get Recommended Tracks Based on <Link to="/Tops">Your Top Tracks:</Link>
       </RecommendHeading>
-      <h3>Then save tracks to a playlist on Spotify!</h3>
+      <LowerHeading>Then save tracks to a playlist on Spotify!</LowerHeading>
 
       <ButtonContainer>
         <Button onClick={handleClick}>Get Recommendations</Button>

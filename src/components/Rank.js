@@ -94,9 +94,9 @@ const RankNumber = styled.p`
 `;
 
 const TotalPoints = styled.p`
-  font-size: 1.75rem;
   font-weight: 600;
   margin-top: 0.5rem;
+  font-size: 1.25rem;
 `;
 
 const Description = styled.p`
