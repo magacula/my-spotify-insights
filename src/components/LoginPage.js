@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import themes from "../styles/themes";
+import breakpoints from "../styles/breakpoints";
 const { colors } = themes;
 
 // URI to authorize user
@@ -22,16 +23,33 @@ const LoginContainer = styled.div`
 `;
 
 const Heading = styled.h1`
-  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap");
 
   font-size: 4rem;
   font-family: "Montserrat", sans-serif;
   letter-spacing: 1.8px;
-  margin-left: 0;
+  margin: 0;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 2.5rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 2rem;
+  }
 `;
 
 const SubHeading = styled.p`
   margin-top: 0.5rem;
+
+  @media only screen and (${breakpoints.device.med}) {
+    font-size: 0.9rem;
+  }
+
+  @media only screen and (${breakpoints.device.sm}) {
+    font-size: 0.7rem;
+    margin-bottom: 2rem;
+  }
 `;
 
 const Credits = styled.p`
