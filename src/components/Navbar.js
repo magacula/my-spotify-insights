@@ -32,6 +32,7 @@ const NavMenu = styled.ul`
   background-color: ${colors.sidePanelGray};
   text-align: center;
   z-index: 99;
+  min-height: 840px;
 
   @media only screen and (${breakpoints.device.med}) {
     width: 70px;
