@@ -73,6 +73,14 @@ const UserData = styled.p`
   line-height: 1.2;
 `;
 
+const PageContent = styled.div`
+  margin-left: 70px;
+
+  @media only screen and (${breakpoints.device.sm}) {
+    margin-left: 55px;
+  }
+`;
+
 const UserProfile = () => {
   // example to display userInfo using useState & fetch call
   const [userInfo, setUserInfo] = useState([]);
@@ -95,7 +103,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <div style={{ marginLeft: "70px" }}>
+      <PageContent>
         {userInfo.map((item, index) => {
           return (
             <ProfileSection key={index}>
@@ -127,7 +135,7 @@ const UserProfile = () => {
             </ProfileSection>
           );
         })}
-      </div>
+      </PageContent>
       {/* uses conditional rendering to render our loading component */}
       {loading && <Loader />}
     </>
