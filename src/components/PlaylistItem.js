@@ -136,20 +136,12 @@ const PageContent = styled.div`
   }
 
   @media only screen and (${breakpoints.device.sm}) {
-    margin-left: 90px;
+    margin-left: 75px;
   }
 `;
 
 const PlaylistItem = (props) => {
-  const {
-    id,
-    name,
-    description,
-    owner,
-    cover,
-    total,
-    uri,
-  } = props.location.state;
+  const { id, name, description, owner, cover, total } = props.location.state;
   console.log(props);
 
   const [playlist, setPlaylist] = useState([]);
@@ -212,7 +204,6 @@ PlaylistItem.propTypes = {
   name: PropTypes.string,
   cover: PropTypes.string,
   total: PropTypes.number,
-  uri: PropTypes.string,
   owner: PropTypes.string,
 };
 
