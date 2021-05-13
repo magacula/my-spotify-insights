@@ -109,16 +109,14 @@ const ArtistPic = styled.img`
 `;
 
 const AlbumContainer = styled.div`
-  margin-top: 4rem;
+  margin-top: 2rem;
   margin-bottom: 2rem;
-  display: grid;
-  gap: 4rem;
-  grid-template-rows: repeat(auto-fit, minmax(280px, 1fr));
-  justify-content: center;
 `;
 
 const Album = styled.div`
   filter: brightness(80%);
+  display: grid;
+  margin: 2rem 6rem;
 
   &:hover {
     transform: scale(1.1);
@@ -134,6 +132,10 @@ const Album = styled.div`
       cursor: pointer;
       background-color: rgba(23, 23, 23, 0.8);
     }
+
+    @media only screen and (${breakpoints.device.med}) {
+      margin: 1rem 3rem;
+    }
   }
 `;
 
@@ -143,10 +145,6 @@ const AlbumWrapper = styled(Link)`
   display: flex;
   justify-content: center;
   color: ${colors.white};
-
-  @media only screen and (${breakpoints.device.med}) {
-    padding: 0 3rem;
-  }
 `;
 
 const AlbumInfo = styled.div`
