@@ -182,7 +182,9 @@ const Track = ({ track }) => {
             }}></PlayButton>
         )}
       </TrackContainer>
-      <Link
+
+      {/* Commented out edit track functionality */}
+      {/* <Link
         to={{
           pathname: `/EditTrack/${track.id}`,
           state: {
@@ -190,9 +192,9 @@ const Track = ({ track }) => {
           },
         }}>
         <EditButton>Edit</EditButton>
-        {/* {updateLyrics()}
-        {updateBG()} */}
-      </Link>
+         {updateLyrics()
+        updateBG()}
+      </Link> */}
     </TrackItem>
   );
 };
