@@ -285,13 +285,13 @@ const Rank = () => {
             <ChangeFontColor />
           </ChangeFontColorContainer>
 
-          <ChangeAccentContainer>
+          {/* <ChangeAccentContainer>
             <HeadingWrapper>
               <SubHeading>Change Accent Color</SubHeading>
               <Accent />
             </HeadingWrapper>
             <ChangeAccentColor />
-          </ChangeAccentContainer>
+          </ChangeAccentContainer> */}
         </PageContent>
       )}
     </React.Fragment>
